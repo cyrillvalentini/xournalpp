@@ -222,6 +222,9 @@ msgstr "Speichern"
 msgid "Discard"
 msgstr "Verwerfen"
 
+msgid "Save Changes?"
+msgstr "Änderungen speichern?"
+
 #: ../src/core/control/Control.cpp:2312
 msgid "Creating Gtk demo subprocess failed: {1} (exit code: {2})"
 msgstr "GTK Demo-Subprozess konnte nicht erstellt werden: {1} (Exit-Code: {2})"

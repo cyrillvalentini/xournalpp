@@ -21,6 +21,7 @@
 #include "gui/GladeGui.h"                               // for GladeGui
 #include "gui/PdfFloatingToolbox.h"                     // for PdfFloatingToolbox
 #include "gui/SearchBar.h"                              // for SearchBar
+#include "gui/SystemAppearance.h"                       // for SystemAppearance
 #include "gui/inputdevices/InputEvents.h"               // for INPUT_DEVICE_TOUC...
 #include "gui/menus/menubar/Menubar.h"                  // for Menubar
 #include "gui/menus/menubar/ToolbarSelectionSubmenu.h"  // for ToolbarSelectionSubmenu
@@ -148,6 +149,9 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control, GtkAp
     g_signal_connect(gtk_widget_get_settings(this->window), "notify::gtk-application-prefer-dark-theme",
                      G_CALLBACK(themeCallback), this);
 
+    // Re-apply the colour scheme when the desktop's accent colour or light/dark preference changes
+    systemAppearance = std::make_unique<SystemAppearance>([this]() { updateColorscheme(); });
+
     updateColorscheme();
 }
 
@@ -241,6 +245,10 @@ void MainWindow::updateColorscheme() {
         }
     }
     auto props = getThemeProperties(this->window);
+    // GTK3 does not know about the portal's colour-scheme preference (GNOME 42+ "Dark style"), so check it ourselves
+    if (variant == THEME_VARIANT_USE_SYSTEM && systemAppearance && systemAppearance->prefersDark()) {
+        props.dark = true;
+    }
 
     this->darkMode = (props.dark && variant != THEME_VARIANT_FORCE_LIGHT) || variant == THEME_VARIANT_FORCE_DARK;
 
@@ -262,6 +270,12 @@ void MainWindow::updateColorscheme() {
             case ICON_THEME_LUCIDE:
                 iconLoadOrder = {darkColorIcons, lightColorIcons, darkLucideIcons, lightLucideIcons};
                 break;
+            case ICON_THEME_SYMBOLIC:
+                // The symbolic icons are recoloured by GTK, so one set serves light and dark mode.
+                // Lucide stays as a fallback for icons that have no symbolic version.
+                iconLoadOrder = {darkColorIcons, lightColorIcons, darkLucideIcons, lightLucideIcons,
+                                 uiPath / "iconsSymbolic"};
+                break;
             default:
                 g_message("Unknown icon theme!");
         }
@@ -278,6 +292,13 @@ void MainWindow::updateColorscheme() {
     }
 
     GtkStyleContext* context = gtk_widget_get_style_context(GTK_WIDGET(this->window));
+
+    // Makes GTK look up "<name>-symbolic" first for every icon in the window (see xournalpp.css)
+    if (control->getSettings()->getIconTheme() == ICON_THEME_SYMBOLIC) {
+        gtk_style_context_add_class(context, "symbolicIcons");
+    } else {
+        gtk_style_context_remove_class(context, "symbolicIcons");
+    }
 
     if (this->darkMode) {
         gtk_style_context_add_class(context, "darkMode");
@@ -304,6 +325,147 @@ void MainWindow::updateColorscheme() {
     }
     g_signal_handlers_unblock_by_func(gtk_widget_get_settings(this->window), reinterpret_cast<gpointer>(themeCallback),
                                       this);
+
+    updateGnomeStyle();
+}
+
+/// libadwaita's palette (GNOME 47+), exposed as named colours for ui/adwaita.css and our other stylesheets
+static auto makePaletteCss(bool dark) -> std::string {
+    struct Entry {
+        const char* name;
+        const char* light;
+        const char* dark;
+    };
+    static constexpr Entry palette[] = {
+            {"adw_window_bg", "#fafafb", "#222226"},
+            {"adw_window_fg", "rgba(0,0,6,0.8)", "#ffffff"},
+            {"adw_view_bg", "#ffffff", "#1d1d20"},
+            {"adw_view_fg", "rgba(0,0,6,0.8)", "#ffffff"},
+            {"adw_dialog_bg", "#fafafb", "#36363a"},
+            {"adw_popover_bg", "#ffffff", "#36363a"},
+            {"adw_popover_outline", "rgba(0,0,6,0.14)", "rgba(0,0,6,0.5)"},
+            {"adw_window_outline", "rgba(0,0,6,0.23)", "rgba(255,255,255,0.07)"},
+            {"adw_sidebar_bg", "#ebebed", "#2e2e32"},
+            {"adw_sidebar_border", "rgba(0,0,6,0.07)", "rgba(0,0,6,0.36)"},
+            {"adw_card_bg", "#ffffff", "rgba(255,255,255,0.08)"},
+            {"adw_shade", "rgba(0,0,6,0.07)", "rgba(0,0,6,0.25)"},
+            {"adw_destructive_fg", "#c30000", "#ff938c"},
+            // the GTK theme's named colours, used by xournalpp.css
+            {"theme_bg_color", "#fafafb", "#222226"},
+            {"theme_fg_color", "rgba(0,0,6,0.8)", "#ffffff"},
+            {"theme_base_color", "#ffffff", "#1d1d20"},
+            {"theme_text_color", "rgba(0,0,6,0.8)", "#ffffff"},
+    };
+    std::string css;
+    for (const auto& e: palette) {
+        css += std::string("@define-color ") + e.name + " " + (dark ? e.dark : e.light) + ";\n";
+    }
+    return css;
+}
+
+/// CSS that recolours GTK widgets with the accent colour, mirroring where Adwaita uses its built-in blue
+static auto makeAccentCss(Color accent, bool adwaitaStyle) -> std::string {
+    char hex[8];
+    g_snprintf(hex, sizeof(hex), "#%02x%02x%02x", accent.red, accent.green, accent.blue);
+    // Text on accent-coloured backgrounds: white, unless the accent is very light
+    const double luminance = (0.2126 * accent.red + 0.7152 * accent.green + 0.0722 * accent.blue) / 255.0;
+    const std::string a = hex;
+    const std::string fg = luminance > 0.6 ? "rgba(0,0,0,0.8)" : "#ffffff";
+
+    std::string css = "@define-color accent_color " + a + ";\n"
+           "@define-color accent_bg_color " + a + ";\n"
+           "@define-color theme_selected_bg_color " + a + ";\n"
+           "@define-color theme_selected_fg_color " + fg + ";\n"
+           // selections and selected rows
+           "selection, *:selected, row:selected, treeview.view:selected, iconview:selected,"
+           " flowboxchild:selected, calendar:selected {"
+           " background-color: " + a + "; color: " + fg + "; }\n"
+           // check boxes, radio buttons, switches
+           "check:checked, check:indeterminate, radio:checked, radio:indeterminate {"
+           " background-color: " + a + "; background-image: none; border-color: " + a + "; color: " + fg + "; }\n"
+           "switch:checked { background-color: " + a + "; background-image: none; border-color: " + a + "; }\n"
+           // sliders and progress
+           "scale highlight, progressbar progress, levelbar block.filled {"
+           " background-color: " + a + "; background-image: none; border-color: " + a + "; }\n"
+           // default / suggested buttons
+           "button.suggested-action, button.default:not(.flat) {"
+           " background-color: " + a + "; background-image: none; border-color: " + a + "; color: " + fg + "; }\n"
+           // links
+           "*:link, button.link { color: " + a + "; }\n"
+           // the active tool: tinted background, and symbolic icons drawn in the accent colour
+           "toolbar button:checked:not(.color-swatch), popover.toolbar button:checked:not(.color-swatch), "
+           "#floatingToolbox button:checked:not(.color-swatch) {"
+           " background-color: alpha(" + a + ", 0.18); color: " + a + "; }\n";
+    if (!adwaitaStyle) {
+        // Plain GTK theme: replace its blue in focused entries and the notebook tab marker.
+        // (The GNOME style draws both differently and picks up the accent through theme_selected_bg_color.)
+        css += "entry:focus, spinbutton:not(.vertical):focus {"
+               " border-color: " + a + "; box-shadow: inset 0 0 0 1px " + a + "; }\n"
+               "notebook > header.top > tabs > tab:checked { box-shadow: inset 0 -3px " + a + "; }\n"
+               "notebook > header.bottom > tabs > tab:checked { box-shadow: inset 0 3px " + a + "; }\n"
+               "notebook > header.left > tabs > tab:checked { box-shadow: inset -3px 0 " + a + "; }\n"
+               "notebook > header.right > tabs > tab:checked { box-shadow: inset 3px 0 " + a + "; }\n";
+    }
+    return css;
+}
+
+void MainWindow::updateGnomeStyle() {
+    Settings* settings = control->getSettings();
+    const auto accent = systemAppearance ? systemAppearance->getAccentColor() : std::nullopt;
+    const bool adwaita = settings->isAdwaitaStyle();
+    const Color borderBefore = settings->getBorderColor();
+    const Color backgroundBefore = settings->getBackgroundColor();
+
+    settings->setSystemAccentColor(accent);
+    // libadwaita-like colour between the pages (only replaces the default colour, see Settings::getBackgroundColor)
+    settings->setThemeBackgroundColor(adwaita ? std::optional<Color>(darkMode ? Color(0x22, 0x22, 0x26) :
+                                                                                Color(0xde, 0xdd, 0xda)) :
+                                                std::nullopt);
+
+    // Static GNOME stylesheet: above the GTK theme and xournalpp.css
+    GdkScreen* screen = gdk_screen_get_default();
+    if (adwaita && !adwaitaCss) {
+        auto path = this->getGladeSearchPath()->findFile("", "adwaita.css");
+        adwaitaCss.reset(gtk_css_provider_new(), xoj::util::adopt);
+        GError* err = nullptr;
+        if (!gtk_css_provider_load_from_path(adwaitaCss.get(), char_cast(path.u8string().c_str()), &err)) {
+            g_warning("Could not load the GNOME style (%s): %s", char_cast(path.u8string().c_str()),
+                      err ? err->message : "?");
+            g_clear_error(&err);
+        }
+        gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(adwaitaCss.get()),
+                                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+    } else if (!adwaita && adwaitaCss) {
+        gtk_style_context_remove_provider_for_screen(screen, GTK_STYLE_PROVIDER(adwaitaCss.get()));
+        adwaitaCss.reset();
+    }
+
+    // Generated stylesheet: palette + accent colour, above everything else
+    if (!generatedCss) {
+        generatedCss.reset(gtk_css_provider_new(), xoj::util::adopt);
+        gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(generatedCss.get()),
+                                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 2);
+    }
+    std::string css;
+    if (adwaita) {
+        css += makePaletteCss(darkMode);
+    }
+    if (accent && settings->isUseSystemAccentColor()) {
+        css += makeAccentCss(*accent, adwaita);
+    }
+    GError* err = nullptr;
+    gtk_css_provider_load_from_data(generatedCss.get(), css.c_str(), -1, &err);
+    if (err) {
+        g_warning("Generated stylesheet: %s", err->message);
+        g_error_free(err);
+    }
+
+    // Page border and background are drawn by us, not by GTK: repaint them
+    if ((borderBefore != settings->getBorderColor() || backgroundBefore != settings->getBackgroundColor()) &&
+        this->xournal) {
+        this->xournal->forceUpdatePagenumbers();
+        gtk_widget_queue_draw(this->winXournal);
+    }
 }
 
 void MainWindow::initXournalWidget() {

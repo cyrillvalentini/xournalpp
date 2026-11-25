@@ -43,6 +43,9 @@ auto iconThemeFromString(const std::string& iconThemeStr) -> IconTheme {
     if (iconThemeStr == "iconsLucide") {
         return ICON_THEME_LUCIDE;
     }
+    if (iconThemeStr == "iconsSymbolic") {
+        return ICON_THEME_SYMBOLIC;
+    }
     g_warning("Settings::Unknown icon theme: %s\n", iconThemeStr.c_str());
     return ICON_THEME_COLOR;
 }

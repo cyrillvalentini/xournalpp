@@ -45,9 +45,12 @@ private:
 
 public:
     struct Button {
-        Button(std::string l, int r): label(std::move(l)), response(r) {}
+        /// GNOME-style emphasis: the suggested button is coloured with the accent colour and is the default response
+        enum Style { NORMAL, SUGGESTED, DESTRUCTIVE };
+        Button(std::string l, int r, Style s = NORMAL): label(std::move(l)), response(r), style(s) {}
         std::string label;
         int response;
+        Style style;
     };
 
     /**

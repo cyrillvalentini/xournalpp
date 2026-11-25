@@ -7,6 +7,16 @@
  *  See: https://wiki.gnome.org/action/show/Projects/GTK/Inspector
  */
 
+/*
+ * Colours come from the GTK theme's named colours (@theme_bg_color, @theme_fg_color,
+ * @theme_selected_bg_color, ...), so light and dark mode need no separate rules.
+ */
+
+/* With the "Symbolic (GNOME)" icon theme, GTK prefers "<name>-symbolic" icons, which it recolours to match the theme. */
+window.symbolicIcons {
+	-gtk-icon-style: symbolic;
+}
+
 #pdfFloatingToolGrid {
     padding: 7px;
 }
@@ -14,33 +24,31 @@
 /*Style the Floating Toolbox!*/
 #floatingToolbox > box,
 #pdfFloatingToolGrid {
-	background-color: white;
+	background-color: @theme_base_color;
 	border-radius: 12px;
+	border: 1px solid alpha(@theme_fg_color, 0.12);
 
-	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+	box-shadow: 0px 2px 6px alpha(black, 0.25);
 
 	/* Add a margin. If we don't have this, Gtk clips the shadow!  */
 	margin: 7px;
 }
 
 #floatingToolbox box toolbar {
-	background-color: rgba(255, 255, 255, 0);
+	background-color: transparent;
 }
 
-#floatingToolbox button {
-	background-color: rgba(255, 255, 255, 0.8);
-	border-radius: 12px;
-}
-
+#floatingToolbox button,
 #pdfFloatingToolGrid button {
-	background: rgba(255, 255, 255, 0.8);
-	border: 12px;
+	background: transparent;
+	border: none;
+	border-radius: 8px;
+	box-shadow: none;
 }
 
+#floatingToolbox button:hover,
 #pdfFloatingToolGrid button:hover {
-	border-radius: 12px;
-	background: rgba(245, 245, 245, 0.8);
-	box-shadow: inset 0px 0px 2px gray;
+	background: alpha(@theme_fg_color, 0.08);
 }
 
 /*
@@ -48,45 +56,17 @@
 	See https://stackoverflow.com/questions/39824345/use-css-to-style-gtktogglebutton-depending-on-the-state
 */
 #floatingToolbox button:checked {
-	/*background-color: lightblue;*/
-	border-color: lightblue;
-	box-shadow: inset 0px 0px 3px lightblue;
-
-	transition: background-color 0.5s ease, border-color 0.5s ease, margin 0.3s ease;
+	background: alpha(@theme_selected_bg_color, 0.25);
+	transition: background-color 0.2s ease;
 }
 
-#floatingToolbox toolbar,
-#pdfFloatingToolGrid button {
+#floatingToolbox toolbar {
     /*
-      The Adaptia GTK theme adds box-shadows to toolbars.
+      Some themes add box-shadows to toolbars.
       Remove them to avoid horizontal lines that extend outside
       the edge of the floating toolbox.
      */
-
     box-shadow: none;
-}
-
-window.darkMode #floatingToolbox button,
-window.darkMode #pdfFloatingToolGrid button {
-	background: rgba(55, 53, 53, 0.5);
-	border: none;
-}
-
-window.darkMode #floatingToolbox button:checked {
-	background: rgba(85, 85, 95, 0.1);
-	border-color: lightblue;
-	box-shadow: 0px 0px 3px lightblue;
-}
-
-window.darkMode #floatingToolbox > box,
-window.darkMode #pdfFloatingToolGrid  {
-	background-color: black;
-
-	/*
-	  Lighter gray shadow for better contrast on dark
-	  backgrounds.
-	*/
-	box-shadow: 0px 0px 5px rgba(90, 90, 90, 0.7);
 }
 
 /* Add additional padding and a border to make editing toolbars easier. */
@@ -94,10 +74,8 @@ toolbar.editing {
 	padding-top: 4px;
 	padding-bottom: 4px;
 
-	border: 4px dashed orange;
-	border-radius: 3px;
-
-	box-shadow: inset -2px -2px 8px orange;
+	border: 2px dashed @theme_selected_bg_color;
+	border-radius: 6px;
 }
 
 /*Fix ugly Background drop down button
@@ -121,7 +99,29 @@ toolitem > box > label+label+button
 
 toolbar button,
 popover.toolbar button {
-  padding:3px;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+/* libadwaita-like flat tool buttons: no frame, soft tinted background when hovered or active */
+toolbar button:hover,
+popover.toolbar button:hover {
+  background-image: none;
+  background-color: alpha(@theme_fg_color, 0.08);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+toolbar button:checked,
+popover.toolbar button:checked {
+  background-image: none;
+  background-color: alpha(@theme_fg_color, 0.15);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+toolbar {
+  padding: 2px 4px;
 }
 
 .orientationFormatBox > button > widget > box > image {
@@ -184,7 +184,7 @@ toolbar button
 Labels for subsections of the Settings dialog
 */
 notebook frame>label {
-    color: #666;
+    color: alpha(@theme_fg_color, 0.7);
     font-weight: bold;
 }
 

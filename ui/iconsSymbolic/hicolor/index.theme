@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=Hicolor
+Comment=Xournal++ symbolic icons (generated from the Lucide set by scripts/make_symbolic_icons.py)
+Hidden=true
+Directories=scalable/actions
+
+[scalable/actions]
+MinSize=1
+Size=16
+MaxSize=256
+Context=Actions
+Type=Scalable

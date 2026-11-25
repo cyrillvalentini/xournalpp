@@ -2276,11 +2276,15 @@ void Control::close(std::function<void(bool)> callback, const bool allowDestroy,
         const auto saveLabel = saveAs ? _("Save As...") : _("Save");
 
         enum { SAVE = 1, DISCARD, CANCEL };
-        std::vector<XojMsgBox::Button> buttons = {{saveLabel, SAVE}, {_("Discard"), DISCARD}};
+        // Same layout as GNOME's "Save Changes?" dialogs: a heading, the reason below it, and the buttons ordered
+        // Cancel, Discard (destructive), Save (suggested)
+        std::vector<XojMsgBox::Button> buttons;
         if (allowCancel) {
             buttons.emplace_back(_("Cancel"), CANCEL);
         }
-        XojMsgBox::askQuestion(getGtkWindow(), message, std::string(), std::move(buttons),
+        buttons.emplace_back(_("Discard"), DISCARD, XojMsgBox::Button::DESTRUCTIVE);
+        buttons.emplace_back(saveLabel, SAVE, XojMsgBox::Button::SUGGESTED);
+        XojMsgBox::askQuestion(getGtkWindow(), _("Save Changes?"), message, std::move(buttons),
                                [ctrl = this, saveAs, allowDestroy, callback = std::move(callback)](int response) {
                                    auto execAfter = [allowDestroy, ctrl, cb = std::move(callback)](bool saved) {
                                        if (saved && allowDestroy) {

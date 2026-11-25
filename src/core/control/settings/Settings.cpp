@@ -121,7 +121,7 @@ void Settings::loadDefault() {
 
     this->stylusCursorType = STYLUS_CURSOR_DOT;
     this->eraserVisibility = ERASER_VISIBILITY_ALWAYS;
-    this->iconTheme = ICON_THEME_COLOR;
+    this->iconTheme = ICON_THEME_SYMBOLIC;
     this->themeVariant = THEME_VARIANT_USE_SYSTEM;
     this->highlightPosition = false;
     this->cursorHighlightColor = 0x80FFFF00;  // Yellow with 50% opacity
@@ -210,6 +210,8 @@ void Settings::loadDefault() {
     this->eagerPageCleanup = true;
 
     this->selectionBorderColor = Colors::red;
+    this->useSystemAccentColor = true;
+    this->adwaitaStyle = true;
     this->selectionMarkerColor = Colors::xopp_cornflowerblue;
     this->activeSelectionColor = Colors::lawngreen;
 
@@ -564,6 +566,10 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
         this->preloadPagesAfter = g_ascii_strtoull(reinterpret_cast<const char*>(value), nullptr, 10);
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("eagerPageCleanup")) == 0) {
         this->eagerPageCleanup = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
+    } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("adwaitaStyle")) == 0) {
+        this->adwaitaStyle = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
+    } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("useSystemAccentColor")) == 0) {
+        this->useSystemAccentColor = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("selectionBorderColor")) == 0) {
         this->selectionBorderColor = Color(g_ascii_strtoull(reinterpret_cast<const char*>(value), nullptr, 10));
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("selectionMarkerColor")) == 0) {
@@ -1094,7 +1100,7 @@ void Settings::save() {
                    "\"hover\", \"touch\"");
 
     xmlNode = saveProperty("iconTheme", iconThemeToString(this->iconTheme), root);
-    ATTACH_COMMENT("The icon theme, allowed values are \"iconsColor\", \"iconsLucide\"");
+    ATTACH_COMMENT("The icon theme, allowed values are \"iconsColor\", \"iconsLucide\", \"iconsSymbolic\"");
 
     xmlNode = saveProperty("themeVariant", themeVariantToString(this->themeVariant), root);
     ATTACH_COMMENT("Dark/light mode, allowed values are \"useSystem\", \"forceLight\", \"forceDark\"");
@@ -1160,6 +1166,8 @@ void Settings::save() {
     xmlNode = savePropertyUnsigned("recolor.dark", uint32_t(recolorParameters.recolor.getDark()), root);
     xmlNode = savePropertyUnsigned("recolor.light", uint32_t(recolorParameters.recolor.getLight()), root);
 
+    SAVE_BOOL_PROP(useSystemAccentColor);
+    SAVE_BOOL_PROP(adwaitaStyle);
     xmlNode = savePropertyUnsigned("selectionBorderColor", uint32_t(selectionBorderColor), root);
     xmlNode = savePropertyUnsigned("backgroundColor", uint32_t(backgroundColor), root);
     xmlNode = savePropertyUnsigned("selectionMarkerColor", uint32_t(selectionMarkerColor), root);
@@ -2200,7 +2208,11 @@ void Settings::setEagerPageCleanup(bool b) {
     save();
 }
 
-auto Settings::getBorderColor() const -> Color { return this->selectionBorderColor; }
+auto Settings::getBorderColor() const -> Color {
+    return useSystemAccentColor && systemAccentColor ? *systemAccentColor : this->selectionBorderColor;
+}
+
+auto Settings::getCustomBorderColor() const -> Color { return this->selectionBorderColor; }
 
 void Settings::setBorderColor(Color color) {
     if (this->selectionBorderColor == color) {
@@ -2210,7 +2222,39 @@ void Settings::setBorderColor(Color color) {
     save();
 }
 
-auto Settings::getSelectionColor() const -> Color { return this->selectionMarkerColor; }
+auto Settings::getSelectionColor() const -> Color {
+    return useSystemAccentColor && systemAccentColor ? *systemAccentColor : this->selectionMarkerColor;
+}
+
+auto Settings::getCustomSelectionColor() const -> Color { return this->selectionMarkerColor; }
+
+auto Settings::isUseSystemAccentColor() const -> bool { return this->useSystemAccentColor; }
+
+void Settings::setUseSystemAccentColor(bool use) {
+    if (this->useSystemAccentColor == use) {
+        return;
+    }
+    this->useSystemAccentColor = use;
+    save();
+}
+
+void Settings::setSystemAccentColor(std::optional<Color> color) { this->systemAccentColor = color; }
+
+auto Settings::isAdwaitaStyle() const -> bool { return this->adwaitaStyle; }
+
+void Settings::setAdwaitaStyle(bool enabled) {
+    if (this->adwaitaStyle == enabled) {
+        return;
+    }
+    this->adwaitaStyle = enabled;
+    save();
+}
+
+void Settings::setThemeBackgroundColor(std::optional<Color> color) { this->themeBackgroundColor = color; }
+
+auto Settings::getCustomBackgroundColor() const -> Color { return this->backgroundColor; }
+
+auto Settings::getSystemAccentColor() const -> std::optional<Color> { return this->systemAccentColor; }
 
 void Settings::setSelectionColor(Color color) {
     if (this->selectionMarkerColor == color) {
@@ -2240,7 +2284,13 @@ void Settings::setRecolorParameters(RecolorParameters&& recolor) {
     save();
 }
 
-auto Settings::getBackgroundColor() const -> Color { return this->backgroundColor; }
+auto Settings::getBackgroundColor() const -> Color {
+    // Only replace the default colour: a colour the user picked always wins
+    if (themeBackgroundColor && this->backgroundColor == Colors::xopp_gainsboro02) {
+        return *themeBackgroundColor;
+    }
+    return this->backgroundColor;
+}
 
 void Settings::setBackgroundColor(Color color) {
     if (this->backgroundColor == color) {

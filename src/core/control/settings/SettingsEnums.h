@@ -87,6 +87,7 @@ enum EraserVisibility {
 enum IconTheme {
     ICON_THEME_COLOR = 0,
     ICON_THEME_LUCIDE = 1,
+    ICON_THEME_SYMBOLIC = 2,
 };
 
 enum ThemeVariant { THEME_VARIANT_USE_SYSTEM, THEME_VARIANT_FORCE_LIGHT, THEME_VARIANT_FORCE_DARK };
@@ -173,6 +174,8 @@ constexpr auto iconThemeToString(IconTheme iconTheme) -> const char* {
             return "iconsColor";
         case ICON_THEME_LUCIDE:
             return "iconsLucide";
+        case ICON_THEME_SYMBOLIC:
+            return "iconsSymbolic";
         default:
             return "unknown";
     }

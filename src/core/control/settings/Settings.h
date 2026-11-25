@@ -387,13 +387,38 @@ public:
 
     void setViewMode(ViewModeId mode, ViewMode ViewMode);
 
+    /// Colour of the selected-page border and selection frames: the system accent colour if enabled and known,
+    /// otherwise the user's custom colour
     Color getBorderColor() const;
+    /// The user's custom border colour, regardless of the accent colour setting
+    Color getCustomBorderColor() const;
     void setBorderColor(Color color);
 
+    /// Colour for text / stroke selections: the system accent colour if enabled and known, otherwise the custom one
     Color getSelectionColor() const;
+    /// The user's custom selection colour, regardless of the accent colour setting
+    Color getCustomSelectionColor() const;
     void setSelectionColor(Color color);
 
+    /// Follow the desktop's accent colour (GNOME, KDE, ... via the XDG desktop portal)
+    bool isUseSystemAccentColor() const;
+    void setUseSystemAccentColor(bool use);
+
+    /// Style the GTK widgets like libadwaita (GNOME 47+ colours, flat buttons, rounded cards and menus)
+    bool isAdwaitaStyle() const;
+    void setAdwaitaStyle(bool enabled);
+
+    /// Set at runtime from the desktop portal; not saved
+    void setSystemAccentColor(std::optional<Color> color);
+    std::optional<Color> getSystemAccentColor() const;
+
+    /// Colour between the pages. While the GNOME style is active and the colour is the default one, the
+    /// style's background colour is used instead (see setThemeBackgroundColor)
     Color getBackgroundColor() const;
+    /// The colour stored in the settings, regardless of the GNOME style
+    Color getCustomBackgroundColor() const;
+    /// Set at runtime by the GNOME style; not saved
+    void setThemeBackgroundColor(std::optional<Color> color);
     void setBackgroundColor(Color color);
 
     Color getActiveSelectionColor() const;
@@ -1024,6 +1049,11 @@ private:
      * Color for Text selection, Stroke selection etc.
      */
     Color selectionMarkerColor{};
+
+    bool useSystemAccentColor{};
+    std::optional<Color> systemAccentColor;
+    bool adwaitaStyle{};
+    std::optional<Color> themeBackgroundColor;
 
     /**
      * Color for active selection.

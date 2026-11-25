@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Xournal#
+GenericName=Note-taking application
+Comment=Take handwritten notes (Xournal++ with a GNOME look)
+Keywords=tablet;Wacom;pen input;PDF Annotation;markup;journal;handwriting;diary;notes;xournal;
+Exec=xournal-sharp %f
+SingleMainWindow=false
+StartupWMClass=io.github.cyrillvalentini.XournalSharp
+Terminal=false
+StartupNotify=true
+MimeType=application/x-xoj;application/x-xojpp;application/x-xopp;application/x-xopt;application/pdf;
+Icon=io.github.cyrillvalentini.XournalSharp
+Categories=Office;GNOME;GTK;

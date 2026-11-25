@@ -196,11 +196,25 @@ void ToolMenuHandler::addPluginPlaceholderItem(ToolbarPlaceholderEntry* entry) {
 void ToolMenuHandler::initToolItems() {
     using Cat = AbstractToolItem::Category;
     /**
+     * @brief An icon set may restyle a GTK stock icon by shipping "xopp-<stock name>" (e.g. the symbolic set's
+     *      outlined zoom icons). Otherwise the desktop's stock icon is used.
+     **/
+    auto stockIcon = [](const char* icon) -> std::string {
+        std::string xopp = std::string("xopp-") + icon;
+        GtkIconTheme* theme = gtk_icon_theme_get_default();
+        if (gtk_icon_theme_has_icon(theme, xopp.c_str()) ||
+            gtk_icon_theme_has_icon(theme, (xopp + "-symbolic").c_str())) {
+            return xopp;
+        }
+        return icon;
+    };
+    /**
      * @brief Simple button, with a GTK stock icon name
      *      The corresponding action in ActionDatabase[action] should have no state (it can have a parameter)
      **/
-    auto emplaceStockItem = [this](const char* name, Cat c, Action action, const char* icon, std::string description) {
-        emplaceItem<ToolButton>(name, c, action, icon, description, false);
+    auto emplaceStockItem = [this, stockIcon](const char* name, Cat c, Action action, const char* icon,
+                                              std::string description) {
+        emplaceItem<ToolButton>(name, c, action, stockIcon(icon), description, false);
     };
     /**
      * @brief Simple button, with a custom loaded icon
@@ -214,9 +228,9 @@ void ToolMenuHandler::initToolItems() {
      * @brief Toggle button, with a GTK stock icon name
      *      The corresponding action in ActionDatabase[action] should have a boolean state and no parameter
      **/
-    auto emplaceStockItemTgl = [this](const char* name, Cat c, Action action, const char* icon,
-                                      std::string description) {
-        emplaceItem<ToolButton>(name, c, action, icon, description, true);
+    auto emplaceStockItemTgl = [this, stockIcon](const char* name, Cat c, Action action, const char* icon,
+                                                 std::string description) {
+        emplaceItem<ToolButton>(name, c, action, stockIcon(icon), description, true);
     };
 
     /**

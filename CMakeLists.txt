@@ -320,6 +320,13 @@ set(DEV_DEFAULT_PALETTE_FILE "xournal.gpl" CACHE STRING "Default Color Palette")
 set(DEV_PRINT_CONFIG_FILE "print-config.ini" CACHE STRING "Print config file name")
 set(DEV_METADATA_FILE "metadata.ini" CACHE STRING "Metadata file name")
 set(DEV_ERRORLOG_DIR "errorlogs" CACHE STRING "Directory where errorlogfiles will be placed")
+
+# Change both to install a second, independent build next to the regular Xournal++ (e.g. the Xournal# RPM):
+# a different application ID keeps the two from merging into one running instance, and a different config
+# folder keeps their settings apart.
+set(XOURNALPP_APP_ID "com.github.xournalpp.xournalpp" CACHE STRING
+    "Application ID (D-Bus name and Wayland app ID; must match the installed .desktop file name)")
+set(XOURNALPP_CONFIG_FOLDER "xournalpp" CACHE STRING "Name of the settings folder in the user's config directory")
 set(DEV_FILE_FORMAT_VERSION 5 CACHE STRING "File format version" FORCE)
 
 option(DEV_ENABLE_GCOV "Build with gcov support" OFF) # Enabel gcov support – expanded in src/

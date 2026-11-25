@@ -36,6 +36,7 @@ class ToolMenuHandler;
 class ToolbarData;
 class ToolbarModel;
 class XournalView;
+class SystemAppearance;
 class PdfFloatingToolbox;
 class FloatingToolbox;
 class GladeSearchpath;
@@ -172,6 +173,15 @@ private:
     ToolbarData* selectedToolbar = nullptr;
 
     std::unique_ptr<Menubar> menubar;
+
+    /// Desktop accent colour / dark preference (via the XDG desktop portal)
+    std::unique_ptr<SystemAppearance> systemAppearance;
+    /// libadwaita-like stylesheet (ui/adwaita.css), loaded while the GNOME style is enabled
+    xoj::util::GObjectSPtr<GtkCssProvider> adwaitaCss;
+    /// Generated stylesheet: libadwaita palette (light or dark) and accent colour rules
+    xoj::util::GObjectSPtr<GtkCssProvider> generatedCss;
+    /// Applies the GNOME style, its light/dark palette and the accent colour; called from updateColorscheme()
+    void updateGnomeStyle();
 
     bool maximized = false;
     bool darkMode = false;

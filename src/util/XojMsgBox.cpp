@@ -20,6 +20,21 @@
 
 GtkWindow* defaultWindow = nullptr;
 
+namespace {
+/**
+ * With a secondary text, the primary text is a heading (like GNOME's alert dialogs). Tags it with the "title" style
+ * class, so a stylesheet can style it.
+ */
+void markHeading(GtkWidget* dialog) {
+    GtkWidget* area = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(dialog));
+    GList* children = gtk_container_get_children(GTK_CONTAINER(area));
+    if (children && GTK_IS_LABEL(children->data)) {
+        gtk_style_context_add_class(gtk_widget_get_style_context(GTK_WIDGET(children->data)), "title");
+    }
+    g_list_free(children);
+}
+}  // namespace
+
 XojMsgBox::XojMsgBox(GtkDialog* dialog, xoj::util::move_only_function<void(int)> callback, CallbackPolicy pol):
         window(reinterpret_cast<GtkWindow*>(dialog)), callback(std::move(callback)), policy(pol) {
     this->signalId =
@@ -61,6 +76,7 @@ void XojMsgBox::showMarkupMessageToUser(GtkWindow* win, const std::string_view& 
 
     if (!msg.empty()) {
         gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", msg.c_str());
+        markHeading(dialog);
     }
 
     xoj::popup::PopupWindowWrapper<XojMsgBox> popup(GTK_DIALOG(dialog));
@@ -100,12 +116,21 @@ void XojMsgBox::askQuestionWithMarkup(GtkWindow* win, std::string_view maintext,
             gtk_message_dialog_new_with_markup(win, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, nullptr);
 
     for (auto& b: buttons) {
-        gtk_dialog_add_button(GTK_DIALOG(dialog), b.label.c_str(), b.response);
+        GtkWidget* button = gtk_dialog_add_button(GTK_DIALOG(dialog), b.label.c_str(), b.response);
+        if (b.style == Button::SUGGESTED) {
+            gtk_style_context_add_class(gtk_widget_get_style_context(button), "suggested-action");
+            gtk_dialog_set_default_response(GTK_DIALOG(dialog), b.response);
+        } else if (b.style == Button::DESTRUCTIVE) {
+            gtk_style_context_add_class(gtk_widget_get_style_context(button), "destructive-action");
+        }
     }
 
     gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), maintext.data());
 
-    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", secondarytext.c_str());
+    if (!secondarytext.empty()) {
+        gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", secondarytext.c_str());
+        markHeading(dialog);
+    }
 
     xoj::popup::PopupWindowWrapper<XojMsgBox> popup(GTK_DIALOG(dialog), std::move(callback));
     popup.show(win);

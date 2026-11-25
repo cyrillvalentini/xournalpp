@@ -1,0 +1,588 @@
+/*
+ * GNOME (libadwaita) style for Xournal++'s GTK3 widgets.
+ *
+ * Loaded only when "Use the GNOME (libadwaita) style" is enabled. The @adw_* colours are defined at runtime
+ * (MainWindow::updateGnomeStyle) with libadwaita's light or dark palette, and @theme_selected_bg_color carries the
+ * desktop's accent colour. Higher priority than both the GTK theme and xournalpp.css.
+ */
+
+/* ------------------------------------------------------------------ surfaces */
+
+window.background, .background {
+    background-color: @adw_window_bg;
+    color: @adw_window_fg;
+}
+
+dialog.background, messagedialog.background, window.dialog.background {
+    background-color: @adw_dialog_bg;
+}
+
+.view, treeview.view, iconview, textview text, list {
+    background-color: @adw_view_bg;
+    color: @adw_view_fg;
+}
+
+/* --------------------------------------------- window frame and title bar */
+
+/*
+ * Only the corner radius is changed here. The shadows stay the GTK theme's: on Wayland the shadow is part of the
+ * window's surface, so a shadow whose size differs between the focused, unfocused and tiled states makes the
+ * window jump in size whenever it gains or loses focus or is resized.
+ * GTK3 cannot clip child widgets to rounded corners, so like GTK3's Adwaita only the top corners are rounded.
+ */
+decoration {
+    border-radius: 12px 12px 0 0;
+}
+
+.maximized decoration, .fullscreen decoration, .tiled decoration, .tiled-top decoration, .tiled-left decoration,
+.tiled-right decoration, .tiled-bottom decoration {
+    border-radius: 0;
+}
+
+headerbar, .titlebar:not(headerbar) {
+    background-image: none;
+    background-color: @adw_window_bg;
+    color: @adw_window_fg;
+    border: none;
+    box-shadow: none;
+    border-radius: 12px 12px 0 0;
+}
+
+headerbar:backdrop, .titlebar:not(headerbar):backdrop {
+    background-color: @adw_window_bg;
+}
+
+.maximized headerbar, .fullscreen headerbar, .tiled headerbar, .tiled-top headerbar, .tiled-left headerbar,
+.tiled-right headerbar, .tiled-bottom headerbar {
+    border-radius: 0;
+}
+
+headerbar .title {
+    font-weight: bold;
+}
+
+headerbar button.titlebutton {
+    background-color: alpha(currentColor, 0.1);
+    border-radius: 100%;
+    padding: 2px;
+    margin: 0 3px;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+headerbar button.titlebutton:hover {
+    background-color: alpha(currentColor, 0.15);
+}
+
+/* --------------------------------------------- menu bar and toolbars ("header") */
+
+menubar, toolbar {
+    background-image: none;
+    background-color: @adw_window_bg;
+    border: none;
+    box-shadow: none;
+}
+
+menubar {
+    padding: 0 4px;
+}
+
+menubar > menuitem {
+    border-radius: 6px;
+    padding: 4px 8px;
+    margin: 2px 1px;
+    min-height: 16px;
+}
+
+menubar > menuitem:hover {
+    background-color: alpha(currentColor, 0.1);
+    box-shadow: none;
+    color: inherit;
+}
+
+/* separates the header area from the content, like libadwaita's raised header */
+#mainContainerBox {
+    border-top: 1px solid @adw_shade;
+}
+
+#statusbar {
+    background-color: @adw_window_bg;
+    border-top: 1px solid @adw_shade;
+    padding: 2px 6px;
+}
+
+/* bottom bar (page number, layer, zoom): a libadwaita-style bottom bar */
+#tbBottom1, #tbBottom2 {
+    border-top: 1px solid @adw_shade;
+    padding: 3px 6px;
+}
+
+#tbBottom1 label, #tbBottom2 label {
+    color: alpha(currentColor, 0.8);
+}
+
+#tbBottom1 scale value, #tbBottom2 scale value {
+    color: alpha(currentColor, 0.7);
+    margin-right: 6px;
+}
+
+/* the zoom slider */
+#tbBottom1 scale.horizontal, #tbBottom2 scale.horizontal {
+    min-width: 180px;
+    padding: 0 10px;
+}
+
+#tbBottom1 spinbutton:not(.vertical), #tbBottom2 spinbutton:not(.vertical) {
+    min-height: 0;
+}
+
+#tbBottom1 spinbutton:not(.vertical) entry, #tbBottom2 spinbutton:not(.vertical) entry {
+    min-height: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#tbBottom1 spinbutton > button, #tbBottom2 spinbutton > button {
+    padding: 2px 4px;
+    min-height: 0;
+}
+
+/* ---------------------------------------------------------------- sidebar */
+
+#sidebar {
+    background-color: @adw_sidebar_bg;
+}
+
+/* the preview lists inside the sidebar would otherwise paint the (white / darker) view colour */
+#sidebar .view, #sidebar viewport, #sidebar layout, #sidebar iconview, #sidebar scrolledwindow,
+#sidebar treeview.view:not(:selected) {
+    background-color: transparent;
+}
+
+paned > separator {
+    background-image: none;
+    background-color: @adw_sidebar_border;
+    min-width: 1px;
+    min-height: 1px;
+}
+
+/* ------------------------------------------------------------ popovers, menus */
+
+popover, popover.background {
+    background-color: @adw_popover_bg;
+    color: @adw_window_fg;
+    border: 1px solid @adw_popover_outline;
+    border-radius: 12px;
+    box-shadow: 0 1px 5px 1px rgba(0, 0, 6, 0.09), 0 2px 14px 3px rgba(0, 0, 6, 0.05);
+    padding: 6px;
+}
+
+/* menus are drawn by the menu node; the popup window itself stays transparent so the corners can be round */
+window.popup.background {
+    background-color: transparent;
+}
+
+.popup decoration, .csd.popup decoration {
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px @adw_popover_outline,
+                0 1px 5px 1px rgba(0, 0, 6, 0.09),
+                0 2px 14px 3px rgba(0, 0, 6, 0.05);
+}
+
+menu, .menu, .context-menu {
+    background-color: @adw_popover_bg;
+    color: @adw_window_fg;
+    border: none;
+    border-radius: 12px;
+    padding: 6px;
+}
+
+menu menuitem, .menu menuitem {
+    border-radius: 6px;
+    padding: 6px 12px;
+    min-height: 18px;
+    text-shadow: none;
+}
+
+menu menuitem:hover, .menu menuitem:hover {
+    background-color: alpha(currentColor, 0.1);
+    color: @adw_window_fg;
+}
+
+menu menuitem:disabled {
+    color: alpha(@adw_window_fg, 0.5);
+}
+
+menu separator, popover separator {
+    background-color: alpha(currentColor, 0.15);
+    margin: 6px 0;
+}
+
+modelbutton.flat, popover modelbutton {
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+modelbutton.flat:hover, popover modelbutton:hover {
+    background-color: alpha(currentColor, 0.1);
+}
+
+tooltip.background {
+    background-color: rgba(0, 0, 6, 0.8);
+    color: white;
+    border-radius: 6px;
+    border: none;
+    box-shadow: none;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+button {
+    background-image: none;
+    background-color: alpha(currentColor, 0.1);
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+    text-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+button:hover {
+    background-color: alpha(currentColor, 0.15);
+}
+
+button:active, button:checked {
+    background-color: alpha(currentColor, 0.3);
+}
+
+button:disabled {
+    background-color: alpha(currentColor, 0.05);
+}
+
+button.flat, toolbar button, popover.toolbar button, #sidebar button, #statusbar button, menubar button,
+#floatingToolbox button, #pdfFloatingToolGrid button {
+    background-color: transparent;
+}
+
+button.flat:hover, toolbar button:hover, popover.toolbar button:hover, #sidebar button:hover,
+#statusbar button:hover, #floatingToolbox button:hover, #pdfFloatingToolGrid button:hover {
+    background-color: alpha(currentColor, 0.07);
+}
+
+button.flat:active, button.flat:checked, toolbar button:active, toolbar button:checked,
+popover.toolbar button:checked, #sidebar button:active, #sidebar button:checked, #statusbar button:checked,
+#floatingToolbox button:checked {
+    background-color: alpha(currentColor, 0.1);
+}
+
+/* the window's own controls in the sidebar header etc. use the round style */
+#buttonCloseSidebar, #buttonCloseSearch {
+    border-radius: 100%;
+}
+
+/* ------------------------------------------------------- entries, spinbuttons */
+
+entry, spinbutton:not(.vertical) {
+    background-image: none;
+    background-color: alpha(currentColor, 0.1);
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+}
+
+entry:focus, spinbutton:not(.vertical):focus {
+    box-shadow: inset 0 0 0 2px alpha(@theme_selected_bg_color, 0.5);
+}
+
+spinbutton:not(.vertical) entry {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+spinbutton > button, spinbutton:not(.vertical) > button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 6px;
+}
+
+spinbutton > button:hover {
+    background-color: alpha(currentColor, 0.1);
+}
+
+combobox button.combo {
+    border-radius: 6px;
+}
+
+/* ------------------------------------------------- check boxes, radio buttons */
+
+check, radio {
+    background-image: none;
+    background-color: transparent;
+    border: 2px solid alpha(currentColor, 0.15);
+    box-shadow: none;
+    min-width: 14px;
+    min-height: 14px;
+}
+
+check {
+    border-radius: 6px;
+}
+
+radio {
+    border-radius: 100%;
+}
+
+check:hover, radio:hover {
+    border-color: alpha(currentColor, 0.25);
+}
+
+check:checked, check:indeterminate, radio:checked, radio:indeterminate {
+    border-color: @theme_selected_bg_color;
+    background-color: @theme_selected_bg_color;
+}
+
+/* in menus GTK draws checks without a box */
+menu check, menu radio, .menu check, .menu radio {
+    border: none;
+    background-color: transparent;
+}
+
+/* ------------------------------------------------------------ sliders, switches */
+
+scale trough {
+    background-image: none;
+    background-color: alpha(currentColor, 0.15);
+    border: none;
+    border-radius: 10px;
+    min-height: 4px;
+    min-width: 4px;
+}
+
+scale highlight {
+    border-radius: 10px;
+}
+
+scale slider {
+    background-image: none;
+    background-color: white;
+    border: none;
+    border-radius: 100%;
+    /* equal width and height, or the handle is drawn as an oval */
+    min-width: 18px;
+    min-height: 18px;
+    margin: -7px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 6, 0.1), 0 2px 4px rgba(0, 0, 6, 0.2);
+}
+
+switch {
+    background-image: none;
+    background-color: alpha(currentColor, 0.15);
+    border: none;
+    border-radius: 14px;
+    box-shadow: none;
+}
+
+switch slider {
+    background-image: none;
+    background-color: white;
+    border: none;
+    border-radius: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 6, 0.2);
+}
+
+/* ------------------------------------------------ cards (frames in dialogs) */
+
+frame > border, .frame:not(scrolledwindow) {
+    border: none;
+    border-radius: 12px;
+    background-color: @adw_card_bg;
+    box-shadow: 0 0 0 1px rgba(0, 0, 6, 0.03), 0 1px 3px 1px rgba(0, 0, 6, 0.07), 0 2px 6px 2px rgba(0, 0, 6, 0.03);
+}
+
+/* a card inside a card would stack shadows */
+frame frame > border {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+frame > label {
+    margin-bottom: 6px;
+}
+
+scrolledwindow.frame {
+    border: none;
+    border-radius: 12px;
+}
+
+/* ---------------------------------------------- notebook tabs (Preferences) */
+
+notebook > header {
+    background-color: @adw_sidebar_bg;
+    border: none;
+    box-shadow: none;
+}
+
+notebook > header tab {
+    border: none;
+    border-radius: 6px;
+    margin: 1px 4px;
+    padding: 4px 10px;
+    min-height: 0;
+    box-shadow: none;
+}
+
+notebook > header tab:hover {
+    background-color: alpha(currentColor, 0.07);
+    box-shadow: none;
+}
+
+notebook > header tab:checked {
+    background-color: alpha(currentColor, 0.1);
+    box-shadow: none;
+}
+
+notebook > stack:not(:only-child) {
+    background-color: @adw_window_bg;
+}
+
+/* ---------------------------------------------------------------- misc */
+
+separator {
+    background-color: alpha(currentColor, 0.15);
+}
+
+progressbar trough {
+    background-image: none;
+    background-color: alpha(currentColor, 0.15);
+    border: none;
+    border-radius: 6px;
+}
+
+progressbar progress {
+    border-radius: 6px;
+}
+
+/* Floating toolbox: a libadwaita "osd"-like card */
+#floatingToolbox > box, #pdfFloatingToolGrid {
+    background-color: @adw_popover_bg;
+    border: 1px solid @adw_popover_outline;
+    border-radius: 12px;
+    box-shadow: 0 1px 5px 1px rgba(0, 0, 6, 0.09), 0 2px 14px 3px rgba(0, 0, 6, 0.05);
+}
+
+/* ------------------------------------------- message dialogs (like AdwAlertDialog) */
+
+/* the title bar draws the top corners; the background only starts below it */
+messagedialog.csd.background, messagedialog.background {
+    background-color: @adw_dialog_bg;
+    border-radius: 0 0 12px 12px;
+}
+
+/* the buttons keep clear of the corners, so the whole dialog can be rounded */
+messagedialog decoration, .csd.dialog.message decoration {
+    border-radius: 12px;
+}
+
+/* GTK3 gives message dialogs an empty title bar; blend it in */
+messagedialog .titlebar, messagedialog headerbar {
+    background-color: @adw_dialog_bg;
+    min-height: 12px;
+    border-radius: 12px 12px 0 0;
+}
+
+messagedialog .dialog-vbox {
+    margin: 0 12px;
+}
+
+messagedialog label.title {
+    font-size: 136%;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+messagedialog .dialog-action-box {
+    margin: 12px 18px 24px 18px;
+    border: none;
+}
+
+messagedialog .dialog-action-area {
+    border: none;
+}
+
+messagedialog .dialog-action-area button, messagedialog.csd .dialog-action-area button {
+    border-radius: 12px;
+    border: none;
+    padding: 10px 14px;
+    margin: 0 6px;
+    min-height: 0;
+    font-weight: bold;
+    background-color: alpha(currentColor, 0.1);
+}
+
+messagedialog .dialog-action-area button:hover {
+    background-color: alpha(currentColor, 0.15);
+}
+
+messagedialog .dialog-action-area button:active {
+    background-color: alpha(currentColor, 0.3);
+}
+
+/* libadwaita draws destructive responses in red, on a red-tinted background */
+button.destructive-action, messagedialog .dialog-action-area button.destructive-action {
+    color: @adw_destructive_fg;
+    background-color: alpha(@adw_destructive_fg, 0.1);
+}
+
+button.destructive-action:hover {
+    background-color: alpha(@adw_destructive_fg, 0.15);
+}
+
+/* suggested responses use the accent colour (the generated stylesheet overrides this with the desktop's accent) */
+button.suggested-action, messagedialog .dialog-action-area button.suggested-action {
+    background-color: @theme_selected_bg_color;
+    color: @theme_selected_fg_color;
+}
+
+/* ------------------------------- colour palette (like GNOME's accent colour picker) */
+
+/* round swatches; the selected one gets a ring in its own colour (the button's "color", set per swatch) */
+button.color-swatch, toolbar button.color-swatch {
+    border-radius: 100%;
+    padding: 4px;
+    margin: 0 1px;
+    /* GTK3 min sizes are for the content: a 22px swatch, so with the padding a square 30px button.
+       The 2px ring then sits 2px off the swatch. */
+    min-width: 22px;
+    min-height: 22px;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+button.color-swatch:hover, toolbar button.color-swatch:hover {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px alpha(currentColor, 0.35);
+}
+
+button.color-swatch:checked, toolbar button.color-swatch:checked,
+button.color-swatch:checked:hover, toolbar button.color-swatch:checked:hover {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* black on a dark toolbar / white on a light one: ring in the text colour instead */
+button.color-swatch.dark-swatch:checked, button.color-swatch.light-swatch:checked {
+    box-shadow: inset 0 0 0 2px alpha(@adw_window_fg, 0.8);
+}
+
+button.color-swatch.dark-swatch:hover:not(:checked), button.color-swatch.light-swatch:hover:not(:checked) {
+    box-shadow: inset 0 0 0 2px alpha(@adw_window_fg, 0.3);
+}
+
+/* the "custom colour" button next to the palette: round, like the swatches */
+button.color-picker, toolbar button.color-picker {
+    border-radius: 100%;
+    padding: 4px;
+    min-width: 22px;
+    min-height: 22px;
+}

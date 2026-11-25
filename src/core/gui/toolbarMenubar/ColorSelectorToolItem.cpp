@@ -16,9 +16,11 @@ ColorSelectorToolItem::ColorSelectorToolItem(ActionDatabase& db):
 auto ColorSelectorToolItem::createItem(bool) -> xoj::util::WidgetSPtr {
     GtkWidget* btn = gtk_button_new();
     gtk_widget_set_can_focus(btn, false);  // todo(gtk4) not necessary anymore
+    gtk_style_context_add_class(gtk_widget_get_style_context(btn), "color-picker");
+    gtk_widget_set_valign(btn, GTK_ALIGN_CENTER);
     xoj::util::GVariantSPtr v(g_action_get_state(G_ACTION(gAction.get())), xoj::util::adopt);
     Color initialColor = getGVariantValue<Color>(v.get());
-    gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newGtkImage(initialColor, ICON_SIZE, false));
+    gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newColorPickerImage(initialColor, ICON_SIZE));
 
     gtk_widget_set_tooltip_text(btn, this->getToolDisplayName().c_str());
     gtk_widget_set_sensitive(btn, g_action_get_enabled(G_ACTION(gAction.get())));
@@ -30,7 +32,7 @@ auto ColorSelectorToolItem::createItem(bool) -> xoj::util::WidgetSPtr {
     g_signal_connect_object(gAction.get(), "notify::state", G_CALLBACK(+[](GObject* a, GParamSpec*, gpointer btn) {
                                 xoj::util::GVariantSPtr state(g_action_get_state(G_ACTION(a)), xoj::util::adopt);
                                 auto c = getGVariantValue<Color>(state.get());
-                                gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newGtkImage(c, ICON_SIZE, false));
+                                gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newColorPickerImage(c, ICON_SIZE));
                             }),
                             btn, GConnectFlags(0));
 

@@ -6,6 +6,7 @@
 #include "gui/toolbarMenubar/icon/ColorIcon.h"  // for ColorIcon
 #include "util/GtkUtil.h"                       // for setToggleButtonUnreleasable
 #include "util/gtk4_helper.h"                   // for gtk_button_set_child
+#include "util/raii/GObjectSPtr.h"               // for GObjectSPtr
 
 ColorToolItem::ColorToolItem(NamedColor namedColor, const std::optional<Recolor>& recolor):
         AbstractToolItem(std::string("COLOR(") + std::to_string(namedColor.getIndex()) + ")", Category::COLORS),
@@ -32,6 +33,30 @@ auto ColorToolItem::createItem(bool) -> xoj::util::WidgetSPtr {
 
     gtk_widget_set_tooltip_text(btn, this->namedColor.getName().c_str());
     gtk_button_set_child(GTK_BUTTON(btn), getNewToolIcon());
+
+    // Lets a stylesheet draw the selection as a ring in the swatch's own colour (like GNOME's accent colour picker):
+    // the button's "color" is the swatch colour. Very dark and very light swatches are tagged, as a ring in their
+    // colour could be invisible against the toolbar.
+    {
+        GtkStyleContext* ctx = gtk_widget_get_style_context(btn);
+        gtk_style_context_add_class(ctx, "color-swatch");
+        // Keep the button square (the toolbar would stretch it to its full height), so the ring stays a circle
+        gtk_widget_set_valign(btn, GTK_ALIGN_CENTER);
+        gtk_widget_set_halign(btn, GTK_ALIGN_CENTER);
+        const Color c = this->namedColor.getColor();
+        const double luminance = (0.2126 * c.red + 0.7152 * c.green + 0.0722 * c.blue) / 255.0;
+        if (luminance < 0.05) {
+            gtk_style_context_add_class(ctx, "dark-swatch");
+        } else if (luminance > 0.95) {
+            gtk_style_context_add_class(ctx, "light-swatch");
+        }
+        char css[64];
+        g_snprintf(css, sizeof(css), "button { color: #%02x%02x%02x; }", c.red, c.green, c.blue);
+        xoj::util::GObjectSPtr<GtkCssProvider> provider(gtk_css_provider_new(), xoj::util::adopt);
+        gtk_css_provider_load_from_data(provider.get(), css, -1, nullptr);
+        gtk_style_context_add_provider(ctx, GTK_STYLE_PROVIDER(provider.get()),
+                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 3);
+    }
 
 
     // For the sake of deprecated GtkToolbar, wrap the button in a GtkToolItem
@@ -63,7 +88,7 @@ auto ColorToolItem::createItem(bool) -> xoj::util::WidgetSPtr {
 auto ColorToolItem::getToolDisplayName() const -> std::string { return this->namedColor.getName(); }
 
 auto ColorToolItem::getNewToolIcon() const -> GtkWidget* {
-    return ColorIcon::newGtkImage(this->namedColor.getColor(), 16, true, this->secondaryColor);
+    return ColorIcon::newGtkImage(this->namedColor.getColor(), 22, true, this->secondaryColor);
 }
 
 void ColorToolItem::updateColor(const Palette& palette) { namedColor = palette.getColorAt(namedColor.getIndex()); }

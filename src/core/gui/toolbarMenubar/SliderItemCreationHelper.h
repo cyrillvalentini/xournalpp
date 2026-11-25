@@ -75,6 +75,8 @@ public:
 
         if constexpr (FinalSliderType::DISPLAY_VALUE) {
             gtk_scale_set_draw_value(GTK_SCALE(slider), true);
+            // Next to the slider, a horizontal one stays as tall as the toolbar's buttons
+            gtk_scale_set_value_pos(GTK_SCALE(slider), horizontal ? GTK_POS_LEFT : GTK_POS_TOP);
             gtk_scale_set_format_value_func(
                     GTK_SCALE(slider),
                     +[](GtkScale*, double value, gpointer) -> char* {

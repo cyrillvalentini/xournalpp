@@ -3185,6 +3185,7 @@ This setting can make it easier to draw with touch.</property>
                                                     <items>
                                                       <item id="iconsColor" translatable="yes">Color</item>
                                                       <item id="iconsLucide">Lucide</item>
+                                                      <item id="iconsSymbolic" translatable="yes">Symbolic (GNOME)</item>
                                                     </items>
                                                   </object>
                                                   <packing>
@@ -3282,6 +3283,38 @@ This setting can make it easier to draw with touch.</property>
                                               <packing>
                                                 <property name="left-attach">0</property>
                                                 <property name="top-attach">7</property>
+                                                <property name="width">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkCheckButton" id="cbSystemAccentColor">
+                                                <property name="label" translatable="yes">Use the system accent color</property>
+                                                <property name="name">cbSystemAccentColor</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="tooltip-text" translatable="yes">Colors controls, the active tool, the page border and selections with the accent color chosen in the desktop settings (GNOME, KDE, …). The custom border and selection colors above are used when this is off or the desktop has no accent color.</property>
+                                                <property name="draw-indicator">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="left-attach">0</property>
+                                                <property name="top-attach">8</property>
+                                                <property name="width">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkCheckButton" id="cbAdwaitaStyle">
+                                                <property name="label" translatable="yes">Use the GNOME (libadwaita) style</property>
+                                                <property name="name">cbAdwaitaStyle</property>
+                                                <property name="visible">True</property>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">False</property>
+                                                <property name="tooltip-text" translatable="yes">Colors, flat buttons, rounded menus and cards matching current GNOME applications. Turn off to use the plain GTK theme.</property>
+                                                <property name="draw-indicator">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="left-attach">0</property>
+                                                <property name="top-attach">9</property>
                                                 <property name="width">2</property>
                                               </packing>
                                             </child>

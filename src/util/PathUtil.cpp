@@ -38,10 +38,9 @@
 
 #ifdef GHC_FILESYSTEM
 // Fix of ghc::filesystem bug (path::operator/=() won't support string_views)
-constexpr auto const* CONFIG_FOLDER_NAME = "xournalpp";
+constexpr auto const* CONFIG_FOLDER_NAME = XOPP_CONFIG_FOLDER_NAME;
 #else
-using namespace std::string_view_literals;
-constexpr auto CONFIG_FOLDER_NAME = "xournalpp"sv;
+constexpr auto CONFIG_FOLDER_NAME = std::string_view(XOPP_CONFIG_FOLDER_NAME);
 #endif
 
 #ifdef _WIN32

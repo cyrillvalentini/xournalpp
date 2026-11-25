@@ -32,4 +32,10 @@ GtkWidget* newGtkImage(Color color, int size = 22, bool circle = true,
  */
 xoj::util::GObjectSPtr<GdkPixbuf> newGdkPixbuf(Color color, int size = 22, bool circle = true,
                                                std::optional<Color> secondaryColor = std::nullopt);
+/**
+ * @brief Icon for the "choose a custom colour" button: the current colour in a rainbow ring,
+ *      so it reads as a colour picker rather than as one more palette swatch
+ */
+GtkWidget* newColorPickerImage(Color current, int size);
+
 };  // namespace ColorIcon
