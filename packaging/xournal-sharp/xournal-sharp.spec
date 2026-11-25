@@ -13,7 +13,7 @@
 
 Name:           xournal-sharp
 Version:        1.3.8
-Release:        1.modernui%{?dist}
+Release:        2.modernui%{?dist}
 Summary:        Xournal# - handwritten notes and PDF annotation with a GNOME look
 
 License:        GPL-2.0-or-later
@@ -68,8 +68,10 @@ rm -f %{buildroot}%{optdir}/bin/xournalpp-thumbnailer
 install -d %{buildroot}%{_bindir}
 ln -s %{optdir}/bin/xournalpp %{buildroot}%{_bindir}/xournal-sharp
 
-install -Dm644 ui/pixmaps/com.github.xournalpp.xournalpp.svg \
+install -Dm644 packaging/xournal-sharp/%{app_id}.svg \
     %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/%{app_id}.svg
+install -Dm644 packaging/xournal-sharp/%{app_id}-symbolic.svg \
+    %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/%{app_id}-symbolic.svg
 install -Dm644 packaging/xournal-sharp/%{app_id}.desktop \
     %{buildroot}%{_datadir}/applications/%{app_id}.desktop
 
@@ -82,7 +84,11 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{app_id}.desktop
 %{_bindir}/xournal-sharp
 %{_datadir}/applications/%{app_id}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{app_id}.svg
+%{_datadir}/icons/hicolor/symbolic/apps/%{app_id}-symbolic.svg
 
 %changelog
+* Wed Nov 25 2026 Cyrill Valentini - 1.3.8-2.modernui
+- Own app icon: the Xournal++ cursive x on a ruled page with a handwritten "#", plus a symbolic variant
+
 * Wed Nov 25 2026 Cyrill Valentini - 1.3.8-1.modernui
 - GNOME (libadwaita) look, symbolic icons, accent colour and dark mode following the desktop
