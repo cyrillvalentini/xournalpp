@@ -254,7 +254,7 @@ Order of work: file dialogs → colour/font → misc/geometry → combo boxes �
 Progress:
 - [x] File dialogs → `GtkFileDialog` (366 → 345 deprecated sites). The "attach file" checkbox became the setting
   "Attach PDF and image backgrounds to the journal" (user's choice); confirmed on the real desktop.
-- [ ] Colour/font buttons
+- [x] Colour/font buttons and dialogs (345 → 308). Background colour dialog rebuilt as swatches + "Custom…"; colour editor size fix; confirmed on the real desktop.
 - [ ] Misc/geometry
 - [ ] Combo boxes
 - [ ] Tree views
