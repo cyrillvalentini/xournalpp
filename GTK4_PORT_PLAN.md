@@ -264,7 +264,9 @@ Progress:
   (`XojMsgBox::openURL` ignored its argument); pages didn't re-centre on window resize (missing
   `recomputeCenteringPadding` in `size_allocate`).
 - [ ] Tree views
-- [ ] Message dialogs
+- [x] Message dialogs → `GtkAlertDialog` in `XojMsgBox` (94 → 82); phase 4 swaps it for `AdwAlertDialog`. Confirmed on the real desktop.
+
+Next session: tree/list views (~80 call sites: PDF outline sidebar tree, toolbar manager, language list).
 
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)
 1. Add `libadwaita-1` to CMake; `AdwApplication`; `AdwApplicationWindow` + `AdwToolbarView` holding the classic menubar and toolbars at the top and the page/zoom bar at the bottom.
