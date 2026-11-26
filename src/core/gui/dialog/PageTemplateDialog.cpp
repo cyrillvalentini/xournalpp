@@ -132,9 +132,8 @@ void PageTemplateDialog::saveToFile() {
             out << parent->model.toString();
         }
     };
-    auto popup = xoj::popup::PopupWindowWrapper<SaveExportDialog>(settings, std::move(saveFilename), _("Save File"),
-                                                                  _("Save"), xoj::FileTypes::XOPT, std::move(callback));
-    popup.showNative(GTK_WINDOW(this->getWindow()));
+    xoj::SaveExportDialog::show(GTK_WINDOW(this->getWindow()), settings, std::move(saveFilename), _("Save File"),
+                                _("Save"), &xoj::FileTypes::XOPT, std::move(callback));
 }
 
 void PageTemplateDialog::loadFromFile() {

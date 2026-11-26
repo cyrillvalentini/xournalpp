@@ -246,9 +246,8 @@ static int applib_fileDialogSave(lua_State* L) {
         }
     };
 
-    auto popup = xoj::popup::PopupWindowWrapper<xoj::SaveExportDialog>(ctrl->getSettings(), std::move(suggestedPath),
-                                                                       _("Save File"), _("Save"), std::move(callback));
-    popup.showNative(GTK_WINDOW(ctrl->getWindow()->getWindow()));
+    xoj::SaveExportDialog::show(GTK_WINDOW(ctrl->getWindow()->getWindow()), ctrl->getSettings(),
+                                std::move(suggestedPath), _("Save File"), _("Save"), nullptr, std::move(callback));
 
     return 0;
 }

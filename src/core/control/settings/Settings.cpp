@@ -112,6 +112,7 @@ void Settings::loadDefault() {
 
     this->autoloadMostRecent = false;
     this->autoloadPdfXoj = true;
+    this->attachBackgroundFiles = false;
 
     this->stylusCursorType = STYLUS_CURSOR_DOT;
     this->eraserVisibility = ERASER_VISIBILITY_ALWAYS;
@@ -499,6 +500,8 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
         this->autoloadMostRecent = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("autoloadPdfXoj")) == 0) {
         this->autoloadPdfXoj = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
+    } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("attachBackgroundFiles")) == 0) {
+        this->attachBackgroundFiles = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("stylusCursorType")) == 0) {
         this->stylusCursorType = stylusCursorTypeFromString(reinterpret_cast<const char*>(value));
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("eraserVisibility")) == 0) {
@@ -1117,6 +1120,7 @@ void Settings::save() {
 
     SAVE_BOOL_PROP(autoloadMostRecent);
     SAVE_BOOL_PROP(autoloadPdfXoj);
+    SAVE_BOOL_PROP(attachBackgroundFiles);
     saveProperty("defaultSaveName", defaultSaveName.empty() ? "" : char_cast(defaultSaveName.c_str()), root);
     saveProperty("defaultPdfExportName", defaultPdfExportName.empty() ? "" : char_cast(defaultPdfExportName.c_str()),
                  root);
@@ -1740,6 +1744,16 @@ void Settings::setAutoloadPdfXoj(bool load) {
         return;
     }
     this->autoloadPdfXoj = load;
+    save();
+}
+
+auto Settings::isAttachBackgroundFiles() const -> bool { return this->attachBackgroundFiles; }
+
+void Settings::setAttachBackgroundFiles(bool attach) {
+    if (this->attachBackgroundFiles == attach) {
+        return;
+    }
+    this->attachBackgroundFiles = attach;
     save();
 }
 

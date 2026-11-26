@@ -598,6 +598,14 @@ Illegal characters are replaced with &quot;_&quot;</property>
                                             <property name="tooltip-text" translatable="1">If enabled Xournal++ will open the most recent document automatically that you can continue editing your last saved document.</property>
                                           </object>
                                         </child>
+                                        <child>
+                                          <object class="GtkCheckButton" id="cbAttachBackgroundFiles">
+                                            <property name="label" translatable="1">Attach PDF and image backgrounds to the journal</property>
+                                            <property name="name">cbAttachBackgroundFiles</property>
+                                            <property name="focusable">1</property>
+                                            <property name="tooltip-text" translatable="1">When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file.</property>
+                                          </object>
+                                        </child>
                                       </object>
                                     </property>
                                     <child type="label">

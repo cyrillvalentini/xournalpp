@@ -3,14 +3,17 @@
 #include "util/i18n.h"
 
 namespace xoj {
-void addFilterAllFiles(GtkFileChooser* fc) {
+GListStore* newFilterList() { return g_list_store_new(GTK_TYPE_FILE_FILTER); }
+
+void addFilterAllFiles(GListStore* filters) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, _("All files"));
     gtk_file_filter_add_pattern(filter, "*");
-    gtk_file_chooser_add_filter(fc, filter);
+    g_list_store_append(filters, filter);
+    g_object_unref(filter);
 }
 
-void addFilterSupported(GtkFileChooser* fc) {
+void addFilterSupported(GListStore* filters) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, _("Supported files"));
 #ifndef _WIN32
@@ -25,10 +28,11 @@ void addFilterSupported(GtkFileChooser* fc) {
     gtk_file_filter_add_pattern(filter, (std::string("*.") + FileTypes::PDF.extension).c_str());
 #endif
     gtk_file_filter_add_pattern(filter, "*.moj");  // MrWriter
-    gtk_file_chooser_add_filter(fc, filter);
+    g_list_store_append(filters, filter);
+    g_object_unref(filter);
 }
 
-void addFilterForFile(GtkFileChooser* fc, const FileType& f) {
+void addFilterForFile(GListStore* filters, const FileType& f) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, fetch_translation(f.description));
 #ifndef _WIN32
@@ -36,17 +40,19 @@ void addFilterForFile(GtkFileChooser* fc, const FileType& f) {
 #else
     gtk_file_filter_add_pattern(filter, (std::string("*.") + f.extension).c_str());
 #endif
-    gtk_file_chooser_add_filter(fc, filter);
+    g_list_store_append(filters, filter);
+    g_object_unref(filter);
 }
 
-void addFilterImages(GtkFileChooser* fc) {
+void addFilterImages(GListStore* filters) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, _("Image files"));
     gtk_file_filter_add_pixbuf_formats(filter);
-    gtk_file_chooser_add_filter(fc, filter);
+    g_list_store_append(filters, filter);
+    g_object_unref(filter);
 }
 
-void addFilterTex(GtkFileChooser* fc) {
+void addFilterTex(GListStore* filters) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, _("Latex files"));
 #ifndef _WIN32
@@ -55,6 +61,7 @@ void addFilterTex(GtkFileChooser* fc) {
 #else
     gtk_file_filter_add_pattern(filter, "*.tex");
 #endif
-    gtk_file_chooser_add_filter(fc, filter);
+    g_list_store_append(filters, filter);
+    g_object_unref(filter);
 }
 };  // namespace xoj

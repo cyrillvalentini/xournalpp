@@ -1,7 +1,7 @@
 /*
  * Xournal++
  *
- * Helper functions to add filters to GtkFileChooserDialogs
+ * Helper functions to build the file filters of GtkFileDialogs
  *
  * @author Xournal++ Team
  * https://github.com/xournalpp/xournalpp
@@ -35,17 +35,20 @@ constexpr FileType SVG = {"svg", "image/svg+xml", N_("SVG graphics")};
 constexpr FileType PNG = {"png", "image/png", N_("PNG graphics")};
 constexpr FileType ZIP = {"zip", "application/zip", N_("ZIP archive")};
 };  // namespace FileTypes
-void addFilterForFile(GtkFileChooser* fc, const FileType& f);
+/// The filter-adding functions append GtkFileFilter's to `filters` (a GListStore of GtkFileFilter, as GtkFileDialog takes)
+GListStore* newFilterList();  ///< Returns a new, empty GListStore for GtkFileFilter's (full reference)
 
-inline void addFilterPdf(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::PDF); }
-inline void addFilterXoj(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::XOJ); }
-inline void addFilterXopp(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::XOPP); }
-inline void addFilterXopt(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::XOPT); }
-inline void addFilterSvg(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::SVG); }
-inline void addFilterPng(GtkFileChooser* fc) { addFilterForFile(fc, FileTypes::PNG); }
+void addFilterForFile(GListStore* filters, const FileType& f);
 
-void addFilterAllFiles(GtkFileChooser* fc);
-void addFilterSupported(GtkFileChooser* fc);
-void addFilterImages(GtkFileChooser* fc);  ///< All images supported by GdkPixbuf
-void addFilterTex(GtkFileChooser* fc);
+inline void addFilterPdf(GListStore* filters) { addFilterForFile(filters, FileTypes::PDF); }
+inline void addFilterXoj(GListStore* filters) { addFilterForFile(filters, FileTypes::XOJ); }
+inline void addFilterXopp(GListStore* filters) { addFilterForFile(filters, FileTypes::XOPP); }
+inline void addFilterXopt(GListStore* filters) { addFilterForFile(filters, FileTypes::XOPT); }
+inline void addFilterSvg(GListStore* filters) { addFilterForFile(filters, FileTypes::SVG); }
+inline void addFilterPng(GListStore* filters) { addFilterForFile(filters, FileTypes::PNG); }
+
+void addFilterAllFiles(GListStore* filters);
+void addFilterSupported(GListStore* filters);
+void addFilterImages(GListStore* filters);  ///< All images supported by GdkPixbuf
+void addFilterTex(GListStore* filters);
 };  // namespace xoj

@@ -287,6 +287,10 @@ public:
     bool isAutoloadPdfXoj() const;
     void setAutoloadPdfXoj(bool load);
 
+    /// Attach PDF and image backgrounds to the journal (copy them next to it) instead of linking them
+    bool isAttachBackgroundFiles() const;
+    void setAttachBackgroundFiles(bool attach);
+
     int getAutosaveTimeout() const;
     void setAutosaveTimeout(int autosave);
     bool isAutosaveEnabled() const;
@@ -907,6 +911,12 @@ private:
      * Automatically load filename.pdf.xoj / .pdf.xopp instead of filename.pdf (true/false)
      */
     bool autoloadPdfXoj{};
+
+    /**
+     * Attach PDF and image backgrounds to the journal instead of linking them (replaces the "attach" checkbox the
+     * GTK3 file choosers had, which GtkFileDialog can't show)
+     */
+    bool attachBackgroundFiles{};
 
     /**
      * Automatically load most recent document on application startup (true/false)

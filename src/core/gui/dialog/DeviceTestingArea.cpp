@@ -170,9 +170,8 @@ static void saveLog(const std::stringstream& fullLog, const std::stringstream& e
         }
     };
 
-    auto popup = xoj::popup::PopupWindowWrapper<xoj::SaveExportDialog>(
-            nullptr, fs::path(), _("Export Logs"), _("Export"), xoj::FileTypes::ZIP, std::move(callback));
-    popup.showNative(GTK_WINDOW(gtk_widget_get_ancestor(parent, GTK_TYPE_WINDOW)));
+    xoj::SaveExportDialog::show(GTK_WINDOW(gtk_widget_get_ancestor(parent, GTK_TYPE_WINDOW)), nullptr, fs::path(),
+                                _("Export Logs"), _("Export"), &xoj::FileTypes::ZIP, std::move(callback));
 }
 
 DeviceTestingArea::DeviceTestingArea(GladeSearchpath* gladeSearchPath, GtkBox* parent, Settings* settings):

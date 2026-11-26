@@ -350,6 +350,7 @@ void SettingsDialog::load() {
     loadCheckbox("cbShowScrollbarLeft", settings->isScrollbarOnLeft());
     loadCheckbox("cbAutoloadMostRecent", settings->isAutoloadMostRecent());
     loadCheckbox("cbAutoloadXoj", settings->isAutoloadPdfXoj());
+    loadCheckbox("cbAttachBackgroundFiles", settings->isAttachBackgroundFiles());
     loadCheckbox("cbAutosave", settings->isAutosaveEnabled());
     loadCheckbox("cbAddVerticalSpace", settings->getAddVerticalSpace());
     loadCheckbox("cbAddHorizontalSpace", settings->getAddHorizontalSpace());
@@ -755,6 +756,7 @@ void SettingsDialog::save() {
     settings->setScrollbarOnLeft(getCheckbox("cbShowScrollbarLeft"));
     settings->setAutoloadMostRecent(getCheckbox("cbAutoloadMostRecent"));
     settings->setAutoloadPdfXoj(getCheckbox("cbAutoloadXoj"));
+    settings->setAttachBackgroundFiles(getCheckbox("cbAttachBackgroundFiles"));
     settings->setAutosaveEnabled(getCheckbox("cbAutosave"));
     settings->setAddVerticalSpace(getCheckbox("cbAddVerticalSpace"));
     settings->setAddHorizontalSpace(getCheckbox("cbAddHorizontalSpace"));

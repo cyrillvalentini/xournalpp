@@ -55,19 +55,6 @@ public:
          */
         popup = nullptr;
     }
-    void showNative(GtkWindow* parent, bool modal = true) {
-        gtk_native_dialog_set_transient_for(popup->getNativeDialog(), parent);
-        gtk_native_dialog_set_modal(popup->getNativeDialog(), modal);
-
-        gtk_native_dialog_show(popup->getNativeDialog());
-        /*
-         * The actual popup must outlive this wrapper (so the main loop can go on).
-         * As a consequence, once the popup is shown, this wrapper does not own the popup anymore.
-         * The popup will get destroy by the signal connected above.
-         */
-        popup = nullptr;
-    }
-
     PopupType* getPopup() const {
         xoj_assert_message(popup, "Do not call getPopup() after show()!");
         return popup;
