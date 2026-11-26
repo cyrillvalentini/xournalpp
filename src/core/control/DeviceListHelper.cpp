@@ -5,6 +5,10 @@
 #include <vector>     // for vector
 
 #include <glib.h>  // for g_list_free, g_warning
+#include <gtk/gtk.h>
+#ifdef GDK_WINDOWING_WAYLAND
+#include <gdk/wayland/gdkwayland.h>  // for GDK_IS_WAYLAND_DISPLAY
+#endif
 
 #include "control/settings/Settings.h"  // for Settings
 #include "util/GListView.h"             // for GListView, GListView<>::GList...
@@ -23,12 +27,35 @@ void storeNewUnlistedDevice(std::vector<InputDevice>& deviceList, GdkDevice* dev
     deviceList.emplace_back(device);
 }
 
+static bool isWayland(GdkDisplay* display) {
+#ifdef GDK_WINDOWING_WAYLAND
+    return GDK_IS_WAYLAND_DISPLAY(display);
+#else
+    return false;
+#endif
+}
+
+/**
+ * Should this device be left out of the list?
+ *  - X11 lists virtual devices (e.g. "Virtual core XTEST pointer"), recognisable by their missing vendor/product ids.
+ *  - Wayland never reports ids for mice, touchpads or touchscreens, so that test would hide every device but tablets.
+ *    Instead, mice and touchpads are left out because GTK4 delivers their events through the seat's logical pointer
+ *    ("Core Pointer"), which is added separately (see getDeviceList()).
+ */
+static bool skipDevice(GdkDevice* dev) {
+    if (isWayland(gdk_device_get_display(dev))) {
+        auto source = gdk_device_get_source(dev);
+        return source == GDK_SOURCE_MOUSE || source == GDK_SOURCE_TOUCHPAD || source == GDK_SOURCE_TRACKPOINT;
+    }
+    return gdk_device_get_vendor_id(dev) == nullptr && gdk_device_get_product_id(dev) == nullptr;
+}
+
 void addDevicesToList(std::vector<InputDevice>& deviceList, GListView<GdkDevice> devView, bool ignoreTouchDevices) {
     for (GdkDevice& dev: devView) {
         if (GDK_SOURCE_KEYBOARD == gdk_device_get_source(&dev)) {
             continue;
         }
-        if (gdk_device_get_vendor_id(&dev) == nullptr && gdk_device_get_product_id(&dev) == nullptr) {
+        if (skipDevice(&dev)) {
             continue;
         }
         if (ignoreTouchDevices && GDK_SOURCE_TOUCHSCREEN == gdk_device_get_source(&dev)) {
@@ -55,6 +82,10 @@ auto DeviceListHelper::getDeviceList(Settings* settings, bool ignoreTouchDevices
     auto* pointerSlaves = gdk_seat_get_devices(pointerSeat, GDK_SEAT_CAPABILITY_ALL_POINTING);
     addDevicesToList(deviceList, pointerSlaves, ignoreTouchDevices);
     g_list_free(pointerSlaves);
+    if (isWayland(display)) {
+        // Mouse and touchpad events arrive from the logical pointer, so that's the device users configure
+        storeNewUnlistedDevice(deviceList, pointer);
+    }
 
     if (deviceList.empty()) {
         g_warning("No device found. Is Xournal++ running in debugger / Eclipse...?\n"
