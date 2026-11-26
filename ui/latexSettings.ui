@@ -299,12 +299,14 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkFontButton" id="selBtnEditorFont">
+                                  <object class="GtkFontDialogButton" id="selBtnEditorFont">
+                                    <property name="dialog">
+                                      <object class="GtkFontDialog">
+                                        <property name="title" translatable="1">Pick the Editor&apos;s Font</property>
+                                      </object>
+                                    </property>
                                     <property name="focusable">1</property>
                                     <property name="receives-default">1</property>
-                                    <property name="font">Sans 12</property>
-                                    <property name="preview-text"></property>
-                                    <property name="title" translatable="1">Pick the Editor&apos;s Font</property>
                                   </object>
                                 </child>
                               </object>

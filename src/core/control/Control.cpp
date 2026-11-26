@@ -2044,42 +2044,43 @@ void Control::setCurrentState(size_t state) {
 
 void Control::showFontDialog() {
     this->actionDB->enableAction(Action::SELECT_FONT, false);  // Only one dialog
-    auto* dlg = gtk_font_chooser_dialog_new(_("Select font"), GTK_WINDOW(this->win->getWindow()));
-    gtk_font_chooser_set_font(GTK_FONT_CHOOSER(dlg), settings->getFont().asString().c_str());
-
-    auto popup = xoj::popup::PopupWindowWrapper<XojMsgBox>(
-            GTK_DIALOG(dlg),
-            [this, dlg](int response) {
-                if (response == GTK_RESPONSE_OK) {
-                    auto font =
-                            xoj::util::OwnedCString::assumeOwnership(gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dlg)));
-                    this->actionDB->fireChangeActionState(Action::FONT, font.get());
+    GtkFontDialog* dlg = gtk_font_dialog_new();
+    gtk_font_dialog_set_title(dlg, _("Select font"));
+    PangoFontDescription* initial = pango_font_description_from_string(settings->getFont().asString().c_str());
+    gtk_font_dialog_choose_font(
+            dlg, GTK_WINDOW(this->win->getWindow()), initial, nullptr,
+            +[](GObject* src, GAsyncResult* res, gpointer d) {
+                auto* self = static_cast<Control*>(d);
+                if (PangoFontDescription* font = gtk_font_dialog_choose_font_finish(GTK_FONT_DIALOG(src), res, nullptr)) {
+                    auto name = xoj::util::OwnedCString::assumeOwnership(pango_font_description_to_string(font));
+                    self->actionDB->fireChangeActionState(Action::FONT, name.get());
+                    pango_font_description_free(font);
                 }
-                this->actionDB->enableAction(Action::SELECT_FONT, true);
+                self->actionDB->enableAction(Action::SELECT_FONT, true);
+                g_object_unref(src);
             },
-            XojMsgBox::IMMEDIATE);  // We need IMMEDIATE so accessing GTK_FONT_CHOOSER(dlg) is not UB
-    popup.show(GTK_WINDOW(this->win->getWindow()));
+            this);
+    pango_font_description_free(initial);
 }
 
 void Control::showColorChooserDialog() {
     this->actionDB->enableAction(Action::SELECT_COLOR, false);  // Only one dialog
-    auto* dlg = gtk_color_chooser_dialog_new(_("Select color"), GTK_WINDOW(this->win->getWindow()));
-    GdkRGBA c = Util::argb_to_GdkRGBA(toolHandler->getColor());
-    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dlg), &c);
-    gtk_color_chooser_set_use_alpha(GTK_COLOR_CHOOSER(dlg), false);
-
-    auto popup = xoj::popup::PopupWindowWrapper<XojMsgBox>(
-            GTK_DIALOG(dlg),
-            [this, dlg](int response) {
-                if (response == GTK_RESPONSE_OK) {
-                    GdkRGBA c;
-                    gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dlg), &c);
-                    this->actionDB->fireChangeActionState(Action::TOOL_COLOR, Util::GdkRGBA_to_rgb(c));
+    GtkColorDialog* dlg = gtk_color_dialog_new();
+    gtk_color_dialog_set_title(dlg, _("Select color"));
+    gtk_color_dialog_set_with_alpha(dlg, false);
+    GdkRGBA initial = Util::argb_to_GdkRGBA(toolHandler->getColor());
+    gtk_color_dialog_choose_rgba(
+            dlg, GTK_WINDOW(this->win->getWindow()), &initial, nullptr,
+            +[](GObject* src, GAsyncResult* res, gpointer d) {
+                auto* self = static_cast<Control*>(d);
+                if (GdkRGBA* c = gtk_color_dialog_choose_rgba_finish(GTK_COLOR_DIALOG(src), res, nullptr)) {
+                    self->actionDB->fireChangeActionState(Action::TOOL_COLOR, Util::GdkRGBA_to_rgb(*c));
+                    gdk_rgba_free(c);
                 }
-                this->actionDB->enableAction(Action::SELECT_COLOR, true);
+                self->actionDB->enableAction(Action::SELECT_COLOR, true);
+                g_object_unref(src);
             },
-            XojMsgBox::IMMEDIATE);  // We need IMMEDIATE so accessing GTK_COLOR_CHOOSER(dlg) is not UB
-    popup.show(GTK_WINDOW(this->win->getWindow()));
+            this);
 }
 
 void Control::updateWindowTitle() {

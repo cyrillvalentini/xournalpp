@@ -2097,11 +2097,16 @@ This setting can make it easier to draw with touch.</property>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkColorButton" id="colorBorder">
+                                                  <object class="GtkColorDialogButton" id="colorBorder">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">0</property>
+                                                        <property name="title" translatable="1">Border color</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="name">colorBorder</property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
-                                                    <property name="title" translatable="1">Border color</property>
                                                     <layout>
                                                       <property name="column">1</property>
                                                       <property name="row">0</property>
@@ -2120,7 +2125,12 @@ This setting can make it easier to draw with touch.</property>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkColorButton" id="colorBackground">
+                                                  <object class="GtkColorDialogButton" id="colorBackground">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">0</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="name">colorBackground</property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
@@ -2143,7 +2153,12 @@ This setting can make it easier to draw with touch.</property>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkColorButton" id="colorSelection">
+                                                  <object class="GtkColorDialogButton" id="colorSelection">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">0</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="name">colorSelection</property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
@@ -2166,7 +2181,12 @@ This setting can make it easier to draw with touch.</property>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkColorButton" id="colorSelectionActive">
+                                                  <object class="GtkColorDialogButton" id="colorSelectionActive">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">0</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="name">colorSelectionActive</property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
@@ -2321,7 +2341,12 @@ This setting can make it easier to draw with touch.</property>
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkColorButton" id="recolorLight">
+                                                    <object class="GtkColorDialogButton" id="recolorLight">
+                                                      <property name="dialog">
+                                                        <object class="GtkColorDialog">
+                                                          <property name="with-alpha">0</property>
+                                                        </object>
+                                                      </property>
                                                         <property name="name">recolorLight</property>
                                                         <property name="focusable">1</property>
                                                         <property name="receives-default">1</property>
@@ -2334,7 +2359,12 @@ This setting can make it easier to draw with touch.</property>
                                                     </object>
                                                 </child>
                                                 <child>
-                                                    <object class="GtkColorButton" id="recolorDark">
+                                                    <object class="GtkColorDialogButton" id="recolorDark">
+                                                      <property name="dialog">
+                                                        <object class="GtkColorDialog">
+                                                          <property name="with-alpha">0</property>
+                                                        </object>
+                                                      </property>
                                                         <property name="name">recolorDark</property>
                                                         <property name="focusable">1</property>
                                                         <property name="receives-default">1</property>
@@ -2429,11 +2459,15 @@ This setting can make it easier to draw with touch.</property>
                                             <child>
                                               <object class="GtkBox">
                                                 <child>
-                                                  <object class="GtkColorButton" id="cursorHighlightColor">
+                                                  <object class="GtkColorDialogButton" id="cursorHighlightColor">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">1</property>
+                                                        <property name="title" translatable="1">Choose the color to use for &quot;Highlight cursor position&quot;</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
-                                                    <property name="title" translatable="1">Choose the color to use for &quot;Highlight cursor position&quot;</property>
-                                                    <property name="show-editor">1</property>
                                                   </object>
                                                 </child>
                                                 <child>
@@ -2501,11 +2535,15 @@ This setting can make it easier to draw with touch.</property>
                                             <child>
                                               <object class="GtkBox">
                                                 <child>
-                                                  <object class="GtkColorButton" id="cursorHighlightBorderColor">
+                                                  <object class="GtkColorDialogButton" id="cursorHighlightBorderColor">
+                                                    <property name="dialog">
+                                                      <object class="GtkColorDialog">
+                                                        <property name="with-alpha">1</property>
+                                                        <property name="title" translatable="1">Choose the color to use for &quot;Highlight cursor position&quot;</property>
+                                                      </object>
+                                                    </property>
                                                     <property name="focusable">1</property>
                                                     <property name="receives-default">1</property>
-                                                    <property name="title" translatable="1">Choose the color to use for &quot;Highlight cursor position&quot;</property>
-                                                    <property name="show-editor">1</property>
                                                   </object>
                                                 </child>
                                                 <child>

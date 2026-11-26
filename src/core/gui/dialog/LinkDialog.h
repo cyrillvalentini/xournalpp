@@ -58,7 +58,7 @@ private:
     GtkTextView* textInput = nullptr;
     GtkEntry* urlInput = nullptr;
 
-    GtkFontChooser* fontChooser = nullptr;
+    GtkFontDialogButton* fontChooser = nullptr;
 
     GtkToggleButton* layoutLeft = nullptr;
     GtkToggleButton* layoutCenter = nullptr;

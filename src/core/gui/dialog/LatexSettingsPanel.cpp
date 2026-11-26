@@ -97,7 +97,11 @@ void LatexSettingsPanel::load(const LatexSettings& settings) {
 
     // Editor font
     std::string editorFontDescription{settings.editorFont.asString()};
-    gtk_font_chooser_set_font(GTK_FONT_CHOOSER(builder.get("selBtnEditorFont")), editorFontDescription.c_str());
+    {
+        PangoFontDescription* desc = pango_font_description_from_string(editorFontDescription.c_str());
+        gtk_font_dialog_button_set_font_desc(GTK_FONT_DIALOG_BUTTON(builder.get("selBtnEditorFont")), desc);
+        pango_font_description_free(desc);
+    }
 
     // Should we use the custom editor font?
     gtk_check_button_set_active(this->cbUseSystemFont, !settings.useCustomEditorFont);
@@ -133,8 +137,10 @@ void LatexSettingsPanel::save(LatexSettings& settings) {
     settings.sourceViewSyntaxHighlight =
             gtk_check_button_get_active(GTK_CHECK_BUTTON(builder.get("cbSyntaxHighlight")));
 
-    GtkFontChooser* fontSelector = GTK_FONT_CHOOSER(builder.get("selBtnEditorFont"));
-    settings.editorFont = xoj::util::OwnedCString::assumeOwnership(gtk_font_chooser_get_font(fontSelector)).get();
+    auto* fontSelector = GTK_FONT_DIALOG_BUTTON(builder.get("selBtnEditorFont"));
+    settings.editorFont = xoj::util::OwnedCString::assumeOwnership(
+                                  pango_font_description_to_string(gtk_font_dialog_button_get_font_desc(fontSelector)))
+                                  .get();
     settings.useCustomEditorFont = !gtk_check_button_get_active(this->cbUseSystemFont);
     settings.editorWordWrap = gtk_check_button_get_active(GTK_CHECK_BUTTON(builder.get("cbWordWrap")));
 

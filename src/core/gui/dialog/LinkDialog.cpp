@@ -29,7 +29,7 @@ LinkDialog::LinkDialog(Control* control, std::function<void(LinkDialog*)> callba
     auto* okButton = GTK_BUTTON(builder.get("btOk"));
     auto* cancelButton = GTK_BUTTON(builder.get("btCancel"));
 
-    this->fontChooser = GTK_FONT_CHOOSER(builder.get("btnFontChooser"));
+    this->fontChooser = GTK_FONT_DIALOG_BUTTON(builder.get("btnFontChooser"));
 
     this->layoutLeft = GTK_TOGGLE_BUTTON(builder.get("btnLeftLayout"));
     this->layoutCenter = GTK_TOGGLE_BUTTON(builder.get("btnCenterLayout"));
@@ -60,7 +60,11 @@ void LinkDialog::preset(XojFont font, std::string text, std::string url, TextAli
     gtk_editable_set_text(GTK_EDITABLE(this->urlInput), url.c_str());
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(this->linkTypeChooser), std::to_string(static_cast<int>(prefix)).c_str());
     std::string fontName = font.getName() + " " + std::to_string(font.getSize());
-    gtk_font_chooser_set_font(this->fontChooser, fontName.c_str());
+    {
+        PangoFontDescription* desc = pango_font_description_from_string(fontName.c_str());
+        gtk_font_dialog_button_set_font_desc(this->fontChooser, desc);
+        pango_font_description_free(desc);
+    }
     this->layoutToggled(layout);
 }
 
@@ -110,7 +114,8 @@ void LinkDialog::layoutToggled(TextAlignment layout) {
 TextAlignment LinkDialog::getLayout() { return this->layout; }
 
 XojFont LinkDialog::getFont() {
-    auto font = xoj::util::OwnedCString::assumeOwnership(gtk_font_chooser_get_font(this->fontChooser));
+    auto font = xoj::util::OwnedCString::assumeOwnership(
+            pango_font_description_to_string(gtk_font_dialog_button_get_font_desc(this->fontChooser)));
     return XojFont(font.get());
 }
 

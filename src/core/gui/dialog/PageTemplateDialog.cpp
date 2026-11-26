@@ -52,7 +52,7 @@ PageTemplateDialog::PageTemplateDialog(GladeSearchpath* gladeSearchPath, Setting
 
     pageSizeLabel = GTK_LABEL(builder.get("lbPageSize"));
     backgroundTypeLabel = GTK_LABEL(builder.get("lbBackgroundType"));
-    backgroundColorChooser = GTK_COLOR_CHOOSER(builder.get("cbBackgroundButton"));
+    backgroundColorChooser = GTK_COLOR_DIALOG_BUTTON(builder.get("cbBackgroundButton"));
     copyLastPageButton = GTK_CHECK_BUTTON(builder.get("cbCopyLastPage"));
     copyLastPageSizeButton = GTK_CHECK_BUTTON(builder.get("cbCopyLastPageSize"));
 
@@ -85,7 +85,7 @@ PageTemplateDialog::~PageTemplateDialog() = default;
 
 void PageTemplateDialog::updateDataFromModel() {
     GdkRGBA color = Util::rgb_to_GdkRGBA(model.getBackgroundColor());
-    gtk_color_chooser_set_rgba(backgroundColorChooser, &color);
+    gtk_color_dialog_button_set_rgba(backgroundColorChooser, &color);
 
     updatePageSize();
 
@@ -108,7 +108,7 @@ void PageTemplateDialog::saveToModel() {
     model.setCopyLastPageSize(gtk_check_button_get_active(copyLastPageSizeButton));
 
     GdkRGBA color;
-    gtk_color_chooser_get_rgba(backgroundColorChooser, &color);
+    color = *gtk_color_dialog_button_get_rgba(backgroundColorChooser);
     model.setBackgroundColor(Util::GdkRGBA_to_argb(color));
 }
 

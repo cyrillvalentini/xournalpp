@@ -1,5 +1,6 @@
 #include "SelectBackgroundColorDialog.h"
 
+#include <algorithm>  // for min
 #include <cstdint>    // for uint32_t
 #include <string>     // for allocator
 
@@ -59,40 +60,111 @@ SelectBackgroundColorDialog::SelectBackgroundColorDialog(Control* control, std::
     }
 
 
-    window.reset(GTK_WINDOW(gtk_color_chooser_dialog_new(_("Select background color"), nullptr)));
-    GtkColorChooser* chooser = GTK_COLOR_CHOOSER(window.get());
-    gtk_color_chooser_set_use_alpha(chooser, false);
+    lastBackgroundColorCount = index;
 
-    gtk_color_chooser_add_palette(chooser, GTK_ORIENTATION_HORIZONTAL, 9, background1.size(), background1.data());
+    window.reset(GTK_WINDOW(gtk_window_new()));
+    gtk_window_set_title(window.get(), _("Select background color"));
+    gtk_window_set_resizable(window.get(), false);
 
-    gtk_color_chooser_add_palette(chooser, GTK_ORIENTATION_HORIZONTAL, 9, backgroundXournal.size(),
-                                  backgroundXournal.data());
+    GtkWidget* box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+    gtk_widget_set_margin_top(box, 18);
+    gtk_widget_set_margin_bottom(box, 18);
+    gtk_widget_set_margin_start(box, 18);
+    gtk_widget_set_margin_end(box, 18);
+    gtk_window_set_child(window.get(), box);
 
-    // Last used colors (only by background, the general last used are shared with the
-    // pen and highlighter etc.)
-    gtk_color_chooser_add_palette(chooser, GTK_ORIENTATION_HORIZONTAL, 9, static_cast<int>(lastBackgroundColors.size()),
-                                  lastBackgroundColors.data());
+    gtk_box_append(GTK_BOX(box), makeSwatchRow(_("Background colors"), background1.data(), background1.size()));
+    gtk_box_append(GTK_BOX(box),
+                   makeSwatchRow(_("Xournal colors"), backgroundXournal.data(), backgroundXournal.size()));
+    // Last used colors (only by background, the general last used are shared with the pen and highlighter etc.)
+    if (lastBackgroundColorCount > 0) {
+        gtk_box_append(GTK_BOX(box),
+                       makeSwatchRow(_("Recently used"), lastBackgroundColors.data(), lastBackgroundColorCount));
+    }
 
-    g_signal_connect(window.get(), "response",
-                     G_CALLBACK(+[](GtkColorChooser*, int response, SelectBackgroundColorDialog* self) {
-                         if (response == GTK_RESPONSE_DELETE_EVENT) {
-                             // Ignore DELETE_EVENT, as this is caught by the PopupWindowWrapper
-                             return;
-                         }
-                         if (response == GTK_RESPONSE_OK) {
-                             GdkRGBA color;
-                             gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(self->window.get()), &color);
-                             self->storeLastUsedValuesInSettings(color);
-                             self->callback(Util::GdkRGBA_to_argb(color));
-                         }
-                         gtk_window_close(self->window.get());
+    GtkWidget* buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+    gtk_widget_set_halign(buttons, GTK_ALIGN_END);
+    gtk_widget_set_margin_top(buttons, 6);
+    GtkWidget* custom = gtk_button_new_with_mnemonic(_("_Custom…"));
+    GtkWidget* cancel = gtk_button_new_with_mnemonic(_("_Cancel"));
+    gtk_box_append(GTK_BOX(buttons), custom);
+    gtk_box_append(GTK_BOX(buttons), cancel);
+    gtk_box_append(GTK_BOX(box), buttons);
+
+    g_signal_connect_swapped(cancel, "clicked", G_CALLBACK(gtk_window_close), window.get());
+    g_signal_connect(custom, "clicked", G_CALLBACK(+[](GtkButton*, gpointer d) {
+                         auto* self = static_cast<SelectBackgroundColorDialog*>(d);
+                         GtkColorDialog* dlg = gtk_color_dialog_new();
+                         gtk_color_dialog_set_with_alpha(dlg, false);
+                         gtk_color_dialog_set_title(dlg, _("Select background color"));
+                         gtk_color_dialog_choose_rgba(
+                                 dlg, self->window.get(), &self->lastBackgroundColors[0], nullptr,
+                                 +[](GObject* src, GAsyncResult* res, gpointer d) {
+                                     GdkRGBA* c = gtk_color_dialog_choose_rgba_finish(GTK_COLOR_DIALOG(src), res,
+                                                                                      nullptr);
+                                     if (c) {
+                                         static_cast<SelectBackgroundColorDialog*>(d)->choose(*c);
+                                         gdk_rgba_free(c);
+                                     }
+                                     g_object_unref(src);
+                                 },
+                                 self);
                      }),
                      this);
 }
 
+GtkWidget* SelectBackgroundColorDialog::makeSwatchRow(const char* title, const GdkRGBA* colors, size_t count) {
+    constexpr int SWATCH_SIZE = 28;
+
+    GtkWidget* row = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+    GtkWidget* label = gtk_label_new(title);
+    gtk_label_set_xalign(GTK_LABEL(label), 0);
+    gtk_widget_add_css_class(label, "heading");
+    gtk_box_append(GTK_BOX(row), label);
+
+    GtkWidget* swatches = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+    for (size_t i = 0; i < count; i++) {
+        GtkWidget* button = gtk_button_new();
+        gtk_widget_add_css_class(button, "flat");
+        gtk_widget_add_css_class(button, "circular");
+        GtkWidget* area = gtk_drawing_area_new();
+        gtk_drawing_area_set_content_width(GTK_DRAWING_AREA(area), SWATCH_SIZE);
+        gtk_drawing_area_set_content_height(GTK_DRAWING_AREA(area), SWATCH_SIZE);
+        gtk_drawing_area_set_draw_func(
+                GTK_DRAWING_AREA(area),
+                +[](GtkDrawingArea*, cairo_t* cr, int w, int h, gpointer c) {
+                    const auto* color = static_cast<const GdkRGBA*>(c);
+                    cairo_arc(cr, w / 2.0, h / 2.0, std::min(w, h) / 2.0 - 1, 0, 2 * G_PI);
+                    gdk_cairo_set_source_rgba(cr, color);
+                    cairo_fill_preserve(cr);
+                    cairo_set_source_rgba(cr, 0.5, 0.5, 0.5, 0.5);  // keeps light colours visible
+                    cairo_set_line_width(cr, 1);
+                    cairo_stroke(cr);
+                },
+                const_cast<GdkRGBA*>(&colors[i]), nullptr);
+        gtk_button_set_child(GTK_BUTTON(button), area);
+
+        g_object_set_data(G_OBJECT(button), "xopp-color", const_cast<GdkRGBA*>(&colors[i]));
+        g_signal_connect(button, "clicked", G_CALLBACK(+[](GtkButton* b, gpointer d) {
+                             auto* color = static_cast<GdkRGBA*>(g_object_get_data(G_OBJECT(b), "xopp-color"));
+                             static_cast<SelectBackgroundColorDialog*>(d)->choose(*color);
+                         }),
+                         this);
+        gtk_box_append(GTK_BOX(swatches), button);
+    }
+    gtk_box_append(GTK_BOX(row), swatches);
+    return row;
+}
+
+void SelectBackgroundColorDialog::choose(GdkRGBA color) {
+    storeLastUsedValuesInSettings(color);
+    callback(Util::GdkRGBA_to_argb(color));
+    gtk_window_close(window.get());  // Destroys *this (see PopupWindowWrapper)
+}
+
 void SelectBackgroundColorDialog::storeLastUsedValuesInSettings(GdkRGBA color) {
-    for (auto& lastBackgroundColor: lastBackgroundColors) {
-        if (gdk_rgba_equal(&lastBackgroundColor, &color)) {
+    for (size_t i = 0; i < lastBackgroundColorCount; i++) {
+        if (gdk_rgba_equal(&lastBackgroundColors[i], &color)) {
             // The new color is already in the list, do not save
             return;
         }
@@ -105,11 +177,12 @@ void SelectBackgroundColorDialog::storeLastUsedValuesInSettings(GdkRGBA color) {
     for (size_t i = LAST_BACKGROUND_COLOR_COUNT - 1; i > 0; i--) {
         lastBackgroundColors[i] = lastBackgroundColors[i - 1];
     }
-
     lastBackgroundColors[0] = color;
+    lastBackgroundColorCount = std::min<size_t>(lastBackgroundColorCount + 1, LAST_BACKGROUND_COLOR_COUNT);
 
-    el.setInt("count", LAST_BACKGROUND_COLOR_COUNT);
-    for (size_t i = 0; i < LAST_BACKGROUND_COLOR_COUNT; i++) {
+    // Only the colors actually used are stored (older versions padded the list with white)
+    el.setInt("count", static_cast<int>(lastBackgroundColorCount));
+    for (size_t i = 0; i < lastBackgroundColorCount; i++) {
         char* settingName = g_strdup_printf("color%02zu", i);
         el.setIntHex(settingName, int(uint32_t(Util::GdkRGBA_to_argb(lastBackgroundColors[i]))));
         g_free(settingName);

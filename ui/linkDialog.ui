@@ -24,12 +24,14 @@
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <child>
-                  <object class="GtkFontButton" id="btnFontChooser">
+                  <object class="GtkFontDialogButton" id="btnFontChooser">
+                    <property name="dialog">
+                      <object class="GtkFontDialog">
+                      </object>
+                    </property>
                     <property name="focusable">1</property>
                     <property name="receives-default">1</property>
                     <property name="margin-end">10</property>
-                    <property name="font">Sans 12</property>
-                    <property name="preview-text"></property>
                   </object>
                 </child>
                 <child>

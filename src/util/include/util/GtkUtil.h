@@ -32,5 +32,12 @@ std::optional<double> getWidgetDPI(GtkWidget* w);
 
 /// Translate the point from GdkSurface coordinates to widget coordinates
 xoj::util::Point<double> gdkSurfaceToWidgetCoordinates(xoj::util::Point<double> p, GtkWidget* w);
+
+/**
+ * @brief GTK's colour chooser dialog (shown by GtkColorDialog and GtkColorDialogButton) keeps the size of its palette
+ * view when the user switches to the custom colour editor, which then gets a scrollbar. Call once at start-up: it
+ * watches for such dialogs and enlarges them to fit the editor.
+ */
+void installColorChooserDialogSizeFix();
 };  // namespace gtk
 };  // namespace xoj::util

@@ -73,7 +73,7 @@ private:
     // Sub-widgets, owned by this->window
     GtkLabel* pageSizeLabel;
     GtkLabel* backgroundTypeLabel;
-    GtkColorChooser* backgroundColorChooser;
+    GtkColorDialogButton* backgroundColorChooser;
     GtkCheckButton* copyLastPageButton;
     GtkCheckButton* copyLastPageSizeButton;
 };

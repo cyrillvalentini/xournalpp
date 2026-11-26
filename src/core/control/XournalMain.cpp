@@ -39,6 +39,7 @@
 #include "util/PlaceholderString.h"          // for PlaceholderString
 #include "util/Util.h"                       // for execWhenIdle
 #include "util/VersionInfo.h"                // for getVersionInfo
+#include "util/GtkUtil.h"
 #include "util/XojMsgBox.h"                  // for XojMsgBox
 #include "util/i18n.h"                       // for _, FS, _F
 
@@ -425,6 +426,7 @@ void on_open_files(GApplication* application, gpointer f, gint numFiles, gchar* 
 
 void on_startup(GApplication* application, XMPtr app_data) {
     XournalMain::initLocalisation();
+    xoj::util::gtk::installColorChooserDialogSizeFix();
     ensure_input_model_compatibility();
     const MigrateResult migrateResult = migrateSettings();
 

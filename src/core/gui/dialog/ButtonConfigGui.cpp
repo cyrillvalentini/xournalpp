@@ -191,7 +191,7 @@ void ButtonConfigGui::loadSettings() {
     }
 
     GdkRGBA color = Util::rgb_to_GdkRGBA(cfg->color.value_or(Colors::black));
-    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(colorButton), &color);
+    gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(colorButton), &color);
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(cbColor), cfg->color.has_value() ? 1 : 0);
 
@@ -251,7 +251,7 @@ void ButtonConfigGui::saveSettings() {
         cfg->color = std::nullopt;
     } else {
         GdkRGBA color;
-        gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(colorButton), &color);
+        color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(colorButton));
         cfg->color = Util::GdkRGBA_to_argb(color);
     }
 
