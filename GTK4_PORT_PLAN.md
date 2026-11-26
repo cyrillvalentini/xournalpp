@@ -192,7 +192,7 @@ First round (user, 2026-11-26, GNOME/Wayland laptop):
   → fixed in commit "gtk4: render sidebar miniatures after inserting or deleting a page"; confirmed by the user.
 - "No device found" warning (device list empty on a fresh start): GTK4 on Wayland reports no vendor/product ids for mice/touchpads, which an old X11-only filter dropped; mouse/touchpad events arrive via the logical "Core Pointer". → fixed in commit "gtk4: list the logical pointer as input device on Wayland"; confirmed by the user. Open: check how pen/touchscreen events are attributed once a pen is available.
 - Stylus: not testable yet (no pen available).
-- Pen and highlighter cursors: **the normal arrow shows instead of the coloured dot** (also in PR #5615 unchanged) → phase 2, high.
+- Pen and highlighter cursors: **the normal arrow showed instead of the coloured dot** (also in PR #5615 unchanged): with GPU renderers + fractional scaling, cursor images smaller than ~32 px are not shown → fixed in commit "gtk4: pad small custom cursor images to 32x32"; confirmed by the user.
 - Highlighter: **the stroke only appeared after releasing** (also in PR #5615 unchanged): GTK4 GPU renderers drop MULTIPLY content of the canvas cairo node on screen → fixed in commit "gtk4: draw live stroke previews with OVER…"; confirmed by the user.
 
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
