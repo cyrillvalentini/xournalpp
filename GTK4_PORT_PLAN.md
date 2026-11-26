@@ -1,6 +1,6 @@
 # Xournal# — GTK4 port plan
 
-Status: phase 0 done 2026-11-26 (branch `gtk4-port` set up); phase 1 next. Research base: upstream `master` at
+Status: phase 0 done; phase 1 part A (build, tests, test-display smoke test) done 2026-11-26; part B (real desktop) next. Research base: upstream `master` at
 `c9e7786` (2026-11-25), our `modern-ui` branch at `a5a0f93`.
 
 ## 1. Recommendation in one paragraph
@@ -148,6 +148,50 @@ Effort estimates assume one person part-time; they're rough.
 3. Note every regression in a tracking list (GitHub issues on our fork). Measure drawing latency and CPU against GTK3.
 
 Exit: a written regression list with priorities.
+
+#### Phase 1 results (part A, 2026-11-26) — automated build/tests + test-display smoke test
+
+Environment: Fedora 45, GTK 4.24.2, gtksourceview 5.22.0; branch `gtk4-port` at `5e250f3a3` (= PR #5615 +
+plan). Smoke test in a GTK4 Broadway test display with mouse and keyboard only.
+
+- **Build:** clean in 1½ min (`RelWithDebInfo`, `-DENABLE_GTEST=ON`). 0 errors.
+  - 36 warnings: 27 `-Wconversion`, 3 `-Wfloat-conversion` and 5 `-Wdeprecated-declarations`.
+  - The deprecations are internal: `LegacyRedrawable` (EraseHandler), `Image::setImage(GdkPixbuf*)` (Control.cpp:2411) and `std::wstring_convert` (Document.cpp:174).
+- **Tests:** 118 of 120 pass, including the GTK integration tests (run on Broadway).
+  - The 2 failures, `ControlLoadHandler.testImage_v4/_v5` (image binary data differs after a save/load round trip), **also fail on GTK3 master** at the same base (`4d6810b37`). So they are pre-existing and not a GTK4 regression, probably related to the gdk-pixbuf/libpng version on Fedora 45. → report upstream.
+- **Works:**
+  - start-up, opening a PDF and a `.xopp`, sidebar thumbnails (update live)
+  - pen strokes, undo/redo, standard eraser, text tool with keyboard input
+  - menus (popover menus), Preferences dialog (pages and widgets render)
+  - "save changes?" prompt, Save As with the in-process GTK file chooser, `.xopp` round trip (saved and re-opened), PDF export (valid PDF)
+- **Issues seen:**
+  | # | Issue | Priority | Phase |
+  |---|---|---|---|
+  | 1 | After closing a file dialog, Ctrl+Q did nothing until the menu was used (keyboard focus not returned to the main window?) — confirm on a real desktop | high if confirmed | 2 |
+  | 2 | `Gtk-WARNING: Use GtkSettings:gtk-interface-color-scheme instead` — dark-mode code uses `gtk-application-prefer-dark-theme`, deprecated in GTK 4.20 | medium | 3/4 (libadwaita `AdwStyleManager` replaces it) |
+  | 3 | `Implement ZoomHandler touchpad pinch` warning at start-up — touchpad pinch zoom not implemented (known) | high | 2 |
+  | 4 | Selected tool buttons: icon barely visible on the grey "checked" background | low | 4 |
+  | 5 | New untranslated string "Show shadow behind pages" in Preferences | low | 5 |
+  | 6 | New unsaved document: title shows no `*` modified marker (it does for opened files) — compare with GTK3 | low | 2 |
+  | 7 | Preferences window doesn't fit an 800×600 screen | low | 4 (`AdwPreferencesDialog`) |
+- **Test-tool problem, not Xournal++:** the GTK4 Broadway display server (`gtk4-broadwayd`) crashed (SIGSEGV, core dump at 10:34) during the session; the app then exited with code 1 because it lost its display. Remaining interactive tests move to the real desktop.
+
+#### Phase 1 part B — real desktop (to do, needs the user's hardware)
+
+Test build: `~/claude-playground/xournalpp/run-gtk4.sh` (installed in `~/claude-playground/xournalpp/prefix-gtk4`,
+own settings in `~/claude-playground/xournalpp/test-config-gtk4`; runs next to Xournal++/Xournal#, as the GTK4 branch
+starts non-unique instances). Checklist:
+
+- [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
+- [ ] Touch: drawing on/off setting, palm rejection, touchscreen scroll and pinch zoom
+- [ ] Touchpad: two-finger scroll, pinch zoom, tap for floating toolbox
+- [ ] Keyboard focus after dialogs (issue 1), shortcuts in text boxes
+- [ ] Selection tools, move/resize/rotate, copy/paste inside and to other apps, drag-and-drop of images
+- [ ] Highlighter, shapes/ruler/spline, image insert, LaTeX, links
+- [ ] Toolbar customisation (drag-and-drop), layers, page add/delete/move
+- [ ] Fullscreen, presentation mode, zoom fit/100 %
+- [ ] Audio recording/playback, plugins menu
+- [ ] HiDPI / fractional scaling sharpness; CPU use while drawing
 
 ### Phase 2 — Fix blockers for daily use on GNOME/Wayland (1–3 weeks)
 1. **Input:**
