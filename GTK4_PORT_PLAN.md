@@ -185,7 +185,7 @@ starts non-unique instances). Checklist:
 First round (user, 2026-11-26, GNOME/Wayland laptop):
 - Drawing performance with mouse/touchpad: on par with GTK3.
 - Touchpad two-finger scroll: works.
-- Touchpad pinch zoom: **doesn't work** (matches issue 3) → phase 2, high.
+- Touchpad pinch zoom: **didn't work** (matches issue 3) → fixed in commit "gtk4: restore touchpad pinch zoom"; confirmed by the user.
 - Adding a page: **the new page's sidebar thumbnail kept its loading spinner for a long time.** Timing logs on the
   real desktop showed the main page renders and paints within 15–40 ms; the delay was the sidebar: GTK4 sidebar
   miniatures are only rendered on scroll/resize, and inserting (or deleting) a page triggered neither.
@@ -195,7 +195,7 @@ First round (user, 2026-11-26, GNOME/Wayland laptop):
 
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
 - [ ] Touch: drawing on/off setting, palm rejection, touchscreen scroll and pinch zoom
-- [x] Touchpad: two-finger scroll works; pinch zoom broken; tap for floating toolbox not yet checked
+- [x] Touchpad: two-finger scroll and pinch zoom work; tap for floating toolbox not yet checked
 - [ ] Keyboard focus after dialogs (issue 1), shortcuts in text boxes
 - [ ] Selection tools, move/resize/rotate, copy/paste inside and to other apps, drag-and-drop of images
 - [ ] Highlighter, shapes/ruler/spline, image insert, LaTeX, links
