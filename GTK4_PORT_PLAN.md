@@ -259,7 +259,10 @@ Progress:
 - [x] Colour/font buttons and dialogs (345 → 308). Background colour dialog rebuilt as swatches + "Custom…"; colour editor size fix; confirmed on the real desktop.
 - [x] Misc/geometry, CSS, pixbuf → texture (308 → 237). Left: internal `LegacyRedrawable`, `Image::setImage(GdkPixbuf*)`,
   `std::wstring_convert` (not GTK; separate cleanup). Confirmed on the real desktop.
-- [ ] Combo boxes
+- [x] Combo boxes → `GtkDropDown` via `util/DropDown` (237 → 94). Confirmed on the real desktop.
+- Found while testing (both inherited from PR #5615, fixed and confirmed): links opened the help page
+  (`XojMsgBox::openURL` ignored its argument); pages didn't re-centre on window resize (missing
+  `recomputeCenteringPadding` in `size_allocate`).
 - [ ] Tree views
 - [ ] Message dialogs
 
