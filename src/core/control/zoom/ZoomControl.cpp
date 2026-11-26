@@ -20,37 +20,6 @@
 
 using xoj::util::Rectangle;
 
-/*
- *  GTK3 code for handling touchpad pinch event
- *  Todo: Figure out how to handle this in GTK4, probably using a GtkGestureZoom instance
- */
-// auto onTouchpadPinchEvent(GtkWidget* widget, GdkEventTouchpadPinch* event, ZoomControl* zoom) -> bool {
-//     if (event->type == GDK_TOUCHPAD_PINCH && event->n_fingers == 2) {
-//         switch (event->phase) {
-//             case GDK_TOUCHPAD_GESTURE_PHASE_BEGIN: {
-//                 if (zoom->isZoomFitMode()) {
-//                     zoom->setZoomFitMode(false);
-//                 }
-//                 xoj::util::Point<double> center;
-//                 gdk_event_get_coords((GdkEvent*)event, &center.x, &center.y);
-//                 zoom->startZoomSequence(center);
-//                 break;
-//             }
-//             case GDK_TOUCHPAD_GESTURE_PHASE_UPDATE:
-//                 zoom->zoomSequenceChange(event->scale, true);
-//                 break;
-//             case GDK_TOUCHPAD_GESTURE_PHASE_END:
-//                 zoom->endZoomSequence();
-//                 break;
-//             case GDK_TOUCHPAD_GESTURE_PHASE_CANCEL:
-//                 zoom->cancelZoomSequence();
-//                 break;
-//         }
-//         return true;
-//     }
-//     return false;
-// }
-
 auto ZoomControl::withZoomStep(ZoomDirection direction, double zoomStep) const -> double {
     double multiplier = 1.0 + zoomStep;
     double newZoom;
@@ -193,10 +162,6 @@ void ZoomControl::initZoomHandler(GtkScrolledWindow* scrolledWindow, XournalView
     this->control = c;
     this->view = v;
 
-    g_warning("Implement ZoomHandler touchpad pinch");
-    // GTK3 code for handling touchpad pinch zoom. See top of file comment
-    // g_signal_connect(widget, "event", xoj::util::wrap_for_g_callback_v<onTouchpadPinchEvent>, this);
-
 
     /*** Setup `Ctrl + vertical scroll` for zooming in or out ***/
     // GtkEventControllerScroll has no easy access to the pointer's position:
@@ -211,6 +176,43 @@ void ZoomControl::initZoomHandler(GtkScrolledWindow* scrolledWindow, XournalView
                          return false;  // Let other callbacks do their deed
                      })),
                      this);
+    /*** Setup touchpad pinch for zooming ***/
+    // A GtkGestureZoom would also react to two-finger touchscreen gestures, which TouchInputHandler already turns
+    // into zooming. A legacy controller lets us handle touchpad pinch events only, like the GTK3 version did.
+    auto* pinch = gtk_event_controller_legacy_new();
+    gtk_widget_add_controller(GTK_WIDGET(scrolledWindow), pinch);
+    gtk_event_controller_set_propagation_phase(pinch, GTK_PHASE_CAPTURE);
+    g_signal_connect(pinch, "event", G_CALLBACK(+[](GtkEventControllerLegacy*, GdkEvent* ev, gpointer d) -> gboolean {
+                         if (gdk_event_get_event_type(ev) != GDK_TOUCHPAD_PINCH ||
+                             gdk_touchpad_event_get_n_fingers(ev) != 2) {
+                             return false;
+                         }
+                         auto* self = static_cast<ZoomControl*>(d);
+                         switch (gdk_touchpad_event_get_gesture_phase(ev)) {
+                             case GDK_TOUCHPAD_GESTURE_PHASE_BEGIN:
+                                 if (self->isZoomFitMode()) {
+                                     self->setZoomFitMode(false);
+                                 }
+                                 // Zoom around the pointer (tracked in widget coordinates by the motion controller)
+                                 self->startZoomSequence(self->pointerWidgetPosition);
+                                 break;
+                             case GDK_TOUCHPAD_GESTURE_PHASE_UPDATE:
+                                 if (self->isZoomSequenceActive()) {
+                                     // The scale is relative to the start of the gesture
+                                     self->zoomSequenceChange(gdk_touchpad_event_get_pinch_scale(ev), true);
+                                 }
+                                 break;
+                             case GDK_TOUCHPAD_GESTURE_PHASE_END:
+                                 self->endZoomSequence();
+                                 break;
+                             case GDK_TOUCHPAD_GESTURE_PHASE_CANCEL:
+                                 self->cancelZoomSequence();
+                                 break;
+                         }
+                         return true;
+                     }),
+                     this);
+
     // We use GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES so that horizontal scroll are ignored if Ctrl is pressed
     auto* ctrl = gtk_event_controller_scroll_new(GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES);
     gtk_widget_add_controller(GTK_WIDGET(scrolledWindow), ctrl);
