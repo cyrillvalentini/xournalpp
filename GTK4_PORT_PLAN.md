@@ -167,7 +167,7 @@ plan). Smoke test in a GTK4 Broadway test display with mouse and keyboard only.
 - **Issues seen:**
   | # | Issue | Priority | Phase |
   |---|---|---|---|
-  | 1 | After closing a file dialog, Ctrl+Q did nothing until the menu was used (keyboard focus not returned to the main window?) — confirm on a real desktop | high if confirmed | 2 |
+  | 1 | ~~After closing a file dialog, Ctrl+Q did nothing until the menu was used~~ — not reproducible on the real desktop (GNOME portal dialogs; Ctrl+Z/Ctrl+Y/Ctrl+Q all work right after cancelling Save As / Open). Broadway test-display quirk. | closed | — |
   | 2 | `Gtk-WARNING: Use GtkSettings:gtk-interface-color-scheme instead` — dark-mode code uses `gtk-application-prefer-dark-theme`, deprecated in GTK 4.20 | medium | 3/4 (libadwaita `AdwStyleManager` replaces it) |
   | 3 | `Implement ZoomHandler touchpad pinch` warning at start-up — touchpad pinch zoom not implemented (known) | high | 2 |
   | 4 | Selected tool buttons: icon barely visible on the grey "checked" background | low | 4 |
@@ -196,7 +196,8 @@ First round (user, 2026-11-26, GNOME/Wayland laptop):
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
 - [ ] Touch: drawing on/off setting, palm rejection, touchscreen scroll and pinch zoom
 - [x] Touchpad: two-finger scroll and pinch zoom work; tap for floating toolbox not yet checked
-- [ ] Keyboard focus after dialogs (issue 1), shortcuts in text boxes
+- [x] Keyboard focus after dialogs (issue 1): works on the real desktop
+- [ ] Shortcuts in text boxes
 - [ ] Selection tools, move/resize/rotate, copy/paste inside and to other apps, drag-and-drop of images
 - [ ] Highlighter, shapes/ruler/spline, image insert, LaTeX, links
 - [ ] Toolbar customisation (drag-and-drop), layers, page add/delete/move
