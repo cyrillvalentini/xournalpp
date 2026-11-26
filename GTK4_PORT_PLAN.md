@@ -233,6 +233,24 @@ Exit: Xournal# GTK4 usable for a week of real note-taking without falling back t
 
 Exit: builds warning-free with deprecations enabled.
 
+#### Phase 3 inventory (2026-11-26)
+
+GTK minimum raised to 4.14 (`gtk4 >= 4.14.0`, `GDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_14`). The build then reports
+**366 deprecated call sites** in about 40 files. The UI files additionally use 21 `GtkComboBoxText`, 6 `GtkComboBox`,
+10 `GtkColorButton`, 2 `GtkFontButton`, 1 `GtkTreeView` and 1 `GtkStatusbar`.
+
+| Group | Calls | Main files | Replacement |
+|---|---|---|---|
+| Combo boxes | ~115 | SettingsDialog, ButtonConfigGui, ExportDialog, FormatDialog, PaperFormatUtils, LanguageConfigGui, DeviceClassConfigGui | `GtkDropDown` + `GtkStringList` |
+| Tree views, list/tree stores, cell renderers | ~95 | SidebarIndexPage (PDF outline), ToolbarManageDialog, LanguageConfigGui, ButtonConfigGui | `GtkListView`/`GtkColumnView`, `GtkTreeListModel` for the outline |
+| Colour/font choosers | ~35 | SettingsDialog, SelectBackgroundColorDialog, LatexSettingsPanel | `GtkColorDialogButton`, `GtkColorDialog`, `GtkFontDialogButton` |
+| File choosers | ~30 | XojOpenDlg, XojSaveDlg, FileChooserFiltersHelper, SettingsDialog | `GtkFileDialog` |
+| Widget geometry/visibility | ~45 | many | `gtk_widget_set_visible`, `gtk_widget_get_width/height`, `gtk_widget_compute_point/bounds` |
+| Message dialogs | ~12 | XojMsgBox | `GtkAlertDialog` now / `AdwAlertDialog` in phase 4 |
+| Misc | ~30 | various | `GtkStyleContext` → CSS classes, `gtk_css_provider_load_from_string`, `gdk_pixbuf_get_from_surface` → texture, `GTK_ALIGN_BASELINE_FILL`, `gtk_drop_target_get_current_drop`, internal `LegacyRedrawable`, `std::wstring_convert` |
+
+Order of work: file dialogs → colour/font → misc/geometry → combo boxes → tree views → message dialogs.
+
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)
 1. Add `libadwaita-1` to CMake; `AdwApplication`; `AdwApplicationWindow` + `AdwToolbarView` holding the classic menubar and toolbars at the top and the page/zoom bar at the bottom.
 2. Theme: follow `AdwStyleManager` (dark + accent); remove `SystemAppearance`, `adwaita.css`, the generated palette; keep the "use system accent colour" and canvas-background behaviour.
