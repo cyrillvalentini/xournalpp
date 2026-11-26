@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "XournalppCursor.h"
 
 #include <cmath>             // for cos, sin, M_PI, NAN, fmod
@@ -341,7 +342,27 @@ void XournalppCursor::updateCursor() {
 
 /// Assumes ownership of s
 static GdkCursor* surfaceToCursor(cairo_surface_t* s, int w, int h, int cx, int cy) {
-    // The surface is exactly w x h (callers create it that size)
+    /*
+     * Very small cursor images (e.g. the 8x8 dot of a thin pen) are not displayed with GTK4's GPU renderers on
+     * Wayland with fractional scaling; GTK shows the default arrow instead. The same image centred in a 32x32
+     * surface works, so pad small images (transparent border, hotspot shifted accordingly).
+     */
+    constexpr int MIN_CURSOR_SIZE = 32;
+    if (w < MIN_CURSOR_SIZE || h < MIN_CURSOR_SIZE) {
+        const int paddedW = std::max(w, MIN_CURSOR_SIZE);
+        const int paddedH = std::max(h, MIN_CURSOR_SIZE);
+        const int dx = (paddedW - w) / 2;
+        const int dy = (paddedH - h) / 2;
+        cairo_surface_t* padded = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, paddedW, paddedH);
+        cairo_t* cr = cairo_create(padded);
+        cairo_set_source_surface(cr, s, dx, dy);
+        cairo_paint(cr);
+        cairo_destroy(cr);
+        cairo_surface_destroy(s);
+        s = padded;
+        cx += dx;
+        cy += dy;
+    }
     GdkTexture* texture = xoj::util::gtk::textureFromCairoSurface(s);
     cairo_surface_destroy(s);
     GdkCursor* cursor = gdk_cursor_new_from_texture(texture, cx, cy, nullptr);
