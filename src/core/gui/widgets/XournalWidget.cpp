@@ -163,6 +163,10 @@ static void gtk_xournal_size_allocate(GtkWidget* widget, int width, int height, 
     gtk_adjustment_set_page_size(xournal->hadjustment, width);
     gtk_adjustment_set_page_size(xournal->vadjustment, height);
 
+    // Keep the pages centred when the widget is resized (as in the GTK3 version; otherwise the padding is only
+    // recomputed on the next zoom change)
+    gtk_xournal_get_layout(widget)->recomputeCenteringPadding(width, height);
+
     for (auto* p: *xournal->popovers) {
         gtk_popover_present(p);
     }
