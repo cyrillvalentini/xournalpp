@@ -88,6 +88,9 @@ void SidebarPreviewPages::pageDeleted(size_t page) {
     updateIndices();
 
     layout();
+
+    // Miniatures that moved into view need rendering too (they're otherwise only rendered on scroll/resize)
+    ensureVisibleAreRendered();
 }
 
 void SidebarPreviewPages::pageInserted(size_t page) {
@@ -105,6 +108,11 @@ void SidebarPreviewPages::pageInserted(size_t page) {
     updateIndices();
 
     layout();
+
+    // Miniatures are otherwise only rendered when the sidebar scrolls or resizes. Without this, the new page's
+    // miniature (usually the one about to be shown) keeps its loading spinner until the user scrolls the sidebar.
+    this->previews[page]->ensureRendered();
+    ensureVisibleAreRendered();
 }
 
 /**
