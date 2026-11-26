@@ -192,6 +192,8 @@ First round (user, 2026-11-26, GNOME/Wayland laptop):
   → fixed in commit "gtk4: render sidebar miniatures after inserting or deleting a page"; confirmed by the user.
 - "No device found" warning (device list empty on a fresh start): GTK4 on Wayland reports no vendor/product ids for mice/touchpads, which an old X11-only filter dropped; mouse/touchpad events arrive via the logical "Core Pointer". → fixed in commit "gtk4: list the logical pointer as input device on Wayland"; confirmed by the user. Open: check how pen/touchscreen events are attributed once a pen is available.
 - Stylus: not testable yet (no pen available).
+- Pen and highlighter cursors: **the normal arrow shows instead of the coloured dot** (also in PR #5615 unchanged) → phase 2, high.
+- Highlighter: **the stroke only appears after releasing** (also in PR #5615 unchanged) → phase 2, high.
 
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
 - [ ] Touch: drawing on/off setting, palm rejection, touchscreen scroll and pinch zoom
@@ -255,7 +257,8 @@ Progress:
 - [x] File dialogs → `GtkFileDialog` (366 → 345 deprecated sites). The "attach file" checkbox became the setting
   "Attach PDF and image backgrounds to the journal" (user's choice); confirmed on the real desktop.
 - [x] Colour/font buttons and dialogs (345 → 308). Background colour dialog rebuilt as swatches + "Custom…"; colour editor size fix; confirmed on the real desktop.
-- [ ] Misc/geometry
+- [x] Misc/geometry, CSS, pixbuf → texture (308 → 237). Left: internal `LegacyRedrawable`, `Image::setImage(GdkPixbuf*)`,
+  `std::wstring_convert` (not GTK; separate cleanup). Confirmed on the real desktop.
 - [ ] Combo boxes
 - [ ] Tree views
 - [ ] Message dialogs
