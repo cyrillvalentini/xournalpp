@@ -182,9 +182,20 @@ Test build: `~/claude-playground/xournalpp/run-gtk4.sh` (installed in `~/claude-
 own settings in `~/claude-playground/xournalpp/test-config-gtk4`; runs next to Xournal++/Xournal#, as the GTK4 branch
 starts non-unique instances). Checklist:
 
+First round (user, 2026-11-26, GNOME/Wayland laptop):
+- Drawing performance with mouse/touchpad: on par with GTK3.
+- Touchpad two-finger scroll: works.
+- Touchpad pinch zoom: **doesn't work** (matches issue 3) → phase 2, high.
+- Adding a page: **the new page's sidebar thumbnail kept its loading spinner for a long time.** Timing logs on the
+  real desktop showed the main page renders and paints within 15–40 ms; the delay was the sidebar: GTK4 sidebar
+  miniatures are only rendered on scroll/resize, and inserting (or deleting) a page triggered neither.
+  → fixed in commit "gtk4: render sidebar miniatures after inserting or deleting a page"; to be confirmed by the user.
+- "No device found" warning on the real desktop too (device list empty) → phase 2: check device detection with GTK4.
+- Stylus: not testable yet (no pen available).
+
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
 - [ ] Touch: drawing on/off setting, palm rejection, touchscreen scroll and pinch zoom
-- [ ] Touchpad: two-finger scroll, pinch zoom, tap for floating toolbox
+- [x] Touchpad: two-finger scroll works; pinch zoom broken; tap for floating toolbox not yet checked
 - [ ] Keyboard focus after dialogs (issue 1), shortcuts in text boxes
 - [ ] Selection tools, move/resize/rotate, copy/paste inside and to other apps, drag-and-drop of images
 - [ ] Highlighter, shapes/ruler/spline, image insert, LaTeX, links
