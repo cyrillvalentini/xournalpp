@@ -96,14 +96,14 @@ void Sidebar::setSelectedTab(size_t tab) {
     size_t i = 0;
     for (auto&& t: this->tabs) {
         if (tab == i) {
-            gtk_widget_show(t->getWidget());
+            gtk_widget_set_visible(t->getWidget(), true);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(t->tabButton), true);
             this->visibleTab = t->getWidget();
             this->currentTabIdx = i;
             t->enableSidebar();
         } else {
             t->disableSidebar();
-            gtk_widget_hide(t->getWidget());
+            gtk_widget_set_visible(t->getWidget(), false);
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(t->tabButton), false);
         }
 
@@ -140,10 +140,7 @@ void Sidebar::setTmpDisabled(bool disabled) {
 }
 
 void Sidebar::saveSize() {
-    GtkAllocation alloc;
-    gtk_widget_get_allocation(this->sidebarContents, &alloc);
-
-    this->control->getSettings()->setSidebarWidth(alloc.width);
+    this->control->getSettings()->setSidebarWidth(gtk_widget_get_width(this->sidebarContents));
 }
 
 size_t Sidebar::getNumberOfTabs() const { return this->tabs.size(); }

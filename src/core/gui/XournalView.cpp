@@ -199,9 +199,7 @@ auto XournalView::onKeyPressEvent(const KeyEvent& event) -> bool {
     }
 
     if (keyval == GDK_KEY_space) {
-        GtkAllocation alloc = {0};
-        gtk_widget_get_allocation(gtk_widget_get_parent(this->widget.get()), &alloc);
-        int windowHeight = alloc.height - scrollKeySize;
+        int windowHeight = gtk_widget_get_height(gtk_widget_get_parent(this->widget.get())) - scrollKeySize;
 
         if (!state) {
             layout->scrollRelative(0, windowHeight);
@@ -710,15 +708,11 @@ void XournalView::repaintSelection(bool evenWithoutSelection) {
 void XournalView::layoutPages() { this->getLayout()->recalculate(); }
 
 auto XournalView::getDisplayHeight() const -> int {
-    GtkAllocation allocation = {0};
-    gtk_widget_get_allocation(this->widget.get(), &allocation);
-    return allocation.height;
+    return gtk_widget_get_height(this->widget.get());
 }
 
 auto XournalView::getDisplayWidth() const -> int {
-    GtkAllocation allocation = {0};
-    gtk_widget_get_allocation(this->widget.get(), &allocation);
-    return allocation.width;
+    return gtk_widget_get_width(this->widget.get());
 }
 
 auto XournalView::isPageVisible(size_t page, int* visibleHeight) const -> bool {

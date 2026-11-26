@@ -96,6 +96,7 @@
 #include "undo/PageSizeChangeUndoAction.h"                       // for PageSizeChangeUndoAction
 #include "undo/SwapUndoAction.h"                                 // for SwapUndoAction
 #include "undo/UndoAction.h"                                     // for Undo...
+#include "util/GtkUtil.h"
 #include "util/Assert.h"                                         // for xoj_assert
 #include "util/Color.h"                                          // for oper...
 #include "util/PathUtil.h"                                       // for clea...
@@ -446,7 +447,7 @@ void Control::showFloatingToolbox(int x, int y) {
     GtkWidget* mainBox = this->getWindow()->get("mainBox");
 
     double mainBoxX, mainBoxY;
-    gtk_widget_translate_coordinates(mainWindow, mainBox, x, y, &mainBoxX, &mainBoxY);
+    xoj::util::gtk::translateCoordinates(mainWindow, mainBox, x, y, &mainBoxX, &mainBoxY);
 
     this->getWindow()->getFloatingToolbox()->show(mainBoxX, mainBoxY);
 }
@@ -2012,7 +2013,7 @@ void Control::block(const string& name) {
     this->pgState = GTK_PROGRESS_BAR(this->win->get("pgState"));
 
     gtk_label_set_text(this->lbState, name.c_str());
-    gtk_widget_show(this->statusbar);
+    gtk_widget_set_visible(this->statusbar, true);
 
     this->maxState = 100;
     this->isBlocking = true;
@@ -2028,7 +2029,7 @@ void Control::unblock() {
     getCursor()->setCursorBusy(false);
     disableSidebarTmp(false);
 
-    gtk_widget_hide(this->statusbar);
+    gtk_widget_set_visible(this->statusbar, false);
 
     this->isBlocking = false;
 }

@@ -5,6 +5,7 @@
 #include <glib.h>         // for gdouble
 
 #include "gui/Builder.h"
+#include "util/GtkUtil.h"
 #include "util/Stacktrace.h"
 #include "util/i18n.h"
 #include "util/raii/CairoWrappers.h"
@@ -110,7 +111,7 @@ void xoj::popup::SelectOpacityDialog::setPreviewImage(int alpha) {
         cairo_stroke(cr);
     }
 
-    xoj::util::GObjectSPtr<GdkPixbuf> pixbuf(
-            gdk_pixbuf_get_from_surface(surface.get(), 0, 0, PREVIEW_WIDTH, PREVIEW_HEIGTH), xoj::util::adopt);
-    gtk_picture_set_pixbuf(previewImage, pixbuf.get());
+    xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(surface.get()),
+                                               xoj::util::adopt);
+    gtk_picture_set_paintable(previewImage, GDK_PAINTABLE(texture.get()));
 }

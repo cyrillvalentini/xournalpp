@@ -738,7 +738,7 @@ void SettingsDialog::load() {
         gtk_spin_button_set_value(GTK_SPIN_BUTTON(builder.get("spDefaultSeekTime")), settings->getDefaultSeekTime());
     }
 #else
-    gtk_widget_hide(builder.get("audioRecordingTabBox"));
+    gtk_widget_set_visible(builder.get("audioRecordingTabBox"), false);
 #endif
 
     this->latexPanel.load(settings->latexSettings);

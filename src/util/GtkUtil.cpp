@@ -105,6 +105,32 @@ gboolean fitWindowToScrolledContent(gpointer data) {
 }
 }  // namespace
 
+GdkTexture* textureFromCairoSurface(cairo_surface_t* surface) {
+    cairo_surface_flush(surface);
+    const int width = cairo_image_surface_get_width(surface);
+    const int height = cairo_image_surface_get_height(surface);
+    const int stride = cairo_image_surface_get_stride(surface);
+    // Cairo's ARGB32 is premultiplied, native-endian 32 bit = GDK_MEMORY_DEFAULT; RGB24 leaves the alpha byte undefined
+    const GdkMemoryFormat format = cairo_image_surface_get_format(surface) == CAIRO_FORMAT_RGB24 ?
+                                           GDK_MEMORY_B8G8R8X8 :
+                                           GDK_MEMORY_DEFAULT;
+    GBytes* bytes = g_bytes_new(cairo_image_surface_get_data(surface), static_cast<gsize>(stride) * height);
+    GdkTexture* texture = gdk_memory_texture_new(width, height, format, bytes, static_cast<gsize>(stride));
+    g_bytes_unref(bytes);
+    return texture;
+}
+
+bool translateCoordinates(GtkWidget* from, GtkWidget* to, double x, double y, double* outX, double* outY) {
+    graphene_point_t in = GRAPHENE_POINT_INIT(static_cast<float>(x), static_cast<float>(y));
+    graphene_point_t out;
+    if (!gtk_widget_compute_point(from, to, &in, &out)) {
+        return false;
+    }
+    *outX = out.x;
+    *outY = out.y;
+    return true;
+}
+
 void installColorChooserDialogSizeFix() {
     g_signal_connect(gtk_window_get_toplevels(), "items-changed",
                      G_CALLBACK(+[](GListModel* list, guint pos, guint, guint added, gpointer) {

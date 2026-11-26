@@ -12,6 +12,7 @@
 #include "control/settings/Settings.h"       // for Settings
 #include "control/settings/SettingsEnums.h"  // for BUTTON_COUNT
 #include "gui/widgets/ToolbarBox.h"
+#include "util/GtkUtil.h"
 #include "util/glib_casts.h"
 
 #include "MainWindow.h"          // for MainWindow
@@ -99,7 +100,7 @@ void FloatingToolbox::showForConfiguration() {
 
 
 void FloatingToolbox::show() {
-    gtk_widget_show(this->floatingToolbox);
+    gtk_widget_set_visible(this->floatingToolbox, true);
     gtk_widget_set_visible(this->mainWindow->get("labelFloatingToolbox"), this->floatingToolboxState == configuration);
     gtk_widget_set_visible(this->mainWindow->get("showIfEmpty"),
                            this->floatingToolboxState != configuration && !hasWidgets());
@@ -111,7 +112,7 @@ void FloatingToolbox::hide() {
         this->floatingToolboxState = recalcSize;
     }
 
-    gtk_widget_hide(this->floatingToolbox);
+    gtk_widget_set_visible(this->floatingToolbox, false);
 }
 
 
@@ -134,7 +135,9 @@ auto FloatingToolbox::getOverlayPosition(GtkOverlay* overlay, GtkWidget* widget,
         return false;
     }
 
-    gtk_widget_get_allocation(widget, allocation);
+    // Only the size is used: the position is computed below
+    allocation->width = gtk_widget_get_width(widget);
+    allocation->height = gtk_widget_get_height(widget);
 
     if (self->floatingToolboxState != noChange || allocation->height < 2) {
         GtkRequisition natural;
@@ -156,9 +159,9 @@ auto FloatingToolbox::getOverlayPosition(GtkOverlay* overlay, GtkWidget* widget,
             // Clamp to scrolled window bounds with margin
             constexpr int margin = 10;
             int minX = margin;
-            int maxX = gtk_widget_get_allocated_width(scrolledWindow) - allocation->width - margin;
+            int maxX = gtk_widget_get_width(scrolledWindow) - allocation->width - margin;
             int minY = margin;
-            int maxY = gtk_widget_get_allocated_height(scrolledWindow) - allocation->height - margin;
+            int maxY = gtk_widget_get_height(scrolledWindow) - allocation->height - margin;
 
             // Ensure valid clamp bounds when toolbox is larger than viewport
             maxX = std::max(maxX, minX);
@@ -180,7 +183,7 @@ auto FloatingToolbox::getOverlayPosition(GtkOverlay* overlay, GtkWidget* widget,
 
     // Get scrolled window position relative to overlay
     double x, y;
-    gtk_widget_translate_coordinates(scrolledWindow, GTK_WIDGET(overlay), allocation->x, allocation->y, &x, &y);
+    xoj::util::gtk::translateCoordinates(scrolledWindow, GTK_WIDGET(overlay), allocation->x, allocation->y, &x, &y);
     allocation->x = round_cast<int>(x);
     allocation->y = round_cast<int>(y);
 

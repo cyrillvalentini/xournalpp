@@ -38,9 +38,9 @@ LinkPopover::~LinkPopover() {
     }
 }
 
-void LinkPopover::show() { gtk_widget_show(GTK_WIDGET(this->popover)); }
+void LinkPopover::show() { gtk_widget_set_visible(GTK_WIDGET(this->popover), true); }
 
-void LinkPopover::hide() { gtk_widget_hide(GTK_WIDGET(this->popover)); }
+void LinkPopover::hide() { gtk_widget_set_visible(GTK_WIDGET(this->popover), false); }
 
 void LinkPopover::popup() { gtk_popover_popup(this->popover); }
 

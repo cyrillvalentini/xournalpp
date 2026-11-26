@@ -40,10 +40,8 @@ auto Util::getPid() -> PID {
 }
 
 auto Util::paintBackgroundWhite(GtkWidget* widget, cairo_t* cr, void*) -> gboolean {
-    GtkAllocation alloc;
-    gtk_widget_get_allocation(widget, &alloc);
     cairo_set_source_rgb(cr, 1, 1, 1);
-    cairo_rectangle(cr, 0, 0, alloc.width, alloc.height);
+    cairo_rectangle(cr, 0, 0, gtk_widget_get_width(widget), gtk_widget_get_height(widget));
     cairo_fill(cr);
     return false;
 }

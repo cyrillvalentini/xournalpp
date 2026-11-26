@@ -433,7 +433,7 @@ auto TextEditor::iMRetrieveSurroundingCallback(GtkIMContext* context, TextEditor
     gtk_text_iter_forward_to_line_end(&end);
 
     auto text = xoj::util::OwnedCString::assumeOwnership(gtk_text_iter_get_slice(&start, &end));
-    gtk_im_context_set_surrounding(context, text.get(), -1, pos);
+    gtk_im_context_set_surrounding_with_selection(context, text.get(), -1, pos, pos);
 
     return true;
 }

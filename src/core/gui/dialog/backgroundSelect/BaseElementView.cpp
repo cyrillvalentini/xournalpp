@@ -53,8 +53,7 @@ void BaseElementView::repaint() {
 }
 
 void BaseElementView::paint(cairo_t* cr) {
-    GtkAllocation alloc;
-    gtk_widget_get_allocation(this->widget, &alloc);
+    GtkAllocation alloc{0, 0, gtk_widget_get_width(this->widget), gtk_widget_get_height(this->widget)};
 
     if (this->crBuffer == nullptr) {
         this->crBuffer = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, alloc.width, alloc.height);

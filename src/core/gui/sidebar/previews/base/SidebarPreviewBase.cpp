@@ -10,6 +10,7 @@
 #include "gui/Builder.h"       // for Builder
 #include "gui/MainWindow.h"    // for MainWindow
 #include "model/Document.h"    // for Document
+#include "util/GtkUtil.h"
 #include "util/Util.h"         // for npos
 #include "util/glib_casts.h"   // for wrap_for_once_v
 
@@ -143,17 +144,14 @@ auto SidebarPreviewBase::scrollToPreview(SidebarPreviewBase* sidebar) -> bool {
         GtkAdjustment* vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sidebar->scrollableBox.get()));
         GtkWidget* widget = p->getWidget();
 
-        GtkAllocation allocation;
-        gtk_widget_get_allocation(widget, &allocation);
-        int x = allocation.x;
-        int y = allocation.y;
-
-        if (x == -1) {
+        // Position within the miniatures container; not available until the widget has been allocated
+        graphene_rect_t bounds;
+        if (!gtk_widget_compute_bounds(widget, gtk_widget_get_parent(widget), &bounds)) {
             g_idle_add(xoj::util::wrap_for_once_v<scrollToPreview>, sidebar);
             return false;
         }
 
-        gtk_adjustment_clamp_page(vadj, y, y + allocation.height);
+        gtk_adjustment_clamp_page(vadj, bounds.origin.y, bounds.origin.y + bounds.size.height);
     }
     return false;
 }
@@ -164,7 +162,7 @@ void SidebarPreviewBase::pageInserted(size_t page) {}
 
 void SidebarPreviewBase::openPreviewContextMenu(double x, double y, GtkWidget* entry) {
     double newX, newY;
-    gtk_widget_translate_coordinates(entry, GTK_WIDGET(miniaturesContainer.get()), x, y, &newX, &newY);
+    xoj::util::gtk::translateCoordinates(entry, GTK_WIDGET(miniaturesContainer.get()), x, y, &newX, &newY);
     GdkRectangle r = {round_cast<int>(newX), round_cast<int>(newY), 0, 0};
     gtk_popover_set_pointing_to(this->contextMenu.get(), &r);
     gtk_popover_popup(this->contextMenu.get());

@@ -27,6 +27,7 @@
 #include "undo/InsertUndoAction.h"  // for InsertUndoAction
 #include "undo/UndoAction.h"        // for UndoAction
 #include "undo/UndoRedoHandler.h"   // for UndoRedoHandler
+#include "util/GtkUtil.h"
 #include "util/Assert.h"            // for xoj_assert
 
 #include "MainWindow.h"  // for MainWindow
@@ -74,7 +75,7 @@ void PdfFloatingToolbox::hide() {
     if (isHidden())
         return;
 
-    gtk_widget_hide(this->floatingToolbox);
+    gtk_widget_set_visible(this->floatingToolbox, false);
 }
 
 auto PdfFloatingToolbox::getOverlayPosition(GtkOverlay* overlay, GtkWidget* widget, GdkRectangle* allocation,
@@ -95,13 +96,13 @@ auto PdfFloatingToolbox::getOverlayPosition(GtkOverlay* overlay, GtkWidget* widg
         GtkWidget* scrolledWindow =
                 gtk_widget_get_ancestor(self->theMainWindow->getXournal()->getWidget(), GTK_TYPE_SCROLLED_WINDOW);
 
-        bool rightOK = self->position.x + allocation->width + gap <= gtk_widget_get_allocated_width(scrolledWindow);
-        bool bottomOK = self->position.y + allocation->height + gap <= gtk_widget_get_allocated_height(scrolledWindow);
+        bool rightOK = self->position.x + allocation->width + gap <= gtk_widget_get_width(scrolledWindow);
+        bool bottomOK = self->position.y + allocation->height + gap <= gtk_widget_get_height(scrolledWindow);
 
         double x = rightOK ? self->position.x + gap : self->position.x - allocation->width - gap;
         double y = bottomOK ? self->position.y + gap : self->position.y - allocation->height - gap;
 
-        gtk_widget_translate_coordinates(scrolledWindow, GTK_WIDGET(overlay), x, y, &x, &y);
+        xoj::util::gtk::translateCoordinates(scrolledWindow, GTK_WIDGET(overlay), x, y, &x, &y);
         allocation->x = round_cast<int>(x);
         allocation->y = round_cast<int>(y);
 
@@ -137,7 +138,7 @@ void PdfFloatingToolbox::strikethroughCb(GtkButton* button, PdfFloatingToolbox* 
     pft->userCancelSelection();
 }
 
-void PdfFloatingToolbox::show() { gtk_widget_show(this->floatingToolbox); }
+void PdfFloatingToolbox::show() { gtk_widget_set_visible(this->floatingToolbox, true); }
 
 void PdfFloatingToolbox::copyTextToClipboard() {
     GdkClipboard* clipboard = gtk_widget_get_clipboard(this->theMainWindow->getWindow());

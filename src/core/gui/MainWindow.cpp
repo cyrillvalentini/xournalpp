@@ -244,13 +244,11 @@ void MainWindow::updateColorscheme() {
         }
     }
 
-    GtkStyleContext* context = gtk_widget_get_style_context(GTK_WIDGET(this->window));
-
     if (this->darkMode) {
-        gtk_style_context_add_class(context, "darkMode");
+        gtk_widget_add_css_class(this->window, "darkMode");
         g_object_set(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme", true, nullptr);
     } else {
-        gtk_style_context_remove_class(context, "darkMode");
+        gtk_widget_remove_css_class(this->window, "darkMode");
         g_object_set(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme", false, nullptr);
         if (props.darkSuffix) {  // The active theme is all dark. Remove the trailing "-dark"
             g_object_set(gtk_widget_get_settings(this->window), "gtk-theme-name", props.rootname.c_str(), nullptr);
@@ -483,7 +481,7 @@ void MainWindow::updatePageNumbers(size_t page, size_t pagecount, size_t pdfpage
 
 auto MainWindow::getMenubar() const -> Menubar* { return menubar.get(); }
 
-void MainWindow::show(GtkWindow* parent) { gtk_widget_show(this->window); }
+void MainWindow::show(GtkWindow* parent) { gtk_window_present(GTK_WINDOW(this->window)); }
 
 void MainWindow::setUndoDescription(const string& description) { menubar->setUndoDescription(description); }
 

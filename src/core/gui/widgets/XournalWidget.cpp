@@ -81,8 +81,8 @@ static void gtk_xournal_class_init(GtkXournalClass* cptr) {
     widget_class->queue_draw_region = +[](GtkWidget* w, const cairo_region_t* reg) {
         cairo_rectangle_int_t r;
         cairo_region_get_extents(reg, &r);
-        auto width = gtk_widget_get_allocated_width(w);
-        auto height = gtk_widget_get_allocated_height(w);
+        auto width = gtk_widget_get_width(w);
+        auto height = gtk_widget_get_height(w);
 
         printf("   * queue_draw_region: %d x %d + (%d ; %d) out of %d x %d\n", r.width, r.height, r.x, r.y, width,
                height);
@@ -243,8 +243,8 @@ static void gtk_xournal_snapshot(GtkWidget* widget, GtkSnapshot* sn) {
     GtkXournal* xournal = GTK_XOURNAL(widget);
 
     auto rect = GRAPHENE_RECT_INIT_ZERO;
-    rect.size.width = static_cast<float>(gtk_widget_get_allocated_width(widget));
-    rect.size.height = static_cast<float>(gtk_widget_get_allocated_height(widget));
+    rect.size.width = static_cast<float>(gtk_widget_get_width(widget));
+    rect.size.height = static_cast<float>(gtk_widget_get_height(widget));
 
     xoj::util::CairoSPtr crsafe(gtk_snapshot_append_cairo(sn, &rect), xoj::util::adopt);
     cairo_t* cr = crsafe.get();

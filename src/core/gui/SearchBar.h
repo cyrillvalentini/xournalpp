@@ -58,7 +58,7 @@ private:
 
 private:
     Control* control;
-    GtkCssProvider* cssTextFild;
+    GtkWidget* searchTextField = nullptr;  ///< Shown in red ("error" style class) if the text is not found
     size_t page = 0;
     size_t indexInPage = 0;
     size_t occurrences = 0;

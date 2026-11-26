@@ -3,6 +3,7 @@
 #include <gdk/gdk.h>      // for GdkRectangle
 #include <glib-object.h>  // for G_CALLBACK, g_signal_con...
 
+#include "util/GtkUtil.h"
 #include "util/Assert.h"
 #include "util/glib_casts.h"
 #include "util/safe_casts.h"
@@ -100,7 +101,7 @@ auto FlyingClickableIcon::getOverlayPosition(GtkOverlay* overlay, GtkWidget* wid
     GtkWidget* scrolledWindow =
             gtk_widget_get_ancestor(self->mainWindow->getXournal()->getWidget(), GTK_TYPE_SCROLLED_WINDOW);
     double x, y;
-    gtk_widget_translate_coordinates(scrolledWindow, GTK_WIDGET(overlay), allocation->x, allocation->y, &x, &y);
+    xoj::util::gtk::translateCoordinates(scrolledWindow, GTK_WIDGET(overlay), allocation->x, allocation->y, &x, &y);
     allocation->x = round_cast<int>(x);
     allocation->y = round_cast<int>(y);
 

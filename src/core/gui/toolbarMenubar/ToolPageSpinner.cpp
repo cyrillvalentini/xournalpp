@@ -24,11 +24,11 @@ public:
         GtkWidget* numberLabel = gtk_label_new("");
         GtkWidget* pageLabel = gtk_label_new(_("Page"));
         if (orientation == GTK_ORIENTATION_HORIZONTAL) {
-            gtk_widget_set_valign(pageLabel, GTK_ALIGN_BASELINE);
+            gtk_widget_set_valign(pageLabel, GTK_ALIGN_BASELINE_FILL);
             gtk_widget_set_margin_start(pageLabel, 7);
             gtk_widget_set_margin_end(pageLabel, 7);
-            gtk_widget_set_valign(spinner, GTK_ALIGN_BASELINE);
-            gtk_widget_set_valign(numberLabel, GTK_ALIGN_BASELINE);
+            gtk_widget_set_valign(spinner, GTK_ALIGN_BASELINE_FILL);
+            gtk_widget_set_valign(numberLabel, GTK_ALIGN_BASELINE_FILL);
             gtk_widget_set_margin_start(numberLabel, 7);
             gtk_widget_set_margin_end(numberLabel, 7);
         } else {
@@ -37,8 +37,8 @@ public:
             gtk_widget_set_margin_bottom(pageLabel, 7);
             gtk_widget_set_halign(spinner, GTK_ALIGN_CENTER);
             gtk_widget_set_halign(numberLabel, GTK_ALIGN_CENTER);
-            gtk_widget_set_valign(spinner, GTK_ALIGN_BASELINE);
-            gtk_widget_set_valign(numberLabel, GTK_ALIGN_BASELINE);
+            gtk_widget_set_valign(spinner, GTK_ALIGN_BASELINE_FILL);
+            gtk_widget_set_valign(numberLabel, GTK_ALIGN_BASELINE_FILL);
             gtk_label_set_justify(GTK_LABEL(numberLabel), GTK_JUSTIFY_CENTER);
             gtk_widget_set_margin_top(numberLabel, 7);
             gtk_widget_set_margin_bottom(numberLabel, 7);

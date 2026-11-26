@@ -1,6 +1,7 @@
 #include "CreatePreviewImage.h"
 
 #include "model/PageType.h"  // for PageType
+#include "util/GtkUtil.h"
 #include "util/Color.h"      // for Color
 #include "util/raii/CairoWrappers.h"
 #include "util/raii/GObjectSPtr.h"
@@ -32,8 +33,8 @@ auto createPreviewImage(const PageType& pt) -> GtkWidget* {
     cairo_line_to(cr, 0, 0);
     cairo_stroke(cr);
 
-    xoj::util::GObjectSPtr<GdkPixbuf> pixbuf(
-            gdk_pixbuf_get_from_surface(surface.get(), 0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT), xoj::util::adopt);
-    return gtk_picture_new_for_pixbuf(pixbuf.get());
+    xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(surface.get()),
+                                               xoj::util::adopt);
+    return gtk_picture_new_for_paintable(GDK_PAINTABLE(texture.get()));
 }
 };  // namespace xoj::helper

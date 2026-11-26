@@ -11,6 +11,7 @@
 #include "control/tools/EditSelection.h"  // for EditSelection
 #include "model/Element.h"                // for Element, ELEMENT_TEXT
 #include "model/Text.h"                   // for Text
+#include "util/GtkUtil.h"
 #include "util/Util.h"                    // for DPI_NORMALIZATION_F...
 #include "util/glib_casts.h"
 #include "util/raii/CStringWrapper.h"
@@ -251,8 +252,8 @@ auto ClipboardHandler::copy() -> bool {
 
         cairo_destroy(crPng);
 
-        xoj::util::GObjectSPtr<GdkPixbuf> image(gdk_pixbuf_get_from_surface(surfacePng, 0, 0, width, height),
-                                                xoj::util::adopt);
+        xoj::util::GObjectSPtr<GdkTexture> image(xoj::util::gtk::textureFromCairoSurface(surfacePng),
+                                                 xoj::util::adopt);
 
         cairo_surface_destroy(surfacePng);
         return image;
@@ -278,7 +279,7 @@ auto ClipboardHandler::copy() -> bool {
 
     constexpr size_t N_PROVIDERS = 5;
     GdkContentProvider* provs[N_PROVIDERS] = {
-            gdk_content_provider_new_typed(GDK_TYPE_PIXBUF, image.get()),
+            gdk_content_provider_new_typed(GDK_TYPE_TEXTURE, image.get()),
             gdk_content_provider_new_typed(G_TYPE_STRING, text.c_str()),
             gdk_content_provider_new_for_bytes(CLIPBOARD_MIMETYPE_XOPP, xoppBytes.get()),
             gdk_content_provider_new_for_bytes(CLIPBOARD_MIMETYPE_SVG, svgBytes.get()),

@@ -286,8 +286,8 @@ auto PenInputHandler::actionMotion(InputEvent const& event) -> bool {
     eventY -= v;
 
     GtkWidget* widget = this->inputContext->getView()->getWidget();
-    gint width = gtk_widget_get_allocated_width(widget);
-    gint height = gtk_widget_get_allocated_height(widget);
+    gint width = gtk_widget_get_width(widget);
+    gint height = gtk_widget_get_height(widget);
 
     if (!this->penInWidget && eventX > WIDGET_SCROLL_BORDER && eventY > WIDGET_SCROLL_BORDER &&
         eventX < width - WIDGET_SCROLL_BORDER && eventY < height - WIDGET_SCROLL_BORDER) {
@@ -547,8 +547,8 @@ void PenInputHandler::actionLeaveWindow(InputEvent const& event) {
         eventY -= v;
 
         GtkWidget* widget = this->inputContext->getView()->getWidget();
-        gint width = gtk_widget_get_allocated_width(widget);
-        gint height = gtk_widget_get_allocated_height(widget);
+        gint width = gtk_widget_get_width(widget);
+        gint height = gtk_widget_get_height(widget);
 
         new std::thread([&, eventX, eventY, width, height]() {
             int offsetX = 0, offsetY = 0;

@@ -13,6 +13,7 @@
 #include <optional>
 
 #include <gtk/gtk.h>
+#include "util/GtkUtil.h"
 
 namespace xoj::util {
 template <typename T>
@@ -39,5 +40,14 @@ xoj::util::Point<double> gdkSurfaceToWidgetCoordinates(xoj::util::Point<double> 
  * watches for such dialogs and enlarges them to fit the editor.
  */
 void installColorChooserDialogSizeFix();
+
+/**
+ * @brief Copies a Cairo image surface (ARGB32 or RGB24) into a new GdkTexture (full reference).
+ * Replaces the deprecated gdk_pixbuf_get_from_surface() + gdk_texture_new_for_pixbuf() round trip.
+ */
+GdkTexture* textureFromCairoSurface(cairo_surface_t* surface);
+
+/// xoj::util::gtk::translateCoordinates() replacement (deprecated in GTK 4.12) with the same signature
+bool translateCoordinates(GtkWidget* from, GtkWidget* to, double x, double y, double* outX, double* outY);
 };  // namespace gtk
 };  // namespace xoj::util

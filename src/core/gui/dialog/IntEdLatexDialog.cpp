@@ -120,15 +120,13 @@ IntEdLatexDialog::IntEdLatexDialog(GladeSearchpath* gladeSearchPath, std::unique
         texBoxCssBuilder << "  font-family: '" << fontName << "';";
         texBoxCssBuilder << " } ";
 
-        gtk_css_provider_load_from_data(this->cssProvider.get(), texBoxCssBuilder.str().c_str(), -1);
+        gtk_css_provider_load_from_string(this->cssProvider.get(), texBoxCssBuilder.str().c_str());
 
-        // Apply the CSS to both the texBox and the drawing area.
-        gtk_style_context_add_provider(gtk_widget_get_style_context(GTK_WIDGET(this->previewDrawingArea)),
-                                       GTK_STYLE_PROVIDER(this->cssProvider.get()),
-                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-        gtk_style_context_add_provider(gtk_widget_get_style_context(GTK_WIDGET(this->texBox)),
-                                       GTK_STYLE_PROVIDER(this->cssProvider.get()),
-                                       GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+        // The rule only matches the widget named TEX_BOX_WIDGET_NAME (per-widget style providers are deprecated
+        // since GTK 4.10). Removed again in the destructor.
+        gtk_style_context_add_provider_for_display(gtk_widget_get_display(GTK_WIDGET(this->texBox)),
+                                                   GTK_STYLE_PROVIDER(this->cssProvider.get()),
+                                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
     }
 
     connectStandardSignals();
@@ -165,7 +163,10 @@ IntEdLatexDialog::IntEdLatexDialog(GladeSearchpath* gladeSearchPath, std::unique
                      texCtrl.get());
 }
 
-IntEdLatexDialog::~IntEdLatexDialog() = default;
+IntEdLatexDialog::~IntEdLatexDialog() {
+    gtk_style_context_remove_provider_for_display(gdk_display_get_default(),
+                                                  GTK_STYLE_PROVIDER(this->cssProvider.get()));
+}
 
 
 auto IntEdLatexDialog::getTextBuffer() -> GtkTextBuffer* { return this->textBuffer; }

@@ -56,9 +56,7 @@ SearchBar::SearchBar(Control* control): control(control) {
                                                           gtk_signal_action_new("previous-match")));
     gtk_widget_add_controller(searchTextField, ctrl);
 
-    cssTextFild = gtk_css_provider_new();
-    gtk_style_context_add_provider(gtk_widget_get_style_context(win->get("searchTextField")),
-                                   GTK_STYLE_PROVIDER(cssTextFild), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    this->searchTextField = searchTextField;
 }
 
 SearchBar::~SearchBar() { this->control = nullptr; }
@@ -96,10 +94,11 @@ void SearchBar::search(const char* text) {
         gtk_label_set_text(GTK_LABEL(lbSearchState), "");
     }
 
+    // The theme's "error" style shows the text in red
     if (found) {
-        gtk_css_provider_load_from_data(cssTextFild, "GtkSearchEntry {}", -1);
+        gtk_widget_remove_css_class(this->searchTextField, "error");
     } else {
-        gtk_css_provider_load_from_data(cssTextFild, "GtkSearchEntry { color: #ff0000; }", -1);
+        gtk_widget_add_css_class(this->searchTextField, "error");
     }
 }
 
@@ -185,12 +184,12 @@ void SearchBar::showSearchBar(bool show) {
 
     if (show) {
         GtkWidget* searchTextField = win->get("searchTextField");
-        gtk_widget_show(searchBar);
+        gtk_widget_set_visible(searchBar, true);
         gtk_widget_grab_focus(searchTextField);
         this->indexInPage = 0;
     } else {
         searchActive = false;
-        gtk_widget_hide(searchBar);
+        gtk_widget_set_visible(searchBar, false);
         const size_t pageCount = control->getDocument()->getPageCount();
         for (size_t i = pageCount - 1; i < pageCount; i--) {
             control->searchTextOnPage("", i, 0, nullptr, nullptr);

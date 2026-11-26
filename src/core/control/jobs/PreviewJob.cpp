@@ -17,6 +17,7 @@
 #include "model/Layer.h"                                          // for Layer
 #include "model/PageRef.h"                                        // for Pag...
 #include "model/XojPage.h"                                        // for Xoj...
+#include "util/GtkUtil.h"
 #include "util/Util.h"                                            // for exe...
 #include "view/DocumentView.h"                                    // for Doc...
 #include "view/LayerView.h"                                       // for Lay...
@@ -51,12 +52,11 @@ void PreviewJob::finishPaint() {
     }
     this->cr.reset();
 
-    auto w = cairo_image_surface_get_width(buffer.get());
-    auto h = cairo_image_surface_get_height(buffer.get());
-    xoj::util::GObjectSPtr<GdkPixbuf> pixbuf(gdk_pixbuf_get_from_surface(buffer.get(), 0, 0, w, h), xoj::util::adopt);
+    xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(buffer.get()),
+                                               xoj::util::adopt);
     buffer.reset();
 
-    xoj::util::WidgetSPtr pic(gtk_picture_new_for_pixbuf(pixbuf.get()), xoj::util::adopt);
+    xoj::util::WidgetSPtr pic(gtk_picture_new_for_paintable(GDK_PAINTABLE(texture.get())), xoj::util::adopt);
     gtk_widget_set_size_request(pic.get(), this->sidebarPreview->imageWidth, this->sidebarPreview->imageHeight);
     this->sidebarPreview->setMiniature(std::move(pic));
 }

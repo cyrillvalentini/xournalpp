@@ -426,7 +426,7 @@ void ToolbarBox::startEditing(ToolMenuHandler* handler) {
                 xoj_assert(toolbar->editingData);
                 auto& data = *(toolbar->editingData);
 
-                GdkDrop* drop = gtk_drop_target_get_drop(target);
+                GdkDrop* drop = gtk_drop_target_get_current_drop(target);
                 if (!drop) {
                     g_warning("Drop::enter no drop");
                     return GdkDragAction(0);

@@ -61,9 +61,9 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDevice), txt.c_str());
         }
     } else {
-        gtk_widget_hide(builder.get("lbDevice"));
-        gtk_widget_hide(this->cbDevice);
-        gtk_widget_hide(this->cbDisableDrawing);
+        gtk_widget_set_visible(builder.get("lbDevice"), false);
+        gtk_widget_set_visible(this->cbDevice, false);
+        gtk_widget_set_visible(this->cbDisableDrawing, false);
     }
 
     GtkListStore* typeModel = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);

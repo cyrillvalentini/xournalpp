@@ -16,6 +16,7 @@
 #include "control/settings/SettingsEnums.h"  // for STYLUS_CURSOR_BIG, STYLU...
 #include "control/zoom/ZoomControl.h"        // for ZoomControl
 #include "gui/MainWindow.h"                  // for MainWindow
+#include "util/GtkUtil.h"
 #include "util/Color.h"                      // for argb_to_GdkRGBA, rgb_to_...
 #include "util/safe_casts.h"                 // for ceil_cast
 
@@ -340,10 +341,9 @@ void XournalppCursor::updateCursor() {
 
 /// Assumes ownership of s
 static GdkCursor* surfaceToCursor(cairo_surface_t* s, int w, int h, int cx, int cy) {
-    GdkPixbuf* pixbuf = gdk_pixbuf_get_from_surface(s, 0, 0, w, h);
+    // The surface is exactly w x h (callers create it that size)
+    GdkTexture* texture = xoj::util::gtk::textureFromCairoSurface(s);
     cairo_surface_destroy(s);
-    GdkTexture* texture = gdk_texture_new_for_pixbuf(pixbuf);
-    g_object_unref(pixbuf);
     GdkCursor* cursor = gdk_cursor_new_from_texture(texture, cx, cy, nullptr);
     g_object_unref(texture);
     return cursor;

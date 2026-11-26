@@ -98,7 +98,7 @@ ToolbarCustomizeDialog::ToolbarCustomizeDialog(GladeSearchpath* gladeSearchPath,
 
     GtkDropTarget* target = gtk_drop_target_new(xoj::dnd::get_tool_item_gtype(), GDK_ACTION_MOVE);
     g_signal_connect(target, "drop", G_CALLBACK(+[](GtkDropTarget* t, const GValue* v, double, double, gpointer) {
-                         if (GdkDrop* d = gtk_drop_target_get_drop(t)) {
+                         if (GdkDrop* d = gtk_drop_target_get_current_drop(t)) {
                              if (gdk_drop_get_drag(d) && G_VALUE_HOLDS(v, xoj::dnd::get_tool_item_gtype())) {
                                  // This is an in-app drap-n-drop. We only accept those
                                  return true;  // Just accept the drop so the toolbar can remove the corresponding item

@@ -91,7 +91,7 @@ void ToolMenuHandler::freeDynamicToolbarItems() { this->toolbarColorItems.clear(
 
 void ToolMenuHandler::unloadToolbar(ToolbarBox* toolbar) {
     toolbar->clear();
-    gtk_widget_hide(toolbar->getWidget());
+    gtk_widget_set_visible(toolbar->getWidget(), false);
 }
 
 /// Adds a property to the tool item, so that drag-n-drop operations know what kind of item is being dragged

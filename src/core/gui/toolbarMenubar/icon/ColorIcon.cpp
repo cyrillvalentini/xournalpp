@@ -41,7 +41,7 @@ namespace ColorIcon {
  * Create a new GtkImage with preview color
  */
 auto newGtkImage(Color color, bool circle, std::optional<Color> secondaryColor) -> GtkWidget* {
-    return gtk_image_new_from_pixbuf(newGdkPixbuf(color, circle, secondaryColor).get());
+    return gtk_image_new_from_paintable(newGdkPaintable(color, circle, secondaryColor).get());
 }
 
 /**
