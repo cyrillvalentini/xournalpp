@@ -251,6 +251,15 @@ GTK minimum raised to 4.14 (`gtk4 >= 4.14.0`, `GDK_VERSION_MIN_REQUIRED=GDK_VERS
 
 Order of work: file dialogs → colour/font → misc/geometry → combo boxes → tree views → message dialogs.
 
+Progress:
+- [x] File dialogs → `GtkFileDialog` (366 → 345 deprecated sites). The "attach file" checkbox became the setting
+  "Attach PDF and image backgrounds to the journal" (user's choice); confirmed on the real desktop.
+- [ ] Colour/font buttons
+- [ ] Misc/geometry
+- [ ] Combo boxes
+- [ ] Tree views
+- [ ] Message dialogs
+
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)
 1. Add `libadwaita-1` to CMake; `AdwApplication`; `AdwApplicationWindow` + `AdwToolbarView` holding the classic menubar and toolbars at the top and the page/zoom bar at the bottom.
 2. Theme: follow `AdwStyleManager` (dark + accent); remove `SystemAppearance`, `adwaita.css`, the generated palette; keep the "use system accent colour" and canvas-background behaviour.
