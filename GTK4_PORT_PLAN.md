@@ -189,8 +189,8 @@ First round (user, 2026-11-26, GNOME/Wayland laptop):
 - Adding a page: **the new page's sidebar thumbnail kept its loading spinner for a long time.** Timing logs on the
   real desktop showed the main page renders and paints within 15–40 ms; the delay was the sidebar: GTK4 sidebar
   miniatures are only rendered on scroll/resize, and inserting (or deleting) a page triggered neither.
-  → fixed in commit "gtk4: render sidebar miniatures after inserting or deleting a page"; to be confirmed by the user.
-- "No device found" warning on the real desktop too (device list empty) → phase 2: check device detection with GTK4.
+  → fixed in commit "gtk4: render sidebar miniatures after inserting or deleting a page"; confirmed by the user.
+- "No device found" warning on the real desktop too (device list empty), but only in some runs → phase 2: check device detection with GTK4 (timing-dependent?).
 - Stylus: not testable yet (no pen available).
 
 - [ ] Stylus: pressure, eraser end, side buttons, hover cursor; drawing latency vs GTK3 Xournal#
