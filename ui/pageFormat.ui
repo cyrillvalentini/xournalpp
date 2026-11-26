@@ -42,7 +42,11 @@
               </object>
             </child>
             <child>
-              <object class="GtkComboBox" id="cbTemplate">
+              <object class="GtkDropDown" id="cbTemplate">
+                <property name="model">
+                  <object class="GtkStringList">
+                  </object>
+                </property>
                 <property name="hexpand">1</property>
                 <property name="name">cbTemplate</property>
                 <layout>
@@ -111,7 +115,11 @@
               </object>
             </child>
             <child>
-              <object class="GtkComboBoxText" id="cbUnit">
+              <object class="GtkDropDown" id="cbUnit">
+                <property name="model">
+                  <object class="GtkStringList">
+                  </object>
+                </property>
                 <property name="name">cbUnit</property>
                 <layout>
                   <property name="column">2</property>

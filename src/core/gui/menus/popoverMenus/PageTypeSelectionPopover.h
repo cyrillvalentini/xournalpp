@@ -49,7 +49,7 @@ private:
 
     static void changedOrientationSelectionCallback(GSimpleAction* ga, GVariant* parameter,
                                                     PageTypeSelectionPopover* self);
-    static void changedPaperFormatTemplateCb(GtkComboBox* widget, PageTypeSelectionPopover* dlg);
+    static void changedPaperFormatTemplateCb(GtkDropDown* widget, gpointer dlg);
 
     [[nodiscard]] unsigned int getComboBoxIndexForPaperSize(const std::optional<PaperSize>& paperSize) const;
 

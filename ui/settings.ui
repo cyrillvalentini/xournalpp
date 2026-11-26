@@ -240,38 +240,6 @@
     <property name="step-increment">0.5</property>
     <property name="page-increment">10</property>
   </object>
-  <object class="GtkListStore" id="listStabilizerAveragingMethods">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Arithmetic mean</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Velocity based Gaussian weights</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="listStabilizerPreprocessors">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Deadzone</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Inertia</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkWindow" id="settingsDialog">
     <property name="width-request">1024</property>
     <property name="height-request">740</property>
@@ -739,19 +707,18 @@ Illegal characters are replaced with &quot;_&quot;</property>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="cbStabilizerAveragingMethods">
+                                          <object class="GtkDropDown" id="cbStabilizerAveragingMethods">
+                                            <property name="model">
+                                              <object class="GtkStringList">
+                                                <items>
+                                                  <item translatable="yes">None</item>
+                                                  <item translatable="yes">Arithmetic mean</item>
+                                                  <item translatable="yes">Velocity based Gaussian weights</item>
+                                                </items>
+                                              </object>
+                                            </property>
                                             <property name="hexpand">1</property>
-                                            <property name="model">listStabilizerAveragingMethods</property>
-                                            <property name="active">0</property>
-                                            <property name="id-column">0</property>
-                                            <property name="active-id">0</property>
-                                            <child>
-                                              <object class="GtkCellRendererText"/>
-                                              <attributes>
-                                                <attribute name="markup">0</attribute>
-                                                <attribute name="text">0</attribute>
-                                              </attributes>
-                                            </child>
+                                            <property name="selected">0</property>
                                             <layout>
                                               <property name="column">1</property>
                                               <property name="row">1</property>
@@ -919,19 +886,18 @@ Illegal characters are replaced with &quot;_&quot;</property>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox" id="cbStabilizerPreprocessors">
+                                          <object class="GtkDropDown" id="cbStabilizerPreprocessors">
+                                            <property name="model">
+                                              <object class="GtkStringList">
+                                                <items>
+                                                  <item translatable="yes">None</item>
+                                                  <item translatable="yes">Deadzone</item>
+                                                  <item translatable="yes">Inertia</item>
+                                                </items>
+                                              </object>
+                                            </property>
                                             <property name="hexpand">1</property>
-                                            <property name="model">listStabilizerPreprocessors</property>
-                                            <property name="active">0</property>
-                                            <property name="id-column">0</property>
-                                            <property name="active-id">0</property>
-                                            <child>
-                                              <object class="GtkCellRendererText"/>
-                                              <attributes>
-                                                <attribute name="markup">0</attribute>
-                                                <attribute name="text">0</attribute>
-                                              </attributes>
-                                            </child>
+                                            <property name="selected">0</property>
                                             <layout>
                                               <property name="column">1</property>
                                               <property name="row">2</property>
@@ -1517,15 +1483,19 @@ Illegal characters are replaced with &quot;_&quot;</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="cbEraserVisibility">
+                                              <object class="GtkDropDown" id="cbEraserVisibility">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                    <items>
+                                                      <item translatable="yes" context="eraser is never visible">Never</item>
+                                                      <item translatable="yes" context="eraser is always visible">Always</item>
+                                                      <item translatable="yes" context="eraser is only visible when floating">When floating</item>
+                                                      <item translatable="yes" context="eraser is only visible when touching the screen">When touching</item>
+                                                    </items>
+                                                  </object>
+                                                </property>
                                                 <property name="name">cbEraserVisibility</property>
-                                                <property name="active">0</property>
-                                                <items>
-                                                  <item id="never" translatable="yes" context="eraser is never visible">Never</item>
-                                                  <item id="always" translatable="yes" context="eraser is always visible">Always</item>
-                                                  <item id="float" translatable="yes" context="eraser is only visible when floating">When floating</item>
-                                                  <item id="touch" translatable="yes" context="eraser is only visible when touching the screen">When touching</item>
-                                                </items>
+                                                <property name="selected">0</property>
                                               </object>
                                             </child>
                                           </object>
@@ -1662,14 +1632,18 @@ Illegal characters are replaced with &quot;_&quot;</property>
                                                   </object>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkComboBoxText" id="cbTouchDisableMethod">
+                                                  <object class="GtkDropDown" id="cbTouchDisableMethod">
+                                                    <property name="model">
+                                                      <object class="GtkStringList">
+                                                        <items>
+                                                          <item translatable="yes">Autodetect</item>
+                                                          <item>X11</item>
+                                                          <item translatable="yes">Custom</item>
+                                                        </items>
+                                                      </object>
+                                                    </property>
                                                     <property name="name">cbTouchDisableMethod</property>
-                                                    <property name="active">0</property>
-                                                    <items>
-                                                      <item translatable="yes">Autodetect</item>
-                                                      <item>X11</item>
-                                                      <item translatable="yes">Custom</item>
-                                                    </items>
+                                                    <property name="selected">0</property>
                                                     <layout>
                                                       <property name="column">1</property>
                                                       <property name="row">0</property>
@@ -2217,13 +2191,17 @@ This setting can make it easier to draw with touch.</property>
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkComboBoxText" id="cbIconTheme">
+                                                      <object class="GtkDropDown" id="cbIconTheme">
+                                                        <property name="model">
+                                                          <object class="GtkStringList">
+                                                            <items>
+                                                              <item translatable="yes">Color</item>
+                                                              <item translatable="no">Lucide</item>
+                                                            </items>
+                                                          </object>
+                                                        </property>
                                                         <property name="name">cbIconTheme</property>
-                                                        <property name="active">0</property>
-                                                        <items>
-                                                          <item id="iconsColor" translatable="yes">Color</item>
-                                                          <item id="iconsLucide" translatable="no">Lucide</item>
-                                                        </items>
+                                                        <property name="selected">0</property>
                                                       </object>
                                                     </child>
                                                     <child>
@@ -2247,18 +2225,22 @@ This setting can make it easier to draw with touch.</property>
                                                       </object>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkComboBoxText" id="cbThemeVariant">
+                                                      <object class="GtkDropDown" id="cbThemeVariant">
+                                                        <property name="model">
+                                                          <object class="GtkStringList">
+                                                            <items>
+                                                              <item translatable="yes">Use system default</item>
+                                                              <item translatable="yes">Force light theme</item>
+                                                              <item translatable="yes">Force dark theme</item>
+                                                            </items>
+                                                          </object>
+                                                        </property>
                                                         <property name="name">cbIconTheme</property>
                                                         <property name="margin-start">6</property>
                                                         <property name="margin-end">6</property>
                                                         <property name="margin-start">6</property>
                                                         <property name="margin-end">6</property>
-                                                        <property name="active">0</property>
-                                                        <items>
-                                                          <item id="themeVariantUseSystem" translatable="yes">Use system default</item>
-                                                          <item id="themeVariantForceLight" translatable="yes">Force light theme</item>
-                                                          <item id="themeVariantForceDark" translatable="yes">Force dark theme</item>
-                                                        </items>
+                                                        <property name="selected">0</property>
                                                       </object>
                                                     </child>
                                                     <child>
@@ -2427,15 +2409,19 @@ This setting can make it easier to draw with touch.</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="cbStylusCursorType">
+                                              <object class="GtkDropDown" id="cbStylusCursorType">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                    <items>
+                                                      <item translatable="yes" context="stylus cursor uses no icon">No icon</item>
+                                                      <item translatable="yes" context="stylus cursor uses a small dot">Small dot icon</item>
+                                                      <item translatable="yes" context="stylus cursor uses a big pen icon">Big pen icon</item>
+                                                      <item translatable="yes" context="stylus cursor uses system cursor">System cursor</item>
+                                                    </items>
+                                                  </object>
+                                                </property>
                                                 <property name="name">cbStylusCursorType</property>
-                                                <property name="active">0</property>
-                                                <items>
-                                                  <item id="none" translatable="yes" context="stylus cursor uses no icon">No icon</item>
-                                                  <item id="dot" translatable="yes" context="stylus cursor uses a small dot">Small dot icon</item>
-                                                  <item id="big" translatable="yes" context="stylus cursor uses a big pen icon">Big pen icon</item>
-                                                  <item id="arrow" translatable="yes" context="stylus cursor uses system cursor">System cursor</item>
-                                                </items>
+                                                <property name="selected">0</property>
                                               </object>
                                             </child>
                                           </object>
@@ -2617,14 +2603,18 @@ This setting can make it easier to draw with touch.</property>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBoxText" id="cbSidebarPageNumberStyle">
-                                            <property name="active">0</property>
-                                            <items>
-                                              <item id="0" translatable="yes">None</item>
-                                              <item id="1" translatable="yes">Below preview</item>
-                                              <item id="2" translatable="yes">Circle background</item>
-                                              <item id="3" translatable="yes">Square background</item>
-                                            </items>
+                                          <object class="GtkDropDown" id="cbSidebarPageNumberStyle">
+                                            <property name="model">
+                                              <object class="GtkStringList">
+                                                <items>
+                                                  <item translatable="yes">None</item>
+                                                  <item translatable="yes">Below preview</item>
+                                                  <item translatable="yes">Circle background</item>
+                                                  <item translatable="yes">Square background</item>
+                                                </items>
+                                              </object>
+                                            </property>
+                                            <property name="selected">0</property>
                                           </object>
                                         </child>
                                       </object>
@@ -2821,7 +2811,11 @@ This setting can make it easier to draw with touch.</property>
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="comboboxtext1">
+                                              <object class="GtkDropDown" id="comboboxtext1">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                  </object>
+                                                </property>
                                                 <property name="name">comboboxtext1</property>
                                               </object>
                                             </child>
@@ -4116,7 +4110,11 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="cbAudioInputDevice">
+                                              <object class="GtkDropDown" id="cbAudioInputDevice">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                  </object>
+                                                </property>
                                                 <property name="name">cbAudioInputDevice</property>
                                                 <layout>
                                                   <property name="column">1</property>
@@ -4134,7 +4132,11 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                                               </object>
                                             </child>
                                             <child>
-                                              <object class="GtkComboBoxText" id="cbAudioOutputDevice">
+                                              <object class="GtkDropDown" id="cbAudioOutputDevice">
+                                                <property name="model">
+                                                  <object class="GtkStringList">
+                                                  </object>
+                                                </property>
                                                 <property name="name">cbAudioOutputDevice</property>
                                                 <layout>
                                                   <property name="column">1</property>
@@ -4182,15 +4184,19 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBoxText" id="cbAudioSampleRate">
+                                          <object class="GtkDropDown" id="cbAudioSampleRate">
+                                            <property name="model">
+                                              <object class="GtkStringList">
+                                                <items>
+                                                  <item>16000 Hz</item>
+                                                  <item>44100 Hz</item>
+                                                  <item>96000 Hz</item>
+                                                  <item>192000 Hz</item>
+                                                </items>
+                                              </object>
+                                            </property>
                                             <property name="name">cbAudioSampleRate</property>
-                                            <property name="active">0</property>
-                                            <items>
-                                              <item id="16000">16000 Hz</item>
-                                              <item id="44100">44100 Hz</item>
-                                              <item id="96000">96000 Hz</item>
-                                              <item id="192000">192000 Hz</item>
-                                            </items>
+                                            <property name="selected">0</property>
                                             <layout>
                                               <property name="column">1</property>
                                               <property name="row">0</property>

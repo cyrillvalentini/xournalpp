@@ -11,6 +11,7 @@
 #include "control/settings/ButtonConfig.h"  // for ButtonConfig
 #include "control/settings/Settings.h"      // for Settings
 #include "gui/Builder.h"
+#include "util/DropDown.h"
 #include "util/Color.h"  // for GdkRGBA_to_argb, rgb_to_G...
 #include "util/i18n.h"  // for _
 
@@ -53,12 +54,12 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
     this->cbDisableDrawing = builder.get("cbDisableDrawing");
 
     if (withDevice) {
-        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDevice), _("No device"));
+        xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDevice), _("No device"));
 
         this->deviceList = DeviceListHelper::getDeviceList(this->settings, true);
         for (InputDevice const& dev: this->deviceList) {
             std::string txt = dev.getName() + " (" + dev.getType() + ")";
-            gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDevice), txt.c_str());
+            xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDevice), txt);
         }
     } else {
         gtk_widget_set_visible(builder.get("lbDevice"), false);
@@ -66,12 +67,11 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
         gtk_widget_set_visible(this->cbDisableDrawing, false);
     }
 
-    GtkListStore* typeModel = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
-
+    // Entry i of cbTool is toolEntries[i] (icon name, tool); the drop down shows the icon next to the label
+    std::vector<std::string> toolLabels;
     auto addTypeCB = [&](const char* icon, const char* name, ToolType action) {
-        GtkTreeIter iter;
-        gtk_list_store_append(typeModel, &iter);
-        gtk_list_store_set(typeModel, &iter, 0, iconNameHelper.iconName(icon).c_str(), 1, name, 2, action, -1);
+        toolEntries.emplace_back(iconNameHelper.iconName(icon), action);
+        toolLabels.emplace_back(name);
     };
 
     addTypeCB("transparent", _("Tool - don't change"), TOOL_NONE);
@@ -93,55 +93,69 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
     addTypeCB("select-pdf-text-area", _("Select Area Text from pdf"), TOOL_SELECT_PDF_TEXT_RECT);
 
     this->cbTool = builder.get("cbTool");
-    gtk_combo_box_set_model(GTK_COMBO_BOX(this->cbTool), GTK_TREE_MODEL(typeModel));
-    g_signal_connect(cbTool, "changed", G_CALLBACK(&cbSelectCallback), this);
-
-    GtkCellRenderer* renderer = gtk_cell_renderer_pixbuf_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(this->cbTool), renderer, false);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(this->cbTool), renderer, "icon-name", 0, nullptr);
-
-    renderer = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(this->cbTool), renderer, true);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(this->cbTool), renderer, "text", 1, nullptr);
+    xoj::util::dropdown::setItems(GTK_DROP_DOWN(this->cbTool), toolLabels);
+    GtkListItemFactory* factory = gtk_signal_list_item_factory_new();
+    g_signal_connect(factory, "setup", G_CALLBACK(+[](GtkSignalListItemFactory*, GtkListItem* item, gpointer) {
+                         GtkWidget* box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+                         gtk_box_append(GTK_BOX(box), gtk_image_new());
+                         gtk_box_append(GTK_BOX(box), gtk_label_new(nullptr));
+                         gtk_list_item_set_child(item, box);
+                     }),
+                     nullptr);
+    g_signal_connect(factory, "bind", G_CALLBACK(+[](GtkSignalListItemFactory*, GtkListItem* item, gpointer d) {
+                         auto* self = static_cast<ButtonConfigGui*>(d);
+                         GtkWidget* box = gtk_list_item_get_child(item);
+                         GtkWidget* image = gtk_widget_get_first_child(box);
+                         GtkWidget* label = gtk_widget_get_next_sibling(image);
+                         gtk_label_set_text(GTK_LABEL(label), gtk_string_object_get_string(GTK_STRING_OBJECT(
+                                                                      gtk_list_item_get_item(item))));
+                         guint pos = gtk_list_item_get_position(item);
+                         if (pos < self->toolEntries.size()) {
+                             gtk_image_set_from_icon_name(GTK_IMAGE(image), self->toolEntries[pos].first.c_str());
+                         }
+                     }),
+                     this);
+    gtk_drop_down_set_factory(GTK_DROP_DOWN(this->cbTool), factory);
+    g_object_unref(factory);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(this->cbTool), cbSelectCallback, this);
 
     this->cbThickness = builder.get("cbThickness");
-    for (auto const& size: toolSizeIndexMap) {
-        gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(cbThickness), size.first,
-                                       toolSizeToLabel(size.second).c_str());
+    for (auto const& size: toolSizeIndexMap) {  // ordered by index
+        xoj::util::dropdown::append(GTK_DROP_DOWN(cbThickness), toolSizeToLabel(size.second));
     }
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbThickness), 0);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbThickness), 0);
 
     this->colorButton = builder.get("colorButton");
 
     this->cbColor = builder.get("cbColor");
     // 0: don't change
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbColor), _("Color - don't change"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbColor), _("Color - don't change"));
     // 1: custom color
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbColor), _("Custom color"));
-    gtk_combo_box_set_active(GTK_COMBO_BOX(this->cbColor), 0);
-    g_signal_connect(cbColor, "changed", G_CALLBACK(&cbColorCallback), this);
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbColor), _("Custom color"));
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(this->cbColor), 0);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(cbColor), cbColorCallback, this);
 
     this->cbDrawingType = builder.get("cbDrawingType");
     // DRAWING_TYPE_DONT_CHANGE
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Drawing Type - don't change"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Drawing Type - don't change"));
     // DRAWING_TYPE_DEFAULT
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Normal drawing"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Normal drawing"));
     // DRAWING_TYPE_RULER
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Line"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Line"));
     // DRAWING_TYPE_RECTANGLE
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Rectangle"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Rectangle"));
     // DRAWING_TYPE_ELLIPSE
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Ellipse"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Ellipse"));
     // DRAWING_TYPE_ARROW
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Arrow"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Arrow"));
     // DRAWING_TYPE_DOUBLE_ARROW
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Double Arrow"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Double Arrow"));
     // DRAWING_TYPE_COORDINATE_SYSTEM
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Coordinate System"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Coordinate System"));
     // DRAWING_TYPE_STROKE_RECOGNIZER
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Shape Recognizer"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Shape Recognizer"));
     // DRAWING_TYPE_SPLINE
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(this->cbDrawingType), _("Draw Spline"));
+    xoj::util::dropdown::append(GTK_DROP_DOWN(this->cbDrawingType), _("Draw Spline"));
 
 
     // Values in glade GUI!
@@ -156,66 +170,48 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
 void ButtonConfigGui::loadSettings() {
     ButtonConfig* cfg = settings->getButtonConfig(button);
 
-    GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(cbTool));
-    GtkTreeIter iter;
-
-    if (!gtk_tree_model_get_iter_first(model, &iter)) {
-        return;
-    }
-
-    GValue value = {0};
-    int i = 0;
-
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbTool), 0);
-
-    do {
-        gtk_tree_model_get_value(model, &iter, 2, &value);
-
-        int action = g_value_get_int(&value);
-
-        if (action == cfg->action) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(cbTool), i);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbTool), 0);
+    for (size_t i = 0; i < toolEntries.size(); i++) {
+        if (toolEntries[i].second == cfg->action) {
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbTool), static_cast<int>(i));
             break;
         }
-
-        i++;
-        g_value_unset(&value);
-    } while (gtk_tree_model_iter_next(model, &iter));
+    }
 
     // select thickness in combo box
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbThickness), 0);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbThickness), 0);
     for (auto const& size: toolSizeIndexMap) {
         if (size.second == cfg->size) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(cbThickness), size.first);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbThickness), size.first);
         }
     }
 
     GdkRGBA color = Util::rgb_to_GdkRGBA(cfg->color.value_or(Colors::black));
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(colorButton), &color);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbColor), cfg->color.has_value() ? 1 : 0);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbColor), cfg->color.has_value() ? 1 : 0);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(this->cbDrawingType), cfg->drawingType);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(this->cbDrawingType), cfg->drawingType);
 
     if (cfg->eraserMode == ERASER_TYPE_DEFAULT) {
-        gtk_combo_box_set_active(GTK_COMBO_BOX(cbEraserType), 1);
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbEraserType), 1);
     } else if (cfg->eraserMode == ERASER_TYPE_WHITEOUT) {
-        gtk_combo_box_set_active(GTK_COMBO_BOX(cbEraserType), 2);
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbEraserType), 2);
     } else if (cfg->eraserMode == ERASER_TYPE_DELETE_STROKE) {
-        gtk_combo_box_set_active(GTK_COMBO_BOX(cbEraserType), 3);
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbEraserType), 3);
     } else {
-        gtk_combo_box_set_active(GTK_COMBO_BOX(cbEraserType), 0);
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbEraserType), 0);
     }
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbStrokeType), cfg->strokeType);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbStrokeType), cfg->strokeType);
 
     if (withDevice) {
-        gtk_combo_box_set_active(GTK_COMBO_BOX(cbDevice), 0);
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbDevice), 0);
 
         int i = 1;
         for (InputDevice const& dev: this->deviceList) {
             if (cfg->device == dev.getName()) {
-                gtk_combo_box_set_active(GTK_COMBO_BOX(cbDevice), i);
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbDevice), i);
                 break;
             }
 
@@ -229,25 +225,21 @@ void ButtonConfigGui::loadSettings() {
 }
 
 void ButtonConfigGui::saveSettings() {
-    GtkTreeIter iter;
-    gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cbTool), &iter);
-
-    GValue value = {0};
-    GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(cbTool));
-    gtk_tree_model_get_value(model, &iter, 2, &value);
-
-    auto action = static_cast<ToolType>(g_value_get_int(&value));
+    int toolIndex = xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbTool));
+    auto action = toolIndex >= 0 && static_cast<size_t>(toolIndex) < toolEntries.size() ?
+                          toolEntries[static_cast<size_t>(toolIndex)].second :
+                          TOOL_NONE;
     ButtonConfig* cfg = settings->getButtonConfig(button);
     cfg->action = action;
 
-    int thickness = gtk_combo_box_get_active(GTK_COMBO_BOX(cbThickness));
+    int thickness = xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbThickness));
     if (toolSizeIndexMap.count(thickness) == 0) {
         cfg->size = TOOL_SIZE_NONE;
     } else {
         cfg->size = toolSizeIndexMap[thickness];
     }
 
-    if (gtk_combo_box_get_active(GTK_COMBO_BOX(cbColor)) != 1) {
+    if (xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbColor)) != 1) {
         cfg->color = std::nullopt;
     } else {
         GdkRGBA color;
@@ -255,9 +247,9 @@ void ButtonConfigGui::saveSettings() {
         cfg->color = Util::GdkRGBA_to_argb(color);
     }
 
-    cfg->drawingType = static_cast<DrawingType>(gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbDrawingType)));
+    cfg->drawingType = static_cast<DrawingType>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(this->cbDrawingType)));
 
-    int eraserMode = gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbEraserType));
+    int eraserMode = xoj::util::dropdown::getActive(GTK_DROP_DOWN(this->cbEraserType));
 
     if (eraserMode == 1) {
         cfg->eraserMode = ERASER_TYPE_DEFAULT;
@@ -269,10 +261,10 @@ void ButtonConfigGui::saveSettings() {
         cfg->eraserMode = ERASER_TYPE_NONE;
     }
 
-    cfg->strokeType = static_cast<StrokeType>(gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbStrokeType)));
+    cfg->strokeType = static_cast<StrokeType>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(this->cbStrokeType)));
 
     if (this->withDevice) {
-        size_t dev = static_cast<size_t>(gtk_combo_box_get_active(GTK_COMBO_BOX(cbDevice)) - 1);
+        size_t dev = static_cast<size_t>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbDevice)) - 1);
         cfg->device = (dev < 0 || this->deviceList.size() <= dev) ? "" : this->deviceList[dev].getName();
         cfg->disableDrawing = gtk_check_button_get_active(GTK_CHECK_BUTTON(cbDisableDrawing));
     }
@@ -280,26 +272,26 @@ void ButtonConfigGui::saveSettings() {
     settings->customSettingsChanged();
 }
 
-void ButtonConfigGui::cbSelectCallback(GtkComboBox*, ButtonConfigGui* gui) { gui->enableDisableTools(); }
+void ButtonConfigGui::cbSelectCallback(GtkDropDown*, gpointer gui) {
+    static_cast<ButtonConfigGui*>(gui)->enableDisableTools();
+}
 
-void ButtonConfigGui::cbColorCallback(GtkComboBox*, ButtonConfigGui* gui) { gui->enableDisableTools(); }
+void ButtonConfigGui::cbColorCallback(GtkDropDown*, gpointer gui) {
+    static_cast<ButtonConfigGui*>(gui)->enableDisableTools();
+}
 
 void ButtonConfigGui::enableDisableTools() {
-    GtkTreeIter iter;
-    if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(cbTool), &iter)) {
+    int toolIndex = xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbTool));
+    if (toolIndex < 0 || static_cast<size_t>(toolIndex) >= toolEntries.size()) {
         return;
     }
-    GtkTreeModel* model = gtk_combo_box_get_model(GTK_COMBO_BOX(cbTool));
-
-    GValue value = {0};
-    gtk_tree_model_get_value(model, &iter, 2, &value);
-    auto action = static_cast<ToolType>(g_value_get_int(&value));
+    auto action = toolEntries[static_cast<size_t>(toolIndex)].second;
 
     gtk_widget_set_visible(cbThickness, action != TOOL_NONE && xoj::tool::hasCapability(action, TOOL_CAP_SIZE));
     bool hasColor = action != TOOL_NONE && xoj::tool::hasCapability(action, TOOL_CAP_COLOR);
     gtk_widget_set_visible(cbColor, hasColor);
     gtk_widget_set_visible(colorButton, hasColor);
-    gtk_widget_set_sensitive(colorButton, gtk_combo_box_get_active(GTK_COMBO_BOX(cbColor)) == 1);
+    gtk_widget_set_sensitive(colorButton, xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbColor)) == 1);
     gtk_widget_set_visible(cbDrawingType, action != TOOL_NONE && xoj::tool::hasCapability(action, TOOL_CAP_RECTANGLE));
     gtk_widget_set_visible(cbEraserType, action == TOOL_ERASER);
     gtk_widget_set_visible(cbStrokeType, action == TOOL_PEN);

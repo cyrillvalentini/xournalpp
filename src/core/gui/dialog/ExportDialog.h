@@ -37,7 +37,7 @@ private:
     /**
      * @brief Handler for changes in combobox cbQuality
      */
-    static void selectQualityCriterion(GtkComboBox* comboBox, ExportDialog* self);
+    static void selectQualityCriterion(GtkDropDown* comboBox, gpointer self);
 
     static void onSuccessCallback(ExportDialog* self);
 

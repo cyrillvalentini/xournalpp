@@ -3,6 +3,7 @@
 #include "control/Control.h"           // for Control
 #include "gui/Builder.h"               // for Builder
 #include "gui/GladeSearchpath.h"       // for GladeSearchPath
+#include "util/DropDown.h"
 #include "util/glib_casts.h"           // for wrap_for_g_callback_v
 #include "util/raii/CStringWrapper.h"  // for OwnedCString
 
@@ -14,7 +15,9 @@ static void cancelButtonClicked(GtkButton*, LinkDialog* dialog) { dialog->cancel
 static void layoutToggledLeft(GtkButton*, LinkDialog* dialog) { dialog->layoutToggled(TextAlignment::LEFT); };
 static void layoutToggledCenter(GtkButton*, LinkDialog* dialog) { dialog->layoutToggled(TextAlignment::CENTER); };
 static void layoutToggledRight(GtkButton*, LinkDialog* dialog) { dialog->layoutToggled(TextAlignment::RIGHT); };
-static void urlPrefixChangedClb(GtkComboBoxText* source, LinkDialog* dialog) { dialog->urlPrefixChanged(source); };
+static void urlPrefixChangedClb(GtkDropDown* source, gpointer dialog) {
+    static_cast<LinkDialog*>(dialog)->urlPrefixChanged(source);
+}
 
 LinkDialog::LinkDialog(Control* control, std::function<void(LinkDialog*)> callbackOK,
                        std::function<void()> callbackCancel):
@@ -35,7 +38,9 @@ LinkDialog::LinkDialog(Control* control, std::function<void(LinkDialog*)> callba
     this->layoutCenter = GTK_TOGGLE_BUTTON(builder.get("btnCenterLayout"));
     this->layoutRight = GTK_TOGGLE_BUTTON(builder.get("btnRightLayout"));
 
-    this->linkTypeChooser = GTK_COMBO_BOX_TEXT(builder.get("cbLinkPrefix"));
+    this->linkTypeChooser = GTK_DROP_DOWN(builder.get("cbLinkPrefix"));
+    // The URLPrefix of each entry (same order as in linkDialog.ui)
+    xoj::util::dropdown::setIds(this->linkTypeChooser, {"1", "2", "3", "4", "0"});
     this->urlPrefixChanged(this->linkTypeChooser);
 
     g_signal_connect(G_OBJECT(okButton), "clicked", xoj::util::wrap_for_g_callback_v<okButtonClicked>, this);
@@ -45,7 +50,7 @@ LinkDialog::LinkDialog(Control* control, std::function<void(LinkDialog*)> callba
     g_signal_connect(G_OBJECT(layoutCenter), "clicked", xoj::util::wrap_for_g_callback_v<layoutToggledCenter>, this);
     g_signal_connect(G_OBJECT(layoutRight), "clicked", xoj::util::wrap_for_g_callback_v<layoutToggledRight>, this);
 
-    g_signal_connect(G_OBJECT(linkTypeChooser), "changed", xoj::util::wrap_for_g_callback_v<urlPrefixChangedClb>, this);
+    xoj::util::dropdown::connectChanged(linkTypeChooser, urlPrefixChangedClb, this);
 }
 
 LinkDialog::~LinkDialog() { this->callbackCancel(); };
@@ -58,7 +63,7 @@ void LinkDialog::preset(XojFont font, std::string text, std::string url, TextAli
     gtk_text_view_set_buffer(this->textInput, textBuffer);
     URLPrefix prefix = this->identifyAndShortenURL(url);
     gtk_editable_set_text(GTK_EDITABLE(this->urlInput), url.c_str());
-    gtk_combo_box_set_active_id(GTK_COMBO_BOX(this->linkTypeChooser), std::to_string(static_cast<int>(prefix)).c_str());
+    xoj::util::dropdown::setActiveId(this->linkTypeChooser, std::to_string(static_cast<int>(prefix)));
     std::string fontName = font.getName() + " " + std::to_string(font.getSize());
     {
         PangoFontDescription* desc = pango_font_description_from_string(fontName.c_str());
@@ -71,7 +76,7 @@ void LinkDialog::preset(XojFont font, std::string text, std::string url, TextAli
 std::string LinkDialog::getText() { return this->linkText; }
 
 std::string LinkDialog::getURL() {
-    std::string res = gtk_combo_box_text_get_active_text(this->linkTypeChooser);
+    std::string res = xoj::util::dropdown::getActiveText(this->linkTypeChooser);
     if (res == "<custom>") {
         res = "";
     }
@@ -119,8 +124,8 @@ XojFont LinkDialog::getFont() {
     return XojFont(font.get());
 }
 
-void LinkDialog::urlPrefixChanged(GtkComboBoxText* eventSource) {
-    URLPrefix prefix = static_cast<URLPrefix>(std::stoi(gtk_combo_box_get_active_id(GTK_COMBO_BOX(eventSource))));
+void LinkDialog::urlPrefixChanged(GtkDropDown* eventSource) {
+    URLPrefix prefix = static_cast<URLPrefix>(std::stoi(xoj::util::dropdown::getActiveId(eventSource).value_or("0")));
     switch (prefix) {
         case URLPrefix::NONE:
             gtk_entry_set_placeholder_text(this->urlInput, PLACEHOLDER_OTHER);

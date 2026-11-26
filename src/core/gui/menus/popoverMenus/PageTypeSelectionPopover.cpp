@@ -13,6 +13,7 @@
 #include "gui/dialog/FormatDialog.h"
 #include "gui/menus/StaticAssertActionNamespace.h"
 #include "model/XojPage.h"
+#include "util/DropDown.h"
 #include "util/Assert.h"
 #include "util/PopupWindowWrapper.h"
 #include "util/Util.h"
@@ -232,13 +233,13 @@ GtkWidget* PageTypeSelectionPopover::createPopover() const {
     gtk_box_append(pageFormatBox, GTK_WIDGET(orientationFormatBox));
     gtk_widget_set_hexpand(GTK_WIDGET(orientationFormatBox), true);
 
-    GtkWidget* pageFormatComboBox = gtk_combo_box_new();
-    PaperFormatUtils::fillPaperFormatDropDown(paperSizeMenuOptions, GTK_COMBO_BOX(pageFormatComboBox));
+    GtkWidget* pageFormatComboBox = gtk_drop_down_new(nullptr, nullptr);
+    PaperFormatUtils::fillPaperFormatDropDown(paperSizeMenuOptions, GTK_DROP_DOWN(pageFormatComboBox));
     gtk_widget_set_halign(pageFormatComboBox, GTK_ALIGN_END);
-    gtk_combo_box_set_active(GTK_COMBO_BOX(pageFormatComboBox),
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(pageFormatComboBox),
                              static_cast<gint>(getComboBoxIndexForPaperSize(selectedPageSize)));
-    g_signal_connect(pageFormatComboBox, "changed", G_CALLBACK(changedPaperFormatTemplateCb),
-                     const_cast<PageTypeSelectionPopover*>(this));
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(pageFormatComboBox), changedPaperFormatTemplateCb,
+                                        const_cast<PageTypeSelectionPopover*>(this));
     gtk_box_append(pageFormatBox, pageFormatComboBox);
 
     connectToLonglivedAction(
@@ -307,7 +308,7 @@ GtkWidget* PageTypeSelectionPopover::createPopover() const {
     g_signal_connect_object(this->comboBoxChangeSelectionAction.get(), "activate",
                             G_CALLBACK(+[](GSimpleAction*, GVariant* comboBoxIndex, gpointer comboBoxPtr) {
                                 auto* comboBox = static_cast<GtkWidget*>(comboBoxPtr);
-                                gtk_combo_box_set_active(GTK_COMBO_BOX(comboBox),
+                                xoj::util::dropdown::setActive(GTK_DROP_DOWN(comboBox),
                                                          static_cast<gint>(getGVariantValue<guint32>(comboBoxIndex)));
                             }),
                             pageFormatComboBox, GConnectFlags(0));
@@ -336,11 +337,12 @@ GtkWidget* PageTypeSelectionPopover::createPopover() const {
 
     return popover;
 }
-void PageTypeSelectionPopover::changedPaperFormatTemplateCb(GtkComboBox* widget, PageTypeSelectionPopover* self) {
+void PageTypeSelectionPopover::changedPaperFormatTemplateCb(GtkDropDown* widget, gpointer data) {
+    auto* self = static_cast<PageTypeSelectionPopover*>(data);
     if (self->ignoreComboBoxSelectionChange) {
         return;
     }
-    auto selected = static_cast<uint32_t>(gtk_combo_box_get_active(widget));
+    auto selected = static_cast<uint32_t>(xoj::util::dropdown::getActive(widget));
     if (selected < self->customPaperSizeIndex) {
         auto orientation = static_cast<PaperOrientation>(getGVariantValue<bool>(
                 xoj::util::GVariantSPtr(g_action_get_state(G_ACTION(self->orientationAction.get())), xoj::util::adopt)

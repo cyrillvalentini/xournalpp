@@ -9,6 +9,7 @@
 
 #include "control/jobs/ExportParameters.h"
 #include "gui/Builder.h"
+#include "util/DropDown.h"
 #include "util/ElementRange.h"  // for parse, PageRangeVector
 
 class GladeSearchpath;
@@ -18,11 +19,13 @@ constexpr auto UI_DIALOG_NAME = "exportDialog";
 
 using namespace xoj::popup;
 
-static ExportFormat readFormat(GtkComboBox* cb) {
-    const char* id = gtk_combo_box_get_active_id(cb);
-    if (!id) {
+static ExportFormat readFormat(GtkDropDown* cb) {
+    auto activeId = xoj::util::dropdown::getActiveId(cb);
+    if (!activeId) {
         return EXPORT_GRAPHICS_UNDEFINED;
-    } else if (std::string_view sv(id); sv == "svg") {
+    }
+    const char* id = activeId->c_str();
+    if (std::string_view sv(id); sv == "svg") {
         return EXPORT_GRAPHICS_SVG;
     } else if (sv == "png") {
         return EXPORT_GRAPHICS_PNG;
@@ -44,7 +47,10 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
     gtk_label_set_text(GTK_LABEL(builder.get("lbCurrentPage")), std::to_string(currentPage).c_str());
 
 
-    auto visibilityCb = +[](GtkComboBox* cb, ExportDialog* self) {
+    // The export format of each entry (same order as in exportSettings.ui)
+    xoj::util::dropdown::setIds(GTK_DROP_DOWN(builder.get("cbtExportFormat")), {"pdf", "png", "svg", "xoj"});
+    auto visibilityCb = +[](GtkDropDown* cb, gpointer data) {
+        auto* self = static_cast<ExportDialog*>(data);
         auto fmt = readFormat(cb);
         bool isPNG = fmt == EXPORT_GRAPHICS_PNG;
         bool isPDF = fmt == EXPORT_GRAPHICS_PDF;
@@ -54,15 +60,15 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
         gtk_widget_set_visible(self->builder.get("cbProgressiveMode"), isPDF);
         gtk_widget_set_visible(self->builder.get("boxPdfBackend"), isPDF);
     };
-    visibilityCb(GTK_COMBO_BOX(builder.get("cbtExportFormat")), this);
-    g_signal_connect(builder.get("cbtExportFormat"), "changed", G_CALLBACK(visibilityCb), this);
+    visibilityCb(GTK_DROP_DOWN(builder.get("cbtExportFormat")), this);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(builder.get("cbtExportFormat")), visibilityCb, this);
 
     //  Populate the PDF backend menu
-    auto* cbt = GTK_COMBO_BOX_TEXT(builder.get("cbtPdfExportBackend"));
+    auto* cbt = GTK_DROP_DOWN(builder.get("cbtPdfExportBackend"));
     for (auto&& [id, name]: PdfExportBackend::getPrettyNamesOfAvailableBackends()) {
-        gtk_combo_box_text_append(cbt, id, name);
+        xoj::util::dropdown::append(cbt, name, id);
     }
-    gtk_combo_box_set_active_id(GTK_COMBO_BOX(cbt), PdfExportBackend::DEFAULT_ID_STRING);
+    xoj::util::dropdown::setActiveId(cbt, PdfExportBackend::DEFAULT_ID_STRING);
     if (!hasPdfBackground) {
         // No need for backend selection if no pdf background is present.
         gtk_widget_set_sensitive(builder.get("boxPdfBackend"), false);
@@ -112,7 +118,7 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
     });
 
     g_signal_connect(builder.get("rdRangePages"), "toggled", toggledHandler, this);
-    g_signal_connect(builder.get("cbQuality"), "changed", G_CALLBACK(ExportDialog::selectQualityCriterion), this);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(builder.get("cbQuality")), ExportDialog::selectQualityCriterion, this);
     g_signal_connect(builder.get("txtPages"), "changed", changedHandler, this);
 
 
@@ -133,8 +139,9 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
 
 ExportDialog::~ExportDialog() = default;
 
-void ExportDialog::selectQualityCriterion(GtkComboBox* comboBox, ExportDialog* self) {
-    int activeCriterion = gtk_combo_box_get_active(comboBox);
+void ExportDialog::selectQualityCriterion(GtkDropDown* comboBox, gpointer data) {
+    auto* self = static_cast<ExportDialog*>(data);
+    int activeCriterion = xoj::util::dropdown::getActive(comboBox);
     switch (activeCriterion) {
         case EXPORT_QUALITY_DPI:
             gtk_label_set_text(GTK_LABEL(self->builder.get("lbQualityUnit")), "dpi");
@@ -156,7 +163,7 @@ void ExportDialog::onSuccessCallback(ExportDialog* self) {
     self->parameters->progressiveMode =
             gtk_check_button_get_active(GTK_CHECK_BUTTON(self->builder.get("cbProgressiveMode")));
     self->parameters->backgroundType = static_cast<ExportBackgroundType>(
-            gtk_combo_box_get_active(GTK_COMBO_BOX(self->builder.get("cbBackgroundType"))));
+            xoj::util::dropdown::getActive(GTK_DROP_DOWN(self->builder.get("cbBackgroundType"))));
     self->parameters->pageRanges = [self]() {
         GtkWidget* rdRangeCurrent = self->builder.get("rdRangeCurrent");
         GtkWidget* rdRangePages = self->builder.get("rdRangePages");
@@ -176,11 +183,11 @@ void ExportDialog::onSuccessCallback(ExportDialog* self) {
         return range;
     }();
     self->parameters->pdfExportBackend = PdfExportBackend::fromString(
-            gtk_combo_box_get_active_id(GTK_COMBO_BOX(self->builder.get("cbtPdfExportBackend"))));
+            xoj::util::dropdown::getActiveId(GTK_DROP_DOWN(self->builder.get("cbtPdfExportBackend"))).value_or("").c_str());
     self->parameters->qualityParameter = RasterImageQualityParameter(
             static_cast<ExportQualityCriterion>(
-                    gtk_combo_box_get_active(GTK_COMBO_BOX(self->builder.get("cbQuality")))),
+                    xoj::util::dropdown::getActive(GTK_DROP_DOWN(self->builder.get("cbQuality")))),
             gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(self->builder.get("sbQualityValue"))));
-    self->parameters->format = readFormat(GTK_COMBO_BOX(self->builder.get("cbtExportFormat")));
+    self->parameters->format = readFormat(GTK_DROP_DOWN(self->builder.get("cbtExportFormat")));
     gtk_window_close(self->window.get());
 }

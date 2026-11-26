@@ -35,9 +35,8 @@ using PaperFormatMenuOptionVector = std::vector<std::variant<std::string, xoj::u
 void loadDefaultPaperSizes(PaperFormatMenuOptionVector& menuOptions);
 
 /**
- * @brief Adds the entries passed as vector of GtkPaperSize entries and/or special entries to the given combo box
- * @param menuOptions The vector of menu options
- * @param paperFormatComboBox A pointer to the combo box which should be configured as a paper format dropdown
+ * @brief Sets the entries of the drop down to the given GtkPaperSize entries and/or special entries.
+ * Entry i of the drop down corresponds to menuOptions[i].
  */
-void fillPaperFormatDropDown(const PaperFormatMenuOptionVector& menuOptions, GtkComboBox* paperFormatComboBox);
+void fillPaperFormatDropDown(const PaperFormatMenuOptionVector& menuOptions, GtkDropDown* paperFormatDropDown);
 }  // namespace PaperFormatUtils

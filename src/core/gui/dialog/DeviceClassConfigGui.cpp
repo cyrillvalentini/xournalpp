@@ -8,6 +8,7 @@
 #include "control/settings/Settings.h"       // for Settings
 #include "control/settings/SettingsEnums.h"  // for InputDeviceTypeOption
 #include "gui/Builder.h"                     // for Builder
+#include "util/DropDown.h"
 #include "util/Assert.h"                     // for xoj_assert
 
 class GladeSearchpath;
@@ -23,6 +24,8 @@ DeviceClassConfigGui::DeviceClassConfigGui(GladeSearchpath* gladeSearchPath, Gtk
 
     this->labelDevice = builder.get("labelDevice");
     this->cbDeviceClass = builder.get("cbDeviceClass");
+    // The InputDeviceTypeOption of each entry (same order as in settingsDeviceClassConfig.ui)
+    xoj::util::dropdown::setIds(GTK_DROP_DOWN(this->cbDeviceClass), {"0", "1", "2", "3", "4"});
     auto* applyBtn = builder.get("btnApply");
 
     gtk_widget_set_visible(applyBtn, showApplyBtn);
@@ -48,13 +51,12 @@ void DeviceClassConfigGui::loadSettings() {
     InputDeviceTypeOption deviceType =
             this->settings->getDeviceClassForDevice(this->device.getName(), this->device.getSource());
     // Use the ID of each option in case the combo box options get rearranged in the future
-    gtk_combo_box_set_active_id(GTK_COMBO_BOX(this->cbDeviceClass),
-                                std::to_string(static_cast<int>(deviceType)).c_str());
+    xoj::util::dropdown::setActiveId(GTK_DROP_DOWN(this->cbDeviceClass), std::to_string(static_cast<int>(deviceType)));
 }
 
 void DeviceClassConfigGui::saveSettings() {
-    const gchar* deviceClassId = gtk_combo_box_get_active_id(GTK_COMBO_BOX(this->cbDeviceClass));
-    xoj_assert(deviceClassId != nullptr);
-    auto deviceClass = static_cast<InputDeviceTypeOption>(g_ascii_strtoll(deviceClassId, nullptr, 10));
+    auto deviceClassId = xoj::util::dropdown::getActiveId(GTK_DROP_DOWN(this->cbDeviceClass));
+    xoj_assert(deviceClassId.has_value());
+    auto deviceClass = static_cast<InputDeviceTypeOption>(g_ascii_strtoll(deviceClassId->c_str(), nullptr, 10));
     this->settings->setDeviceClassForDevice(this->device.getName(), this->device.getSource(), deviceClass);
 }

@@ -15,7 +15,11 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="labelDevice">
+          <object class="GtkDropDown" id="labelDevice">
+            <property name="model">
+              <object class="GtkStringList">
+              </object>
+            </property>
             <property name="name">labelDevice</property>
             <property name="hexpand">1</property>
           </object>
@@ -33,7 +37,11 @@
     <child>
       <object class="GtkGrid" id="grid2">
         <child>
-          <object class="GtkComboBox" id="cbTool">
+          <object class="GtkDropDown" id="cbTool">
+            <property name="model">
+              <object class="GtkStringList">
+              </object>
+            </property>
             <property name="name">cbTool</property>
             <property name="hexpand">1</property>
             <layout>
@@ -43,7 +51,11 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cbThickness">
+          <object class="GtkDropDown" id="cbThickness">
+            <property name="model">
+              <object class="GtkStringList">
+              </object>
+            </property>
             <property name="name">cbThickness</property>
             <property name="hexpand">1</property>
             <layout>
@@ -53,7 +65,11 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cbColor">
+          <object class="GtkDropDown" id="cbColor">
+            <property name="model">
+              <object class="GtkStringList">
+              </object>
+            </property>
             <property name="name">cbColor</property>
             <property name="hexpand">1</property>
             <layout>
@@ -79,7 +95,11 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cbDrawingType">
+          <object class="GtkDropDown" id="cbDrawingType">
+            <property name="model">
+              <object class="GtkStringList">
+              </object>
+            </property>
             <property name="name">cbDrawingType</property>
             <property name="hexpand">1</property>
             <layout>
@@ -89,15 +109,19 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cbEraserType">
+          <object class="GtkDropDown" id="cbEraserType">
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">Eraser Type - don&apos;t change</item>
+                  <item translatable="yes">Standard</item>
+                  <item translatable="yes">Whiteout</item>
+                  <item translatable="yes">Delete stroke</item>
+                </items>
+              </object>
+            </property>
             <property name="name">cbEraserType</property>
             <property name="hexpand">1</property>
-            <items>
-              <item translatable="yes">Eraser Type - don&apos;t change</item>
-              <item translatable="yes">Standard</item>
-              <item translatable="yes">Whiteout</item>
-              <item translatable="yes">Delete stroke</item>
-            </items>
             <layout>
               <property name="column">1</property>
               <property name="row">1</property>
@@ -105,16 +129,20 @@
           </object>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cbStrokeType">
+          <object class="GtkDropDown" id="cbStrokeType">
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">Stroke Type - don&apos;t change</item>
+                  <item translatable="yes">Standard</item>
+                  <item translatable="yes">Dashed</item>
+                  <item translatable="yes">Dash-dotted</item>
+                  <item translatable="yes">Dotted</item>
+                </items>
+              </object>
+            </property>
             <property name="name">cbStrokeType</property>
             <property name="hexpand">1</property>
-            <items>
-              <item translatable="yes">Stroke Type - don&apos;t change</item>
-              <item translatable="yes">Standard</item>
-              <item translatable="yes">Dashed</item>
-              <item translatable="yes">Dash-dotted</item>
-              <item translatable="yes">Dotted</item>
-            </items>
             <layout>
               <property name="column">0</property>
               <property name="row">2</property>

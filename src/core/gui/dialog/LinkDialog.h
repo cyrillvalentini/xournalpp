@@ -43,7 +43,7 @@ public:
     void okButtonPressed();
     void cancelButtonPressed();
     void layoutToggled(TextAlignment l);
-    void urlPrefixChanged(GtkComboBoxText* source);
+    void urlPrefixChanged(GtkDropDown* source);
 
 private:
     bool isTextValid(const std::string& text);
@@ -64,7 +64,7 @@ private:
     GtkToggleButton* layoutCenter = nullptr;
     GtkToggleButton* layoutRight = nullptr;
 
-    GtkComboBoxText* linkTypeChooser = nullptr;
+    GtkDropDown* linkTypeChooser = nullptr;
 
     std::string linkText;
     std::string linkURL;

@@ -20,6 +20,7 @@
 #include "gui/toolbarMenubar/model/ColorPalette.h"  // for Palette
 #include "gui/widgets/ZoomCallib.h"                 // for zoomcallib_new, zoom...
 #include "model/PageType.h"                         // for PageType
+#include "util/DropDown.h"
 #include "util/Color.h"                             // for GdkRGBA_to_argb, rgb...
 #include "util/GtkUtil.h"                           // for getWidgetDPI
 #include "util/PathUtil.h"                          // for fromGFile
@@ -154,30 +155,36 @@ SettingsDialog::SettingsDialog(GladeSearchpath* gladeSearchPath, Settings* setti
                              }),
                              this);
 
-    g_signal_connect_swapped(builder.get("cbTouchDisableMethod"), "changed",
-                             G_CALLBACK(+[](SettingsDialog* self) { self->customHandRecognitionToggled(); }), this);
+    xoj::util::dropdown::connectChanged(
+            GTK_DROP_DOWN(builder.get("cbTouchDisableMethod")),
+            +[](GtkDropDown*, gpointer self) { static_cast<SettingsDialog*>(self)->customHandRecognitionToggled(); },
+            this);
 
     g_signal_connect_swapped(builder.get("cbEnableZoomGestures"), "toggled", G_CALLBACK(+[](SettingsDialog* self) {
                                  self->enableWithCheckbox("cbEnableZoomGestures", "gdStartZoomAtSetting");
                              }),
                              this);
 
-    g_signal_connect_swapped(builder.get("cbStylusCursorType"), "changed",
-                             G_CALLBACK(+[](SettingsDialog* self) { self->customStylusIconTypeChanged(); }), this);
+    xoj::util::dropdown::connectChanged(
+            GTK_DROP_DOWN(builder.get("cbStylusCursorType")),
+            +[](GtkDropDown*, gpointer self) { static_cast<SettingsDialog*>(self)->customStylusIconTypeChanged(); },
+            this);
 
-    g_signal_connect(GTK_COMBO_BOX(builder.get("cbStabilizerAveragingMethods")), "changed",
-                     G_CALLBACK(+[](GtkComboBox* comboBox, gpointer self) {
-                         static_cast<SettingsDialog*>(self)->showStabilizerAvMethodOptions(
-                                 static_cast<StrokeStabilizer::AveragingMethod>(gtk_combo_box_get_active(comboBox)));
-                     }),
-                     this);
+    xoj::util::dropdown::connectChanged(
+            GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods")),
+            +[](GtkDropDown* dd, gpointer self) {
+                static_cast<SettingsDialog*>(self)->showStabilizerAvMethodOptions(
+                        static_cast<StrokeStabilizer::AveragingMethod>(xoj::util::dropdown::getActive(dd)));
+            },
+            this);
 
-    g_signal_connect(GTK_COMBO_BOX(builder.get("cbStabilizerPreprocessors")), "changed",
-                     G_CALLBACK(+[](GtkComboBox* comboBox, gpointer self) {
-                         static_cast<SettingsDialog*>(self)->showStabilizerPreprocessorOptions(
-                                 static_cast<StrokeStabilizer::Preprocessor>(gtk_combo_box_get_active(comboBox)));
-                     }),
-                     this);
+    xoj::util::dropdown::connectChanged(
+            GTK_DROP_DOWN(builder.get("cbStabilizerPreprocessors")),
+            +[](GtkDropDown* dd, gpointer self) {
+                static_cast<SettingsDialog*>(self)->showStabilizerPreprocessorOptions(
+                        static_cast<StrokeStabilizer::Preprocessor>(xoj::util::dropdown::getActive(dd)));
+            },
+            this);
 
     g_signal_connect_swapped(builder.get("btOk"), "clicked", G_CALLBACK(+[](SettingsDialog* self) {
                                  self->save();
@@ -296,13 +303,13 @@ void SettingsDialog::updatePressureSensitivityOptions() {
 
 void SettingsDialog::customHandRecognitionToggled() {
     GtkWidget* cbTouchDisableMethod = builder.get("cbTouchDisableMethod");
-    int touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(cbTouchDisableMethod));
+    int touchMethod = xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbTouchDisableMethod));
     gtk_widget_set_sensitive(builder.get("boxCustomTouchDisableSettings"), touchMethod == 2);
 }
 
 void SettingsDialog::customStylusIconTypeChanged() {
     GtkWidget* cbStylusCursorType = builder.get("cbStylusCursorType");
-    int stylusCursorType = gtk_combo_box_get_active(GTK_COMBO_BOX(cbStylusCursorType));
+    int stylusCursorType = xoj::util::dropdown::getActive(GTK_DROP_DOWN(cbStylusCursorType));
     bool showCursorHighlightOptions =
             (stylusCursorType != STYLUS_CURSOR_NONE && stylusCursorType != STYLUS_CURSOR_ARROW);
     gtk_widget_set_sensitive(builder.get("highlightCursorGrid"), showCursorHighlightOptions);
@@ -317,7 +324,7 @@ void SettingsDialog::showStabilizerAvMethodOptions(StrokeStabilizer::AveragingMe
     gtk_widget_set_visible(builder.get("lbStabilizerSigma"), showSigma);
     gtk_widget_set_visible(builder.get("sbStabilizerSigma"), showSigma);
 
-    bool preprocessorOn = static_cast<StrokeStabilizer::Preprocessor>(gtk_combo_box_get_active(GTK_COMBO_BOX(
+    bool preprocessorOn = static_cast<StrokeStabilizer::Preprocessor>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(
                                   builder.get("cbStabilizerPreprocessors")))) != StrokeStabilizer::Preprocessor::NONE;
     bool sensitive = showSigma || showArithmetic || preprocessorOn;
     gtk_widget_set_sensitive(builder.get("cbStabilizerEnableFinalizeStroke"), sensitive);
@@ -336,7 +343,7 @@ void SettingsDialog::showStabilizerPreprocessorOptions(StrokeStabilizer::Preproc
     gtk_widget_set_visible(builder.get("sbStabilizerMass"), showInertia);
 
     bool averagingOn = static_cast<StrokeStabilizer::AveragingMethod>(
-                               gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbStabilizerAveragingMethods")))) !=
+                               xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods")))) !=
                        StrokeStabilizer::AveragingMethod::NONE;
     bool sensitive = showDeadzone || showInertia || averagingOn;
     gtk_widget_set_sensitive(builder.get("cbStabilizerEnableFinalizeStroke"), sensitive);
@@ -404,16 +411,16 @@ void SettingsDialog::load() {
     GtkWidget* sbStabilizerSigma = builder.get("sbStabilizerSigma");
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(sbStabilizerSigma), settings->getStabilizerSigma());
 
-    GtkComboBox* cbStabilizerAveragingMethods = GTK_COMBO_BOX(builder.get("cbStabilizerAveragingMethods"));
-    gtk_combo_box_set_active(cbStabilizerAveragingMethods, static_cast<int>(settings->getStabilizerAveragingMethod()));
+    GtkDropDown* cbStabilizerAveragingMethods = GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods"));
+    xoj::util::dropdown::setActive(cbStabilizerAveragingMethods, static_cast<int>(settings->getStabilizerAveragingMethod()));
     showStabilizerAvMethodOptions(settings->getStabilizerAveragingMethod());
-    GtkComboBox* cbStabilizerPreprocessors = GTK_COMBO_BOX(builder.get("cbStabilizerPreprocessors"));
-    gtk_combo_box_set_active(cbStabilizerPreprocessors, static_cast<int>(settings->getStabilizerPreprocessor()));
+    GtkDropDown* cbStabilizerPreprocessors = GTK_DROP_DOWN(builder.get("cbStabilizerPreprocessors"));
+    xoj::util::dropdown::setActive(cbStabilizerPreprocessors, static_cast<int>(settings->getStabilizerPreprocessor()));
     showStabilizerPreprocessorOptions(settings->getStabilizerPreprocessor());
     /***********/
 
-    GtkComboBox* cbSidebarNumberingStyle = GTK_COMBO_BOX(builder.get("cbSidebarPageNumberStyle"));
-    gtk_combo_box_set_active(cbSidebarNumberingStyle, static_cast<int>(settings->getSidebarNumberingStyle()));
+    GtkDropDown* cbSidebarNumberingStyle = GTK_DROP_DOWN(builder.get("cbSidebarPageNumberStyle"));
+    xoj::util::dropdown::setActive(cbSidebarNumberingStyle, static_cast<int>(settings->getSidebarNumberingStyle()));
 
     GtkWidget* txtDefaultSaveName = builder.get("txtDefaultSaveName");
     gtk_editable_set_text(GTK_EDITABLE(txtDefaultSaveName), char_cast(settings->getDefaultSaveName().c_str()));
@@ -559,56 +566,56 @@ void SettingsDialog::load() {
 
     switch (settings->getStylusCursorType()) {
         case STYLUS_CURSOR_NONE:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbStylusCursorType")), 0);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbStylusCursorType")), 0);
             break;
         case STYLUS_CURSOR_BIG:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbStylusCursorType")), 2);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbStylusCursorType")), 2);
             break;
         case STYLUS_CURSOR_ARROW:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbStylusCursorType")), 3);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbStylusCursorType")), 3);
             break;
         case STYLUS_CURSOR_DOT:
         default:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbStylusCursorType")), 1);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbStylusCursorType")), 1);
             break;
     }
 
     switch (settings->getEraserVisibility()) {
         case ERASER_VISIBILITY_NEVER:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbEraserVisibility")), 0);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbEraserVisibility")), 0);
             break;
         case ERASER_VISIBILITY_HOVER:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbEraserVisibility")), 2);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbEraserVisibility")), 2);
             break;
         case ERASER_VISIBILITY_TOUCH:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbEraserVisibility")), 3);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbEraserVisibility")), 3);
             break;
         case ERASER_VISIBILITY_ALWAYS:
         default:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbEraserVisibility")), 1);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbEraserVisibility")), 1);
             break;
     }
 
     switch (settings->getIconTheme()) {
         case ICON_THEME_LUCIDE:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbIconTheme")), 1);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbIconTheme")), 1);
             break;
         case ICON_THEME_COLOR:
         default:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbIconTheme")), 0);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbIconTheme")), 0);
             break;
     }
 
     switch (settings->getThemeVariant()) {
         case THEME_VARIANT_FORCE_LIGHT:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbThemeVariant")), 1);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbThemeVariant")), 1);
             break;
         case THEME_VARIANT_FORCE_DARK:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbThemeVariant")), 2);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbThemeVariant")), 2);
             break;
         case THEME_VARIANT_USE_SYSTEM:
         default:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbThemeVariant")), 0);
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbThemeVariant")), 0);
             break;
     }
 
@@ -675,7 +682,7 @@ void SettingsDialog::load() {
         methodId = 2;
     }
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbTouchDisableMethod")), methodId);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbTouchDisableMethod")), methodId);
 
     string cmd;
     touch.getString("cmdEnable", cmd);
@@ -693,44 +700,42 @@ void SettingsDialog::load() {
     setAudioRecordingFolder(settings->getAudioFolder());
     if (this->control->getAudioController()) {
         this->audioInputDevices = this->control->getAudioController()->getInputDevices();
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(builder.get("cbAudioInputDevice")), "", "System default");
-        gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioInputDevice")), 0);
+        xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), "System default");
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), 0);
         for (auto& audioInputDevice: this->audioInputDevices) {
-            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(builder.get("cbAudioInputDevice")), "",
-                                      audioInputDevice.getDeviceName().c_str());
+            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), audioInputDevice.getDeviceName());
         }
         for (size_t i = 0; i < this->audioInputDevices.size(); i++) {
             if (this->audioInputDevices[i].getSelected()) {
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioInputDevice")), static_cast<gint>(i + 1));
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), static_cast<gint>(i + 1));
             }
         }
 
         this->audioOutputDevices = this->control->getAudioController()->getOutputDevices();
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(builder.get("cbAudioOutputDevice")), "", "System default");
-        gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioOutputDevice")), 0);
+        xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), "System default");
+        xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), 0);
         for (auto& audioOutputDevice: this->audioOutputDevices) {
-            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(builder.get("cbAudioOutputDevice")), "",
-                                      audioOutputDevice.getDeviceName().c_str());
+            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), audioOutputDevice.getDeviceName());
         }
         for (size_t i = 0; i < this->audioOutputDevices.size(); i++) {
             if (this->audioOutputDevices[i].getSelected()) {
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioOutputDevice")), static_cast<gint>(i + 1));
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), static_cast<gint>(i + 1));
             }
         }
 
         switch (static_cast<int>(settings->getAudioSampleRate())) {
             case 16000:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioSampleRate")), 0);
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioSampleRate")), 0);
                 break;
             case 96000:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioSampleRate")), 2);
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioSampleRate")), 2);
                 break;
             case 192000:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioSampleRate")), 3);
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioSampleRate")), 3);
                 break;
             case 44100:
             default:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(builder.get("cbAudioSampleRate")), 1);
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioSampleRate")), 1);
                 break;
         }
 
@@ -790,9 +795,9 @@ void SettingsDialog::save() {
      * Stabilizer related settings
      */
     settings->setStabilizerAveragingMethod(static_cast<StrokeStabilizer::AveragingMethod>(
-            gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbStabilizerAveragingMethods")))));
+            xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods")))));
     settings->setStabilizerPreprocessor(static_cast<StrokeStabilizer::Preprocessor>(
-            gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbStabilizerPreprocessors")))));
+            xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbStabilizerPreprocessors")))));
     settings->setStabilizerBuffersize(static_cast<size_t>(
             gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(builder.get("sbStabilizerBuffersize")))));
     settings->setStabilizerDeadzoneRadius(
@@ -804,7 +809,7 @@ void SettingsDialog::save() {
     settings->setStabilizerFinalizeStroke(getCheckbox("cbStabilizerEnableFinalizeStroke"));
 
     settings->setSidebarNumberingStyle(static_cast<SidebarNumberingStyle>(
-            gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbSidebarPageNumberStyle")))));
+            xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbSidebarPageNumberStyle")))));
 
     auto scrollbarHideType =
             static_cast<std::make_unsigned<std::underlying_type<ScrollbarHideType>::type>::type>(SCROLLBAR_HIDE_NONE);
@@ -848,7 +853,7 @@ void SettingsDialog::save() {
     GtkWidget* spCursorHighlightBorderWidth = builder.get("cursorHighlightBorderWidth");
     settings->setCursorHighlightBorderWidth(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spCursorHighlightBorderWidth)));
 
-    switch (gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbStylusCursorType")))) {
+    switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbStylusCursorType")))) {
         case 0:
             settings->setStylusCursorType(STYLUS_CURSOR_NONE);
             break;
@@ -864,7 +869,7 @@ void SettingsDialog::save() {
             break;
     }
 
-    switch (gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbEraserVisibility")))) {
+    switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbEraserVisibility")))) {
         case 0:
             settings->setEraserVisibility(ERASER_VISIBILITY_NEVER);
             break;
@@ -880,7 +885,7 @@ void SettingsDialog::save() {
             break;
     }
 
-    switch (gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbIconTheme")))) {
+    switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbIconTheme")))) {
         case 1:
             settings->setIconTheme(ICON_THEME_LUCIDE);
             break;
@@ -890,7 +895,7 @@ void SettingsDialog::save() {
             break;
     }
 
-    switch (gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbThemeVariant")))) {
+    switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbThemeVariant")))) {
         case 1:
             settings->setThemeVariant(THEME_VARIANT_FORCE_LIGHT);
             break;
@@ -1030,7 +1035,7 @@ void SettingsDialog::save() {
 
     SElement& touch = settings->getCustomElement("touch");
     touch.setBool("disableTouch", getCheckbox("cbDisableTouchOnPenNear"));
-    int touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbTouchDisableMethod")));
+    int touchMethod = xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbTouchDisableMethod")));
 
     switch (touchMethod) {
         case 1:
@@ -1064,7 +1069,7 @@ void SettingsDialog::save() {
     settings->setAudioFolder(audioRecordingsFolder);
 
     size_t selectedInputDeviceIndex =
-            static_cast<size_t>(gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbAudioInputDevice"))));
+            static_cast<size_t>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice"))));
     if (selectedInputDeviceIndex == 0) {
         settings->setAudioInputDevice(Settings::AUDIO_INPUT_SYSTEM_DEFAULT);
     } else if (selectedInputDeviceIndex - 1 < this->audioInputDevices.size()) {
@@ -1072,14 +1077,14 @@ void SettingsDialog::save() {
     }
 
     size_t selectedOutputDeviceIndex =
-            static_cast<size_t>(gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbAudioOutputDevice"))));
+            static_cast<size_t>(xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice"))));
     if (selectedOutputDeviceIndex == 0) {
         settings->setAudioOutputDevice(Settings::AUDIO_OUTPUT_SYSTEM_DEFAULT);
     } else if (selectedOutputDeviceIndex - 1 < this->audioOutputDevices.size()) {
         settings->setAudioOutputDevice(this->audioOutputDevices[selectedOutputDeviceIndex - 1].getIndex());
     }
 
-    switch (gtk_combo_box_get_active(GTK_COMBO_BOX(builder.get("cbAudioSampleRate")))) {
+    switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbAudioSampleRate")))) {
         case 0:
             settings->setAudioSampleRate(16000.0);
             break;

@@ -40,8 +40,8 @@ private:
 
     static void portraitSelectedCb(GtkToggleButton* bt, FormatDialog* dlg);
     static void landscapeSelectedCb(GtkToggleButton* bt, FormatDialog* dlg);
-    static void cbFormatChangedCb(GtkComboBox* widget, FormatDialog* dlg);
-    static void cbUnitChanged(GtkComboBox* widget, FormatDialog* dlg);
+    static void cbFormatChangedCb(GtkDropDown* widget, gpointer dlg);
+    static void cbUnitChanged(GtkDropDown* widget, gpointer dlg);
     static void spinValueChangedCb(FormatDialog* dlg);
     static void reset(FormatDialog* self);
 
@@ -60,7 +60,7 @@ private:
     bool ignoreSpinChange = false;
 
 
-    GtkComboBox* paperTemplatesCombo;
+    GtkDropDown* paperTemplatesCombo;
     GtkSpinButton* widthSpin;
     GtkSpinButton* heightSpin;
     GtkToggleButton* landscapeButton;

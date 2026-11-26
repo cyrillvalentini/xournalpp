@@ -8,6 +8,7 @@
 #include <glib.h>         // for g_warning, gint
 
 #include "control/settings/Settings.h"  // for Settings
+#include "util/DropDown.h"
 #include "util/PathUtil.h"              // for getGettextFilepath, getLocale...
 #include "util/StringUtils.h"           // for StringUtils
 #include "util/XojMsgBox.h"             // for XojMsgBox
@@ -18,7 +19,7 @@
 #include "filesystem.h"  // for directory_iterator, operator/
 
 LanguageConfigGui::LanguageConfigGui(GtkBox* parent, Settings* settings):
-        comboBox(gtk_combo_box_text_new(), xoj::util::adopt), settings(settings) {
+        comboBox(gtk_drop_down_new(nullptr, nullptr), xoj::util::adopt), settings(settings) {
     gtk_box_append(parent, comboBox.get());
 
     // Fetch available locales
@@ -45,13 +46,7 @@ LanguageConfigGui::LanguageConfigGui(GtkBox* parent, Settings* settings):
     // Default
     availableLocales.insert(availableLocales.begin(), _("System Default"));
 
-    auto gtkAvailableLocales = gtk_list_store_new(1, G_TYPE_STRING);
-    for (auto const& i: availableLocales) {
-        GtkTreeIter iter;
-        gtk_list_store_append(gtkAvailableLocales, &iter);
-        gtk_list_store_set(gtkAvailableLocales, &iter, 0, i.c_str(), -1);
-    }
-    gtk_combo_box_set_model(GTK_COMBO_BOX(comboBox.get()), GTK_TREE_MODEL(gtkAvailableLocales));
+    xoj::util::dropdown::setItems(GTK_DROP_DOWN(comboBox.get()), availableLocales);
 
 
     // Set the current locale if previously selected
@@ -66,13 +61,13 @@ LanguageConfigGui::LanguageConfigGui(GtkBox* parent, Settings* settings):
         // Use system default
         return availableLocales.begin();
     }();
-    gtk_combo_box_set_active(GTK_COMBO_BOX(comboBox.get()),
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(comboBox.get()),
                              static_cast<gint>(std::distance(availableLocales.begin(), prefPos)));
 }
 
 
 void LanguageConfigGui::saveSettings() {
-    gint pos = gtk_combo_box_get_active(GTK_COMBO_BOX(comboBox.get()));
+    gint pos = xoj::util::dropdown::getActive(GTK_DROP_DOWN(comboBox.get()));
     auto pref = (pos == 0) ? "" : availableLocales[as_unsigned(pos)];
 
     settings->setPreferredLocale(pref);

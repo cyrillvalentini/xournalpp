@@ -8,6 +8,7 @@
 #include "control/settings/Settings.h"  // for Settings
 #include "gui/PaperFormatUtils.h"       // for PaperFormatUtils
 #include "model/FormatDefinitions.h"    // for FormatUnits, XOJ_UNITS, XOJ_U...
+#include "util/DropDown.h"
 #include "util/GListView.h"             // for GListView, GListView<>::GList...
 #include "util/StringUtils.h"           // for StringUtils
 #include "util/i18n.h"                  // for _
@@ -32,7 +33,7 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
     Builder builder(gladeSearchPath, UI_FILE);
     window.reset(GTK_WINDOW(builder.get(UI_DIALOG_NAME)));
 
-    paperTemplatesCombo = GTK_COMBO_BOX(builder.get("cbTemplate"));
+    paperTemplatesCombo = GTK_DROP_DOWN(builder.get("cbTemplate"));
     landscapeButton = GTK_TOGGLE_BUTTON(builder.get("btLandscape"));
     portraitButton = GTK_TOGGLE_BUTTON(builder.get("btPortrait"));
     widthSpin = GTK_SPIN_BUTTON(builder.get("spinWidth"));
@@ -41,9 +42,9 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
     GtkWidget* cbUnit = builder.get("cbUnit");
 
     for (int i = 0; i < XOJ_UNIT_COUNT; i++) {
-        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cbUnit), XOJ_UNITS[i].name);
+        xoj::util::dropdown::append(GTK_DROP_DOWN(cbUnit), XOJ_UNITS[i].name);
     }
-    gtk_combo_box_set_active(GTK_COMBO_BOX(cbUnit), this->selectedScale);
+    xoj::util::dropdown::setActive(GTK_DROP_DOWN(cbUnit), this->selectedScale);
 
 
     PaperFormatUtils::loadDefaultPaperSizes(paperSizes);
@@ -56,8 +57,8 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
 
     g_signal_connect(landscapeButton, "toggled", G_CALLBACK(landscapeSelectedCb), this);
     g_signal_connect(portraitButton, "toggled", G_CALLBACK(portraitSelectedCb), this);
-    g_signal_connect(paperTemplatesCombo, "changed", G_CALLBACK(cbFormatChangedCb), this);
-    g_signal_connect(cbUnit, "changed", G_CALLBACK(cbUnitChanged), this);
+    xoj::util::dropdown::connectChanged(paperTemplatesCombo, cbFormatChangedCb, this);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(cbUnit), cbUnitChanged, this);
 
     g_signal_connect_swapped(widthSpin, "value-changed", G_CALLBACK(spinValueChangedCb), this);
     g_signal_connect_swapped(heightSpin, "value-changed", G_CALLBACK(spinValueChangedCb), this);
@@ -113,11 +114,12 @@ void FormatDialog::spinValueChangedCb(FormatDialog* dlg) {
         i++;
     }
 
-    gtk_combo_box_set_active(dlg->paperTemplatesCombo, i);
+    xoj::util::dropdown::setActive(dlg->paperTemplatesCombo, i);
 }
 
-void FormatDialog::cbUnitChanged(GtkComboBox* widget, FormatDialog* dlg) {
-    int selectd = gtk_combo_box_get_active(widget);
+void FormatDialog::cbUnitChanged(GtkDropDown* widget, gpointer data) {
+    auto* dlg = static_cast<FormatDialog*>(data);
+    int selectd = xoj::util::dropdown::getActive(widget);
     if (dlg->selectedScale == selectd) {
         return;
     }
@@ -131,25 +133,14 @@ void FormatDialog::cbUnitChanged(GtkComboBox* widget, FormatDialog* dlg) {
     dlg->setSpinValues(width / dlg->scale, height / dlg->scale);
 }
 
-void FormatDialog::cbFormatChangedCb(GtkComboBox* widget, FormatDialog* dlg) {
-    GtkTreeIter iter;
-
-    if (!gtk_combo_box_get_active_iter(widget, &iter)) {
+void FormatDialog::cbFormatChangedCb(GtkDropDown* widget, gpointer data) {
+    auto* dlg = static_cast<FormatDialog*>(data);
+    // Entry i is dlg->paperSizes[i]; the last entry ("Custom") has no paper size
+    int index = xoj::util::dropdown::getActive(widget);
+    if (index < 0 || static_cast<size_t>(index) >= dlg->paperSizes.size()) {
         return;
     }
-    GtkTreeModel* model = gtk_combo_box_get_model(widget);
-
-    GValue value = {0};
-    gtk_tree_model_get_value(model, &iter, 1, &value);
-
-    if (!G_VALUE_HOLDS_POINTER(&value)) {
-        return;
-    }
-    auto* s = static_cast<GtkPaperSize*>(g_value_get_pointer(&value));
-
-    if (s == nullptr) {
-        return;
-    }
+    auto* s = std::get<xoj::util::GtkPaperSizeUPtr>(dlg->paperSizes[static_cast<size_t>(index)]).get();
 
     double width = gtk_paper_size_get_width(s, GTK_UNIT_POINTS) / dlg->scale;
     double height = gtk_paper_size_get_height(s, GTK_UNIT_POINTS) / dlg->scale;

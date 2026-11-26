@@ -15,38 +15,6 @@
     <property name="step-increment">100</property>
     <property name="page-increment">1000</property>
   </object>
-  <object class="GtkListStore" id="listAvailableCriterion">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Resolution</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Width</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Height</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="listBackgroundType">
-    <columns>
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">None</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">No ruling</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">All</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkWindow" id="exportDialog">
     <property name="title" translatable="1">Export</property>
     <property name="resizable">0</property>
@@ -221,18 +189,17 @@ Set export parameters</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="cbQuality">
-                    <property name="model">listAvailableCriterion</property>
-                    <property name="active">0</property>
-                    <property name="id-column">0</property>
-                    <property name="active-id">0</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="cbQualityCell"/>
-                      <attributes>
-                        <attribute name="markup">0</attribute>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
+                  <object class="GtkDropDown" id="cbQuality">
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item translatable="yes">Resolution</item>
+                          <item translatable="yes">Width</item>
+                          <item translatable="yes">Height</item>
+                        </items>
+                      </object>
+                    </property>
+                    <property name="selected">0</property>
                     <layout>
                       <property name="column">1</property>
                       <property name="row">1</property>
@@ -267,18 +234,17 @@ Set export parameters</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="cbBackgroundType">
-                    <property name="model">listBackgroundType</property>
-                    <property name="active">2</property>
-                    <property name="id-column">0</property>
-                    <property name="active-id">0</property>
-                    <child>
-                      <object class="GtkCellRendererText" id="cbBackgroundTypeCell"/>
-                      <attributes>
-                        <attribute name="markup">0</attribute>
-                        <attribute name="text">0</attribute>
-                      </attributes>
-                    </child>
+                  <object class="GtkDropDown" id="cbBackgroundType">
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item translatable="yes">None</item>
+                          <item translatable="yes">No ruling</item>
+                          <item translatable="yes">All</item>
+                        </items>
+                      </object>
+                    </property>
+                    <property name="selected">2</property>
                     <layout>
                       <property name="column">1</property>
                       <property name="row">2</property>
@@ -298,21 +264,29 @@ Set export parameters</property>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkComboBoxText" id="cbtPdfExportBackend">
+                      <object class="GtkDropDown" id="cbtPdfExportBackend">
+                        <property name="model">
+                          <object class="GtkStringList">
+                          </object>
+                        </property>
                         <property name="hexpand">1</property>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="cbtExportFormat">
-                    <items>
-                      <item id="pdf">PDF</item>
-                      <item id="png">PNG</item>
-                      <item id="svg">SVG</item>
-                      <item id="xoj">XOJ</item>
-                    </items>
-                    <property name="active">0</property>
+                  <object class="GtkDropDown" id="cbtExportFormat">
+                    <property name="model">
+                      <object class="GtkStringList">
+                        <items>
+                          <item>PDF</item>
+                          <item>PNG</item>
+                          <item>SVG</item>
+                          <item>XOJ</item>
+                        </items>
+                      </object>
+                    </property>
+                    <property name="selected">0</property>
                     <layout>
                       <property name="column">1</property>
                       <property name="row">0</property>
