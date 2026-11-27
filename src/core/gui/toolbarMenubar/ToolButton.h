@@ -33,6 +33,8 @@ public:
 public:
     std::string getToolDisplayName() const override;
     void setPopoverFactory(const PopoverFactory* factory);
+    /// Show this text in the toolbar instead of the icon (the overflow menu and toolbar editor keep the icon)
+    void setButtonLabel(std::string label);
 
 protected:
     Widgetry createItem(ToolbarSide side) override;
@@ -49,4 +51,6 @@ protected:
     xoj::util::GVariantSPtr target;
     /// @brief Whether or not the button is a ToggleButton.
     bool toggle;
+    /// @brief If not empty, shown instead of the icon
+    std::string buttonLabel;
 };

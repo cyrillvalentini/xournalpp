@@ -45,13 +45,13 @@ auto ToolZoomSlider::createItem(ToolbarSide side) -> Widgetry {
             ~Listener() override { zoomCtrl->removeZoomListener(this); }
             void zoomChanged() override {}  // No need to do anything here. Handled by the GAction
             void zoomRangeValuesChanged() override {
+                // Xournal#: a single tick at 100 %, drawn on both sides of the bar. With marks on one side only,
+                // the theme draws a pointed handle and moves the bar off centre to make room for them.
                 gtk_scale_clear_marks(slider);
-                auto position = gtk_orientable_get_orientation(GTK_ORIENTABLE(slider)) == GTK_ORIENTATION_HORIZONTAL ?
-                                        GTK_POS_TOP :
-                                        GTK_POS_RIGHT;
-                gtk_scale_add_mark(slider, scaleFunction(1.0), position, nullptr);
-                gtk_scale_add_mark(slider, scaleFunction(zoomCtrl->getZoomFitValue() / zoomCtrl->getZoom100Value()),
-                                   position, nullptr);
+                const bool horizontal =
+                        gtk_orientable_get_orientation(GTK_ORIENTABLE(slider)) == GTK_ORIENTATION_HORIZONTAL;
+                gtk_scale_add_mark(slider, scaleFunction(1.0), horizontal ? GTK_POS_TOP : GTK_POS_LEFT, nullptr);
+                gtk_scale_add_mark(slider, scaleFunction(1.0), horizontal ? GTK_POS_BOTTOM : GTK_POS_RIGHT, nullptr);
             }
 
             GtkScale* slider;  ///< Parent to this data
