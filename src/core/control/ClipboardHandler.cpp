@@ -34,9 +34,8 @@ constexpr auto CLIPBOARD_MIMETYPE_SVG_XML = "image/svg+xml";
 static void pasteClipboardImage(GObject* source, GAsyncResult* res, ClipboardListener* listener) {
     const GValue* value = gdk_clipboard_read_value_finish(GDK_CLIPBOARD(source), res, nullptr);
     if (value && G_VALUE_HOLDS(value, GDK_TYPE_PIXBUF)) {
-        GdkPixbuf* image = GDK_PIXBUF(g_value_get_object(value));
-        g_object_ref(G_OBJECT(image));
-        listener->clipboardPasteImage(image);
+        // The value owns the pixbuf for the duration of this call
+        listener->clipboardPasteImage(GDK_PIXBUF(g_value_get_object(value)));
     } else {
         g_warning("Trying to paste image, but GdkPixbuf is null");
     }

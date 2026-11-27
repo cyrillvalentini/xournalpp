@@ -2410,7 +2410,20 @@ void Control::clipboardPasteImage(GdkPixbuf* img) {
     auto image = std::make_unique<Image>();
     xoj::util::GObjectSPtr<GdkPixbuf> pixbuf(gdk_pixbuf_apply_embedded_orientation(img), xoj::util::adopt);
 
-    image->setImage(pixbuf.get());
+    // Store the image as PNG (like images inserted from files); it is decoded again when rendered
+    gchar* png = nullptr;
+    gsize pngSize = 0;
+    if (!gdk_pixbuf_save_to_buffer(pixbuf.get(), &png, &pngSize, "png", nullptr, nullptr)) {
+        g_warning("Could not convert the pasted image to PNG");
+        return;
+    }
+    image->setImage(std::string(png, pngSize));
+    g_free(png);
+    // Render now (sets the natural size), as when inserting an image file
+    if (auto err = image->renderBuffer(); err.has_value()) {
+        g_warning("%s", err->c_str());
+        return;
+    }
 
     auto zoom100 = this->getZoomControl()->getZoom100Value();
 

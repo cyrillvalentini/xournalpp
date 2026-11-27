@@ -96,18 +96,6 @@ static xoj::util::CairoSurfaceSPtr bufferFromPixbuf(GdkPixbuf* img) {
     return res;
 }
 
-void Image::setImage(GdkPixbuf* img) {
-    this->naturalSize = xoj::util::Size<double>(gdk_pixbuf_get_width(img), gdk_pixbuf_get_height(img));
-    this->image = bufferFromPixbuf(img);
-
-    const cairo_write_func_t writeFunc = [](void* bufferPtr, const unsigned char* data,
-                                            unsigned int length) -> cairo_status_t {
-        reinterpret_cast<decltype(Image::data)*>(bufferPtr)->append(reinterpret_cast<const char*>(data), length);
-        return CAIRO_STATUS_SUCCESS;
-    };
-    cairo_surface_write_to_png_stream(image.get(), writeFunc, &data);
-}
-
 auto Image::renderBuffer() const -> std::optional<std::string> {
     xoj_assert_message(data.length() > 0, "image has no data, cannot render it!");
     if (this->image) {

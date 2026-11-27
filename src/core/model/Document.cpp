@@ -1,12 +1,8 @@
 #include "Document.h"
 
-#include <codecvt>  // for codecvt_utf8_utf16
 #include <cstddef>
 #include <ctime>  // for size_t, localtime, strf...
-#include <iomanip>
-#include <locale>
 #include <memory>
-#include <sstream>
 #include <string>  // for string
 #include <string_view>
 #include <utility>  // for move, pair
@@ -24,7 +20,6 @@
 #include "util/PlaceholderString.h"           // for PlaceholderString
 #include "util/SaveNameUtils.h"               // for parseFilename
 #include "util/Util.h"                        // for npos
-#include "util/glib_casts.h"                  // for wrap_v
 #include "util/i18n.h"                        // for FS, _F
 #include "util/raii/GObjectSPtr.h"            // for GObjectSPtr
 #include "util/safe_casts.h"                  // for as_signed
@@ -125,7 +120,7 @@ static std::u8string preprocessFormatString(std::u8string formatStr) {
 
 auto Document::createSaveFilename(DocumentType type, std::u8string_view defaultSaveName,
                                   std::u8string_view defaultPdfName) const -> fs::path {
-    constexpr static std::wstring_view forbiddenChars = {L"\\/:*?\"<>|"};
+    constexpr static std::string_view forbiddenChars = {"\\/:*?\"<>|"};
     std::u8string wildcardString;
     if (type != Document::PDF) {
         if (!filepath.empty()) {
@@ -149,23 +144,20 @@ auto Document::createSaveFilename(DocumentType type, std::u8string_view defaultS
 
     auto format_str = preprocessFormatString(wildcardString.empty() ? defaultSaveName.data() : wildcardString);
 
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-    auto format = converter.from_bytes(char_cast(format_str).data());
-
-    // Todo (cpp20): use <format>
-    std::wostringstream ss;
-    time_t curtime = time(nullptr);
-    ss << std::put_time(localtime(&curtime), format.c_str());
-    auto filename = ss.str();
-    // Todo (cpp20): use <ranges>
+    // Expand the date/time placeholders (strftime syntax); GLib works in UTF-8 on all platforms
+    std::unique_ptr<GDateTime, decltype(&g_date_time_unref)> now(g_date_time_new_now_local(), g_date_time_unref);
+    std::unique_ptr<gchar, decltype(&g_free)> formatted(g_date_time_format(now.get(), char_cast(format_str).data()),
+                                                         g_free);
+    std::string filename = formatted ? formatted.get() : std::string(char_cast(format_str));
+    // All forbidden characters are ASCII, so replacing bytes keeps the UTF-8 sequences intact
     for (auto& c: filename) {
-        if ((c < 32 && c > 0) || c == 127 || forbiddenChars.find(c) != std::string::npos) {
+        const auto u = static_cast<unsigned char>(c);
+        if ((u < 32 && u > 0) || u == 127 || forbiddenChars.find(c) != std::string_view::npos) {
             c = '_';
         }
     }
 
-    auto fn2 = converter.to_bytes(filename);
-    auto p = fs::path(xoj::util::utf8(fn2));
+    auto p = fs::path(xoj::util::utf8(filename));
 
     Util::clearExtensions(p);
     return p;
