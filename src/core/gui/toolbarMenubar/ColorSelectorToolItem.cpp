@@ -14,7 +14,17 @@ auto ColorSelectorToolItem::createItem(ToolbarSide) -> Widgetry {
     GtkWidget* btn = gtk_button_new();
     xoj::util::GVariantSPtr v(g_action_get_state(G_ACTION(gAction.get())), xoj::util::adopt);
     Color initialColor = getGVariantValue<Color>(v.get());
-    gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newGtkImage(initialColor, false));
+    // Xournal#: a visible button (rounded, tinted like the active tool) holding the current colour and a plus, so it
+    // reads as "choose another colour" rather than as one more palette swatch
+    auto makeContent = [](Color c) {
+        GtkWidget* box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+        gtk_box_append(GTK_BOX(box), ColorIcon::newGtkImage(c, true));
+        gtk_box_append(GTK_BOX(box), gtk_image_new_from_icon_name("list-add-symbolic"));
+        return box;
+    };
+    gtk_button_set_child(GTK_BUTTON(btn), makeContent(initialColor));
+    gtk_widget_add_css_class(btn, "color-selector");
+    gtk_widget_set_valign(btn, GTK_ALIGN_CENTER);
 
     gtk_widget_set_tooltip_text(btn, this->getToolDisplayName().c_str());
     gtk_widget_set_sensitive(btn, g_action_get_enabled(G_ACTION(gAction.get())));
@@ -26,7 +36,10 @@ auto ColorSelectorToolItem::createItem(ToolbarSide) -> Widgetry {
     g_signal_connect_object(gAction.get(), "notify::state", G_CALLBACK(+[](GObject* a, GParamSpec*, gpointer btn) {
                                 xoj::util::GVariantSPtr state(g_action_get_state(G_ACTION(a)), xoj::util::adopt);
                                 auto c = getGVariantValue<Color>(state.get());
-                                gtk_button_set_child(GTK_BUTTON(btn), ColorIcon::newGtkImage(c, false));
+                                GtkWidget* box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+                                gtk_box_append(GTK_BOX(box), ColorIcon::newGtkImage(c, true));
+                                gtk_box_append(GTK_BOX(box), gtk_image_new_from_icon_name("list-add-symbolic"));
+                                gtk_button_set_child(GTK_BUTTON(btn), box);
                             }),
                             btn, GConnectFlags(0));
 
@@ -35,7 +48,7 @@ auto ColorSelectorToolItem::createItem(ToolbarSide) -> Widgetry {
         GtkWidget* proxy = gtk_button_new();
         auto* box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
         gtk_button_set_child(GTK_BUTTON(proxy), box);
-        gtk_box_append(GTK_BOX(box), ColorIcon::newGtkImage(Colors::gray, false));
+        gtk_box_append(GTK_BOX(box), ColorIcon::newColorSelectorImage(Colors::gray));
         gtk_box_append(GTK_BOX(box), gtk_label_new(getToolDisplayName().c_str()));
         gtk_actionable_set_action_name(GTK_ACTIONABLE(proxy),
                                        (std::string("win.") + Action_toString(Action::SELECT_COLOR)).c_str());
@@ -47,7 +60,7 @@ auto ColorSelectorToolItem::createItem(ToolbarSide) -> Widgetry {
 
 auto ColorSelectorToolItem::getToolDisplayName() const -> std::string { return _("Select color"); }
 
-auto ColorSelectorToolItem::getNewToolIcon() const -> GtkWidget* { return ColorIcon::newGtkImage(Colors::gray, false); }
+auto ColorSelectorToolItem::getNewToolIcon() const -> GtkWidget* { return ColorIcon::newColorSelectorImage(Colors::gray); }
 
 auto ColorSelectorToolItem::createPaintable(GdkSurface*) const -> xoj::util::GObjectSPtr<GdkPaintable> {
     return ColorIcon::newGdkPaintable(Colors::gray, false);

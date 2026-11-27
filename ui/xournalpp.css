@@ -392,3 +392,30 @@ window.preferences-dialog box:not(.linked),
 window.preferences-dialog grid {
 	border-spacing: 6px;
 }
+
+/*
+ * "Select colour" next to the palette: a visible button (tinted like the active tool) with the current colour
+ * and a plus, so it reads as "choose another colour" rather than as one more swatch.
+ */
+box.toolbar button.color-selector,
+box.toolbar button.color-selector:not(:checked):not(:active):not(:hover),
+popover.toolbar button.color-selector:not(:checked):not(:active):not(:hover) {
+  background-color: alpha(currentColor, 0.1);
+  border-radius: 8px;
+  padding: 3px 8px;
+  margin: 0 3px;
+}
+
+box.toolbar button.color-selector:hover,
+popover.toolbar button.color-selector:hover {
+  background-color: alpha(currentColor, 0.15);
+}
+
+box.toolbar button.color-selector:active,
+popover.toolbar button.color-selector:active {
+  background-color: alpha(currentColor, 0.22);
+}
+
+button.color-selector box > image:last-child {
+  -gtk-icon-size: 16px;
+}

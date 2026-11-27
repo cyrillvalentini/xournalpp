@@ -31,4 +31,9 @@ GtkWidget* newGtkImage(Color color, bool circle = true, std::optional<Color> sec
  */
 xoj::util::GObjectSPtr<GdkPaintable> newGdkPaintable(Color color, bool circle = true,
                                                      std::optional<Color> secondaryColor = std::nullopt);
+
+/**
+ * @brief Icon of the "select colour" button: the current colour as a square with a plus in it
+ */
+GtkWidget* newColorSelectorImage(Color color);
 };  // namespace ColorIcon
