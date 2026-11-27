@@ -6,7 +6,7 @@
 <img src="readme/xournal-sharp.png" width=100% title="Xournal# on GNOME (dark mode)"/>
 
 > [!WARNING]
-> **This is a vibe-coded experiment.** The GTK 4 / libadwaita work in this fork was largely by an AI
+> **This is a vibe-coded experiment.** The GTK 4 / libadwaita work in this fork was largely done by an AI
 > coding assistant. I do this as a personal experiment on how far one can get with the current state of such tools.
 >
 > It is not reviewed by the Xournal++ developers, not affiliated with the Xournal++ project, and may contain bugs that
