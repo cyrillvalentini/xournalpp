@@ -6,6 +6,7 @@
 #include "control/Control.h"                   // for Control
 #include "control/jobs/BaseExportJob.h"        // for BaseExportJob::ExportType
 #include "control/jobs/ExportParameters.h"     // for ExportParameters
+#include "control/sba/SbaExporter.h"           // for SbaExporter
 #include "control/xojfile/XojExportHandler.h"  // for XojExportHandler
 #include "model/Document.h"                    // for Document
 #include "pdf/base/XojPdfExport.h"             // for XojPdfExport
@@ -53,6 +54,20 @@ void CustomExportJob::run() {
 
             callAfterRun();
         }
+    } else if (parameters->format == EXPORT_SBA) {
+        Document* doc = this->control->getDocument();
+        xoj::sba::SbaExporter exporter;
+        doc->lock_shared();
+        const bool ok = exporter.exportTo(doc, filepath, parameters->pageRanges);
+        doc->unlock_shared();
+        if (!ok) {
+            this->lastError = exporter.getError();
+        } else {
+            this->warnings = exporter.getWarnings();
+        }
+        if (!this->lastError.empty() || !this->warnings.empty()) {
+            callAfterRun();
+        }
     } else if (parameters->format == EXPORT_GRAPHICS_PDF) {
         // don't lock the page here for the whole flow, else we get a dead lock...
         // the ui is blocked, so there should be no changes...
@@ -75,5 +90,11 @@ void CustomExportJob::run() {
 void CustomExportJob::afterRun() {
     if (!this->lastError.empty()) {
         XojMsgBox::showErrorToUser(control->getGtkWindow(), this->lastError);
+    } else if (!this->warnings.empty()) {
+        std::string msg = _("The note was exported for Saber. Some content could not be converted exactly:");
+        for (const auto& w: this->warnings) {
+            msg += "\n• " + w;
+        }
+        XojMsgBox::showMessageToUser(control->getGtkWindow(), msg, GTK_MESSAGE_INFO);
     }
 }

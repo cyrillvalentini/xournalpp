@@ -13,6 +13,7 @@
 
 #include <memory>  // for unique_ptr
 #include <string>  // for string
+#include <vector>  // for vector
 
 #include "BaseExportJob.h"  // for BaseExportJob
 #include "filesystem.h"     // for path
@@ -43,4 +44,7 @@ private:
     std::unique_ptr<ExportParameters> parameters;
 
     std::string lastError;
+
+    /// Content that could not be converted exactly (Saber export)
+    std::vector<std::string> warnings;
 };

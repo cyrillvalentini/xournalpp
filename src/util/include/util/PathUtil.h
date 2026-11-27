@@ -57,6 +57,11 @@ namespace Util {
 [[nodiscard]] bool hasPdfFileExt(const fs::path& path);
 
 /**
+ * @return true if this file has a Saber archive (.sba) extension
+ */
+[[nodiscard]] bool hasSbaFileExt(const fs::path& path);
+
+/**
  * @return true if this file has a png extension
  */
 [[nodiscard]] bool hasPngFileExt(const fs::path& path);

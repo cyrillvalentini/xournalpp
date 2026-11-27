@@ -33,6 +33,8 @@ static ExportFormat readFormat(GtkDropDown* cb) {
         return EXPORT_GRAPHICS_PDF;
     } else if (sv == "xoj") {
         return EXPORT_XOJ;
+    } else if (sv == "sba") {
+        return EXPORT_SBA;
     }
     g_warning("Unable to convert id to export format: \"%s\"", id);
     return EXPORT_GRAPHICS_UNDEFINED;
@@ -48,7 +50,7 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
 
 
     // The export format of each entry (same order as in exportSettings.ui)
-    xoj::util::dropdown::setIds(GTK_DROP_DOWN(builder.get("cbtExportFormat")), {"pdf", "png", "svg", "xoj"});
+    xoj::util::dropdown::setIds(GTK_DROP_DOWN(builder.get("cbtExportFormat")), {"pdf", "png", "svg", "xoj", "sba"});
     auto visibilityCb = +[](GtkDropDown* cb, gpointer data) {
         auto* self = static_cast<ExportDialog*>(data);
         auto fmt = readFormat(cb);

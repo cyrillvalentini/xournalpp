@@ -105,6 +105,7 @@ void xoj::OpenDlg::showOpenFileDialog(GtkWindow* parent, Settings* settings, std
     xoj::addFilterXopt(filters.get());
     xoj::addFilterXopp(filters.get());
     xoj::addFilterPdf(filters.get());
+    xoj::addFilterSba(filters.get());
     xoj::addFilterAllFiles(filters.get());
     showFileDialog(parent, Pick::FILE, _("Open file"), filters.get(), lastOpenFolder(settings),
                    rememberLastOpenFolder(std::move(callback), settings));

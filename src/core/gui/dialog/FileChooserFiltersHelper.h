@@ -34,6 +34,8 @@ constexpr FileType XOPT = {"xopt", "application/x-xopt", N_("Xournal++ template"
 constexpr FileType SVG = {"svg", "image/svg+xml", N_("SVG graphics")};
 constexpr FileType PNG = {"png", "image/png", N_("PNG graphics")};
 constexpr FileType ZIP = {"zip", "application/zip", N_("ZIP archive")};
+// Saber notes have no registered MIME type: they are matched by their extension
+constexpr FileType SBA = {"sba", nullptr, N_("Saber notes")};
 };  // namespace FileTypes
 /// The filter-adding functions append GtkFileFilter's to `filters` (a GListStore of GtkFileFilter, as GtkFileDialog
 /// takes)
@@ -47,6 +49,7 @@ inline void addFilterXopp(GListStore* filters) { addFilterForFile(filters, FileT
 inline void addFilterXopt(GListStore* filters) { addFilterForFile(filters, FileTypes::XOPT); }
 inline void addFilterSvg(GListStore* filters) { addFilterForFile(filters, FileTypes::SVG); }
 inline void addFilterPng(GListStore* filters) { addFilterForFile(filters, FileTypes::PNG); }
+inline void addFilterSba(GListStore* filters) { addFilterForFile(filters, FileTypes::SBA); }
 
 void addFilterAllFiles(GListStore* filters);
 void addFilterSupported(GListStore* filters);

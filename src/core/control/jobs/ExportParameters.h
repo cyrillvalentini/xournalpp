@@ -21,7 +21,8 @@ enum ExportFormat {
     EXPORT_GRAPHICS_PDF,
     EXPORT_GRAPHICS_PNG,
     EXPORT_GRAPHICS_SVG,
-    EXPORT_XOJ
+    EXPORT_XOJ,
+    EXPORT_SBA
 };
 
 /**
