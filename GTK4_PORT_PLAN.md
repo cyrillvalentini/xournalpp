@@ -331,6 +331,13 @@ libadwaita, GtkSourceView 5; no X11 libraries), which updates the GTK 3 Xournal#
 `XOURNALPP_APP_NAME` / `XOURNALPP_SOURCE_URL`: the RPM shows "Xournal#" in the title, dialogs and About (own logo and
 repository, Xournal++ credits kept); file format names stay "Xournal++ files". Installed and confirmed by the user.
 
+### Merge into master (2026-11-27)
+Upstream master (up to 2026-11-25, 13 commits: undo stack refactor, dynamic highlighter operator, fixes) merged into
+`xournal-sharp-gtk4` (3 conflicts: the live stroke preview keeps OVER, GTK 4 scroll zoom reads the step from the
+settings); 130 tests, the known 2 failing. Fixed the PDF export of links with non-ASCII URLs (an existing bug).
+bhennion's GTK 4 PR had no new commits. `master` of the fork was fast-forwarded to `xournal-sharp-gtk4`: the GTK 4
+Xournal# is now the main line; the GTK 3 version stays on `modern-ui`.
+
 ### Phase 7 — Staying in sync (ongoing)
 1. Rebase our `gtk4` branch whenever bhennion updates `pr/GTK4`; when upstream merges GTK4 into master, rebase onto master.
 2. Offer generic fixes back: comment on PR #5615 or open PRs against `bhennion/xournalpp:pr/GTK4`.
