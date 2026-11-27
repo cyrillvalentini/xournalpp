@@ -22,7 +22,7 @@
 
 #include <cairo.h>    // for cairo_surface_t
 #include <glib.h>     // for gpointer, gsize
-#include <gtk/gtk.h>  // for GtkTreeModel, GtkTreeIter, GtkT...
+#include <gio/gio.h>  // for GListModel, GListStore
 
 #include "pdf/base/XojPdfDocument.h"  // for XojPdfDocument
 #include "pdf/base/XojPdfPage.h"      // for XojPdfPageSPtr
@@ -84,7 +84,8 @@ public:
 
     fs::path getEvMetadataFilename() const;
 
-    GtkTreeModel* getContentsModel() const;
+    /// The PDF outline: a list of XojLinkDest (see LinkDestination.h), or nullptr if the PDF has none.
+    GListModel* getContentsModel() const;
 
     void setCreateBackupOnSave(bool backup);
     bool shouldCreateBackupOnSave() const;
@@ -109,11 +110,10 @@ public:
 private:
     void buildContentsModel();
     void freeTreeContentModel();
-    static bool freeTreeContentEntry(GtkTreeModel* treeModel, GtkTreePath* path, GtkTreeIter* iter, Document* doc);
 
-    void buildTreeContentsModel(GtkTreeIter* parent, XojPdfBookmarkIterator* iter);
+    void buildTreeContentsModel(GListStore* store, XojPdfBookmarkIterator* iter);
     void updateIndexPageNumbers();
-    static bool fillPageLabels(GtkTreeModel* treeModel, GtkTreePath* path, GtkTreeIter* iter, Document* doc);
+    void fillPageLabels(GListModel* model);
 
 private:
     DocumentHandler* handler = nullptr;
@@ -158,7 +158,7 @@ private:
     /**
      * The bookmark contents model
      */
-    xoj::util::GObjectSPtr<GtkTreeModel> contentsModel;
+    xoj::util::GObjectSPtr<GListStore> contentsModel;
 
     /**
      *  create a backup before save

@@ -15,11 +15,13 @@
 #include <string>   // for string
 
 #include <glib.h>     // for gboolean, gchar, gint
-#include <gtk/gtk.h>  // for GtkWidget, GtkTreeIter
+#include <gtk/gtk.h>  // for GtkWidget, GtkListView
 
 #include "gui/IconNameHelper.h"               // for IconNameHelper
 #include "gui/sidebar/AbstractSidebarPage.h"  // for AbstractSidebarPage
 #include "model/DocumentChangeType.h"         // for DocumentChangeType
+#include "model/LinkDestination.h"            // for XojLinkDest
+#include "util/raii/GObjectSPtr.h"            // for GObjectSPtr
 
 class Control;
 class SidebarToolbar;
@@ -61,60 +63,51 @@ public:
     void selectPageNr(size_t page, size_t pdfPage) override;
 
     /**
-     * Select page in the tree
-     */
-    bool selectPageNr(size_t page, size_t pdfPage, GtkTreeIter* parent);
-
-    /**
      * @overwrite
      */
     void documentChanged(DocumentChangeType type) override;
 
 private:
-    /**
-     * Tree search function if you type chars within the tree. Source: Pidgin
-     */
-    static gboolean treeSearchFunction(GtkTreeModel* model, gint column, const gchar* key, GtkTreeIter* iter,
-                                       SidebarIndexPage* sidebar);
+    static void setupRow(GtkSignalListItemFactory*, GtkListItem* item, SidebarIndexPage*);
+    static void bindRow(GtkSignalListItemFactory*, GtkListItem* item, SidebarIndexPage*);
+    static void unbindRow(GtkSignalListItemFactory*, GtkListItem* item, SidebarIndexPage*);
 
     /**
-     * A bookmark was selected
+     * The selected bookmark changed: scroll to it (unless the selection was set programmatically or by typing)
      */
-    static void treeBookmarkSelected(GtkTreeView* treeview, SidebarIndexPage* sidebar);
+    static void selectionChanged(GtkSingleSelection* selection, GParamSpec*, SidebarIndexPage* sidebar);
+
+    /// Scroll the document to the selected bookmark
+    void gotoSelected();
+
+    /// Select the visible row at position (without scrolling the document)
+    void selectRow(guint position);
+
+    /// @return the bookmark at a visible row, or nullptr
+    XojLinkDest* getLink(guint position) const;
 
     /**
-     * The function which is called after a search timeout
+     * Typeahead search: typing selects the first visible entry with a word starting with the typed text.
+     * After a timeout we scroll to the selected page.
      */
+    static gboolean keyPressed(GtkEventControllerKey*, guint keyval, guint, GdkModifierType state,
+                               SidebarIndexPage* sidebar);
     static auto searchTimeoutFunc(SidebarIndexPage* sidebar) -> bool;
+    static bool matchesSearch(const char* text, const char* key);
+
+    /// Expand the entries the PDF marks as open. @return the total number of entries
+    int expandOpenLinks();
 
 private:
-    /**
-     * Expand links
-     */
-    int expandOpenLinks(GtkTreeModel* model, GtkTreeIter* parent);
-
-private:
-    /**
-     * The Tree with the Bookmarks
-     */
-    GtkWidget* treeViewBookmarks = nullptr;
-
-    /**
-     * The scrollbars for the Tree
-     */
+    GtkWidget* listView = nullptr;
     GtkWidget* scrollBookmarks = nullptr;
+    GtkEventController* keyController = nullptr;
 
-    /**
-     * Keep track of the tree bookmark selection handler; see documentChanged
-     * method for why this is necessary.
-     */
-    unsigned long selectHandler = 0;  // g_signal_connect uses 0 as error value
+    /// Selection over the flattened tree (GtkTreeListModel of the document's outline)
+    xoj::util::GObjectSPtr<GtkSingleSelection> selection;
+    gulong selectHandler = 0;
 
-    /**
-     * If currently searching, scroll to the page is disable, else search is not really working
-     *
-     * After a timeout we scroll to the selected page
-     */
+    std::string searchText;
     guint searchTimeout = 0;
 
     /**

@@ -10,31 +10,59 @@ struct _LinkDestClass {
 
 G_DEFINE_TYPE(XojLinkDest, link_dest, G_TYPE_OBJECT)  // @suppress("Unused static function")
 
-static void link_dest_init(XojLinkDest* linkAction) { linkAction->dest = nullptr; }
+enum { PROP_0, PROP_PAGE_LABEL, N_PROPS };
+static GParamSpec* linkDestProps[N_PROPS] = {};
 
-static gpointer parent_class = nullptr;
-
-static void link_dest_finalize(GObject* object) {
-    delete LINK_DEST(object)->dest;
-    LINK_DEST(object)->dest = nullptr;
-
-    G_OBJECT_CLASS(parent_class)->finalize(object);
+static void link_dest_init(XojLinkDest* link) {
+    link->dest = nullptr;
+    link->children = nullptr;
+    link->pageLabel = g_strdup("");
 }
 
-static void link_dest_dispose(GObject* object) { G_OBJECT_CLASS(parent_class)->dispose(object); }
+static void link_dest_finalize(GObject* object) {
+    auto* link = LINK_DEST(object);
+    delete link->dest;
+    link->dest = nullptr;
+    g_clear_object(&link->children);
+    g_clear_pointer(&link->pageLabel, g_free);
+
+    G_OBJECT_CLASS(link_dest_parent_class)->finalize(object);
+}
+
+static void link_dest_get_property(GObject* object, guint propId, GValue* value, GParamSpec* pspec) {
+    switch (propId) {
+        case PROP_PAGE_LABEL:
+            g_value_set_string(value, LINK_DEST(object)->pageLabel);
+            break;
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, propId, pspec);
+    }
+}
 
 static void link_dest_class_init(XojLinkDestClass* linkClass) {
-    GObjectClass* g_object_class = nullptr;
+    GObjectClass* objectClass = G_OBJECT_CLASS(linkClass);
+    objectClass->finalize = link_dest_finalize;
+    objectClass->get_property = link_dest_get_property;
 
-    parent_class = g_type_class_peek_parent(linkClass);
-
-    g_object_class = G_OBJECT_CLASS(linkClass);
-
-    g_object_class->dispose = link_dest_dispose;
-    g_object_class->finalize = link_dest_finalize;
+    linkDestProps[PROP_PAGE_LABEL] = g_param_spec_string("page-label", nullptr, nullptr, "",
+                                                         static_cast<GParamFlags>(G_PARAM_READABLE |
+                                                                                  G_PARAM_STATIC_STRINGS));
+    g_object_class_install_properties(objectClass, N_PROPS, linkDestProps);
 }
 
 auto link_dest_new() -> XojLinkDest* { return LINK_DEST(g_object_new(TYPE_LINK_DEST, nullptr)); }
+
+void link_dest_set_page_label(XojLinkDest* link, const gchar* label) {
+    if (label == nullptr) {
+        label = "";
+    }
+    if (g_strcmp0(link->pageLabel, label) == 0) {
+        return;
+    }
+    g_free(link->pageLabel);
+    link->pageLabel = g_strdup(label);
+    g_object_notify_by_pspec(G_OBJECT(link), linkDestProps[PROP_PAGE_LABEL]);
+}
 
 LinkDestination::LinkDestination():
         page(npos),

@@ -41,29 +41,7 @@ Document::~Document() {
     freeTreeContentModel();
 }
 
-void Document::freeTreeContentModel() {
-    if (this->contentsModel) {
-        gtk_tree_model_foreach(this->contentsModel.get(), xoj::util::wrap_v<freeTreeContentEntry>, this);
-
-        this->contentsModel.reset();
-    }
-}
-
-auto Document::freeTreeContentEntry(GtkTreeModel* treeModel, GtkTreePath* path, GtkTreeIter* iter, Document* doc)
-        -> bool {
-    XojLinkDest* link = nullptr;
-    gtk_tree_model_get(treeModel, iter, DOCUMENT_LINKS_COLUMN_LINK, &link, -1);
-
-    if (link == nullptr) {
-        return false;
-    }
-
-    // The dispose function of XojLinkDest is not called, this workaround fixes the Memory Leak
-    delete link->dest;
-    link->dest = nullptr;
-
-    return false;
-}
+void Document::freeTreeContentModel() { this->contentsModel.reset(); }
 
 void Document::lock() { this->documentLock.lock(); }
 void Document::unlock() { this->documentLock.unlock(); }
@@ -220,40 +198,29 @@ auto Document::findPdfPage(size_t pdfPage) const -> size_t {
     }
 }
 
-void Document::buildTreeContentsModel(GtkTreeIter* parent, XojPdfBookmarkIterator* iter) {
+void Document::buildTreeContentsModel(GListStore* store, XojPdfBookmarkIterator* iter) {
     do {
-        GtkTreeIter treeIter = {0};
-
-        XojPdfAction* action = iter->getAction();
-        LinkDestination* dest = new LinkDestination(*action->getDestination());
-        XojLinkDest* link = link_dest_new();
-        link->dest = dest;
-
+        std::unique_ptr<XojPdfAction> action(iter->getAction());
         if (action->getTitle().empty()) {
-            g_object_unref(link);
-            delete action;
             continue;
         }
 
+        xoj::util::GObjectSPtr<XojLinkDest> link(link_dest_new(), xoj::util::adopt);
+        link->dest = new LinkDestination(*action->getDestination());
         link->dest->setExpand(iter->isOpen());
 
-        gtk_tree_store_append(GTK_TREE_STORE(contentsModel.get()), &treeIter, parent);
-        char* titleMarkup = g_markup_escape_text(action->getTitle().c_str(), -1);
-
-        gtk_tree_store_set(GTK_TREE_STORE(contentsModel.get()), &treeIter, DOCUMENT_LINKS_COLUMN_NAME, titleMarkup,
-                           DOCUMENT_LINKS_COLUMN_LINK, link, DOCUMENT_LINKS_COLUMN_PAGE_NUMBER, "", -1);
-
-        g_free(titleMarkup);
-        g_object_unref(link);
-
-        XojPdfBookmarkIterator* child = iter->getChildIter();
+        std::unique_ptr<XojPdfBookmarkIterator> child(iter->getChildIter());
         if (child) {
-            buildTreeContentsModel(&treeIter, child);
-            delete child;
+            GListStore* children = g_list_store_new(TYPE_LINK_DEST);
+            buildTreeContentsModel(children, child.get());
+            if (g_list_model_get_n_items(G_LIST_MODEL(children)) > 0) {
+                link->children = children;
+            } else {
+                g_object_unref(children);
+            }
         }
 
-        delete action;
-
+        g_list_store_append(store, link.get());
     } while (iter->next());
 }
 
@@ -272,46 +239,40 @@ void Document::indexPdfPages() {
 void Document::buildContentsModel() {
     freeTreeContentModel();
 
-    XojPdfBookmarkIterator* iter = pdfDocument.getContentsIter();
+    std::unique_ptr<XojPdfBookmarkIterator> iter(pdfDocument.getContentsIter());
     if (iter == nullptr) {
         // No Bookmarks
         return;
     }
 
-    this->contentsModel.reset(reinterpret_cast<GtkTreeModel*>(gtk_tree_store_new(4, G_TYPE_STRING, G_TYPE_OBJECT,
-                                                                                 G_TYPE_BOOLEAN, G_TYPE_STRING)),
-                              xoj::util::adopt);
-    buildTreeContentsModel(nullptr, iter);
-    delete iter;
+    this->contentsModel.reset(g_list_store_new(TYPE_LINK_DEST), xoj::util::adopt);
+    buildTreeContentsModel(this->contentsModel.get(), iter.get());
 }
 
-auto Document::getContentsModel() const -> GtkTreeModel* { return this->contentsModel.get(); }
+auto Document::getContentsModel() const -> GListModel* { return G_LIST_MODEL(this->contentsModel.get()); }
 
-auto Document::fillPageLabels(GtkTreeModel* treeModel, GtkTreePath* path, GtkTreeIter* iter, Document* doc) -> bool {
-    XojLinkDest* link = nullptr;
-    gtk_tree_model_get(treeModel, iter, DOCUMENT_LINKS_COLUMN_LINK, &link, -1);
+void Document::fillPageLabels(GListModel* model) {
+    guint n = g_list_model_get_n_items(model);
+    for (guint i = 0; i < n; i++) {
+        xoj::util::GObjectSPtr<XojLinkDest> link(LINK_DEST(g_list_model_get_item(model, i)), xoj::util::adopt);
 
-    if (link == nullptr) {
-        return false;
+        auto page = findPdfPage(link->dest->getPdfPage());
+        if (page != npos) {
+            link_dest_set_page_label(link.get(), std::to_string(page + 1).c_str());
+        } else {
+            link_dest_set_page_label(link.get(), "");
+        }
+
+        if (link->children) {
+            fillPageLabels(G_LIST_MODEL(link->children));
+        }
     }
-
-    auto page = doc->findPdfPage(link->dest->getPdfPage());
-
-    gchar* pageLabel = nullptr;
-    if (page != npos) {
-        pageLabel = g_strdup_printf("%zu", page + 1);
-    }
-    gtk_tree_store_set(GTK_TREE_STORE(treeModel), iter, DOCUMENT_LINKS_COLUMN_PAGE_NUMBER, pageLabel, -1);
-    g_free(pageLabel);
-
-    g_object_unref(link);
-    return false;
 }
 
 void Document::updateIndexPageNumbers() {
     indexPdfPages();
     if (this->contentsModel) {
-        gtk_tree_model_foreach(this->contentsModel.get(), xoj::util::wrap_v<fillPageLabels>, this);
+        fillPageLabels(G_LIST_MODEL(this->contentsModel.get()));
     }
 }
 

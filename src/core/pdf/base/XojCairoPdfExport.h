@@ -15,7 +15,7 @@
 #include <string>   // for string
 
 #include <cairo.h>    // for CAIRO_VERSION, CAIRO_VERSION...
-#include <gtk/gtk.h>  // for GtkTreeModel
+#include <gio/gio.h>  // for GListModel
 
 #include "control/jobs/BaseExportJob.h"  // for ExportBackgroundType, EXPORT...
 #include "util/ElementRange.h"           // for PageRangeVector
@@ -51,6 +51,7 @@ private:
      * This requires features available only in cairo 1.16 or newer.
      */
     void populatePdfOutline();
+    void addPdfOutlineEntries(GListModel* entries, int parentId);
 #endif
 
 protected:

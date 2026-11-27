@@ -16,6 +16,7 @@
 #include <string>    // for string
 #include <variant>   // for variant
 
+#include <gio/gio.h>      // for GListStore
 #include <glib-object.h>  // for G_TYPE_CHECK_INSTANCE_CAST, GObject, GType
 #include <glib.h>         // for G_GNUC_CONST
 
@@ -85,16 +86,19 @@ private:
     Type contents;
 };
 
+/**
+ * An entry of the PDF outline (table of contents).
+ *
+ * The outline is a GListStore of XojLinkDest; entries with sub-entries hold them in `children`.
+ */
 struct _LinkDest {
     GObject base_instance;
     LinkDestination* dest;
-};
-
-enum {
-    DOCUMENT_LINKS_COLUMN_NAME,
-    DOCUMENT_LINKS_COLUMN_LINK,
-    DOCUMENT_LINKS_COLUMN_EXPAND,
-    DOCUMENT_LINKS_COLUMN_PAGE_NUMBER
+    /// Sub-entries (XojLinkDest), or nullptr if there are none. Owned.
+    GListStore* children;
+    /// Page number in the document as shown to the user ("" if the page is not in the document). Owned.
+    /// Exposed as the GObject property "page-label"; change it with link_dest_set_page_label.
+    gchar* pageLabel;
 };
 
 #define TYPE_LINK_DEST (link_dest_get_type())
@@ -106,3 +110,4 @@ enum {
 
 GType link_dest_get_type(void);
 XojLinkDest* link_dest_new();
+void link_dest_set_page_label(XojLinkDest* link, const gchar* label);
