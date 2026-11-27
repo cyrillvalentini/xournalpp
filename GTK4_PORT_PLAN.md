@@ -326,6 +326,11 @@ Results (2026-11-27):
 2. Keep side-by-side install (`/opt/xournal-sharp`, own app ID). Build, install, test.
 3. Optional: publish RPMs as GitHub release assets instead of committing them.
 
+Results (2026-11-27): `packaging/xournal-sharp` (from `modern-ui`) builds `xournal-sharp-1.4.0~gtk4` (GTK 4,
+libadwaita, GtkSourceView 5; no X11 libraries), which updates the GTK 3 Xournal#. New build options
+`XOURNALPP_APP_NAME` / `XOURNALPP_SOURCE_URL`: the RPM shows "Xournal#" in the title, dialogs and About (own logo and
+repository, Xournal++ credits kept); file format names stay "Xournal++ files". Installed and confirmed by the user.
+
 ### Phase 7 — Staying in sync (ongoing)
 1. Rebase our `gtk4` branch whenever bhennion updates `pr/GTK4`; when upstream merges GTK4 into master, rebase onto master.
 2. Offer generic fixes back: comment on PR #5615 or open PRs against `bhennion/xournalpp:pr/GTK4`.
