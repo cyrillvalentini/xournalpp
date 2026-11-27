@@ -13,10 +13,10 @@
 
 #include <functional>
 
-#include <glib.h>     // for gchar
-#include <gtk/gtk.h>  // for GtkButton, GtkCellRendererText, GtkListStore
+#include <memory>
 
-#include "util/raii/GObjectSPtr.h"
+#include <gtk/gtk.h>  // for GtkButton, GtkListBox
+
 #include "util/raii/GtkWindowUPtr.h"
 
 class ToolbarData;
@@ -32,9 +32,11 @@ public:
     inline GtkWindow* getWindow() const { return window.get(); }
 
 private:
-    static void treeSelectionChangedCallback(GtkTreeSelection* selection, ToolbarManageDialog* dlg);
-    static void treeCellEditedCallback(GtkCellRendererText* renderer, gchar* pathString, gchar* newText,
-                                       ToolbarManageDialog* dlg);
+    static void selectionChangedCallback(GtkListBox* list, GtkListBoxRow* row, ToolbarManageDialog* dlg);
+    static void nameEditedCallback(GtkEditableLabel* label, GParamSpec*, ToolbarManageDialog* dlg);
+
+    void appendHeader(const char* title);
+    GtkListBoxRow* appendEntry(ToolbarData* data);
 
     static void buttonNewCallback(GtkButton* button, ToolbarManageDialog* dlg);
     static void buttonDeleteCallback(GtkButton* button, ToolbarManageDialog* dlg);
@@ -49,9 +51,7 @@ private:
 
 private:
     ToolbarModel* tbModel;
-    xoj::util::GObjectSPtr<GtkListStore> model;
-
-    GtkTreeView* tree;
+    GtkListBox* list;
     GtkWidget* copyButton;
     GtkWidget* deleteButton;
 

@@ -4,7 +4,6 @@
 #include <vector>  // for vector
 
 #include <glib-object.h>  // for g_signal_connect
-#include <pango/pango.h>  // for PANGO_WEIGHT_NORMAL
 
 #include "gui/Builder.h"
 #include "gui/toolbarMenubar/model/ToolbarData.h"   // for ToolbarData
@@ -17,61 +16,33 @@ class GladeSearchpath;
 constexpr auto UI_FILE = "toolbarManageDialog.ui";
 constexpr auto UI_DIALOG_NAME = "manageToolbarsDialog";
 
-enum { COLUMN_STRING, COLUMN_BOLD, COLUMN_POINTER, COLUMN_EDITABLE, N_COLUMNS };
-
-static xoj::util::GObjectSPtr<GtkListStore> createModel(ToolbarModel* tb) {
-    xoj_assert(tb);
-    GtkTreeIter iter;
-    GtkListStore* model = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_INT, G_TYPE_POINTER, G_TYPE_BOOLEAN);
-    gtk_list_store_append(model, &iter);
-    gtk_list_store_set(model, &iter, COLUMN_STRING, _("Predefined"), COLUMN_BOLD, PANGO_WEIGHT_BOLD, COLUMN_POINTER,
-                       nullptr, COLUMN_EDITABLE, false, -1);
-
-    for (const auto& data: tb->getToolbars()) {
-        if (data->isPredefined()) {
-            gtk_list_store_append(model, &iter);
-            gtk_list_store_set(model, &iter, COLUMN_STRING, data->getName().c_str(), COLUMN_BOLD, PANGO_WEIGHT_NORMAL,
-                               COLUMN_POINTER, data.get(), COLUMN_EDITABLE, false, -1);
-        }
-    }
-
-    gtk_list_store_append(model, &iter);
-    gtk_list_store_set(model, &iter, COLUMN_STRING, _("Customized"), COLUMN_BOLD, PANGO_WEIGHT_BOLD, COLUMN_POINTER,
-                       nullptr, COLUMN_EDITABLE, false, -1);
-
-    for (const auto& data: tb->getToolbars()) {
-        if (!data->isPredefined()) {
-            gtk_list_store_append(model, &iter);
-            gtk_list_store_set(model, &iter, COLUMN_STRING, data->getName().c_str(), COLUMN_BOLD, PANGO_WEIGHT_NORMAL,
-                               COLUMN_POINTER, data.get(), COLUMN_EDITABLE, true, -1);
-        }
-    }
-    return xoj::util::GObjectSPtr<GtkListStore>(model, xoj::util::adopt);
-}
+/// Key under which each entry row stores its ToolbarData*
+constexpr auto DATA_KEY = "toolbar-data";
 
 ToolbarManageDialog::ToolbarManageDialog(GladeSearchpath* gladeSearchPath, ToolbarModel* tbModel,
                                          std::function<void()> callback):
-        tbModel(tbModel), model(createModel(tbModel)), callback(callback) {
+        tbModel(tbModel), callback(callback) {
+    xoj_assert(tbModel);
     Builder builder(gladeSearchPath, UI_FILE);
     window.reset(GTK_WINDOW(builder.get(UI_DIALOG_NAME)));
-    tree = GTK_TREE_VIEW(builder.get("toolbarList"));
+    list = GTK_LIST_BOX(builder.get("toolbarList"));
     copyButton = builder.get("btCopy");
     deleteButton = builder.get("btDelete");
 
-    gtk_tree_view_set_model(tree, GTK_TREE_MODEL(this->model.get()));
+    appendHeader(_("Predefined"));
+    for (const auto& data: tbModel->getToolbars()) {
+        if (data->isPredefined()) {
+            appendEntry(data.get());
+        }
+    }
+    appendHeader(_("Customized"));
+    for (const auto& data: tbModel->getToolbars()) {
+        if (!data->isPredefined()) {
+            appendEntry(data.get());
+        }
+    }
 
-    GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
-    GtkTreeViewColumn* column =
-            gtk_tree_view_column_new_with_attributes(_("Toolbars"), renderer, "text", COLUMN_STRING, "weight",
-                                                     COLUMN_BOLD, "editable", COLUMN_EDITABLE, nullptr);
-
-    gtk_tree_view_append_column(tree, column);
-
-    GtkTreeSelection* select = gtk_tree_view_get_selection(tree);
-    gtk_tree_selection_set_mode(select, GTK_SELECTION_SINGLE);
-    g_signal_connect(select, "changed", G_CALLBACK(treeSelectionChangedCallback), this);
-
-    g_signal_connect(renderer, "edited", G_CALLBACK(treeCellEditedCallback), this);
+    g_signal_connect(list, "row-selected", G_CALLBACK(selectionChangedCallback), this);
 
     g_signal_connect(builder.get("btNew"), "clicked", G_CALLBACK(buttonNewCallback), this);
     g_signal_connect(deleteButton, "clicked", G_CALLBACK(buttonDeleteCallback), this);
@@ -80,7 +51,51 @@ ToolbarManageDialog::ToolbarManageDialog(GladeSearchpath* gladeSearchPath, Toolb
     g_signal_connect_swapped(builder.get("btClose"), "clicked", G_CALLBACK(gtk_window_close), this->window.get());
 }
 
-ToolbarManageDialog::~ToolbarManageDialog() { this->callback(); }
+ToolbarManageDialog::~ToolbarManageDialog() {
+    // The window (and the list with it) may be destroyed after this object: the list then removes its rows and emits
+    // "row-selected", and the labels emit "notify::editing". Make sure none of these reach us anymore.
+    g_signal_handlers_disconnect_by_data(list, this);
+    for (GtkWidget* row = gtk_widget_get_first_child(GTK_WIDGET(list)); row; row = gtk_widget_get_next_sibling(row)) {
+        if (GTK_IS_LIST_BOX_ROW(row)) {
+            if (GtkWidget* label = gtk_list_box_row_get_child(GTK_LIST_BOX_ROW(row))) {
+                g_signal_handlers_disconnect_by_data(label, this);
+            }
+        }
+    }
+    this->callback();
+}
+
+void ToolbarManageDialog::appendHeader(const char* title) {
+    GtkWidget* label = gtk_label_new(title);
+    gtk_widget_add_css_class(label, "heading");
+    gtk_label_set_xalign(GTK_LABEL(label), 0.0f);
+
+    GtkWidget* row = gtk_list_box_row_new();
+    gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
+    gtk_list_box_row_set_selectable(GTK_LIST_BOX_ROW(row), false);
+    gtk_list_box_row_set_activatable(GTK_LIST_BOX_ROW(row), false);
+    gtk_widget_set_focusable(row, false);
+    gtk_list_box_append(list, row);
+}
+
+auto ToolbarManageDialog::appendEntry(ToolbarData* data) -> GtkListBoxRow* {
+    GtkWidget* label = nullptr;
+    if (data->isPredefined()) {
+        label = gtk_label_new(data->getName().c_str());
+        gtk_label_set_xalign(GTK_LABEL(label), 0.0f);
+    } else {
+        // Custom toolbars can be renamed in place (double click or Enter)
+        label = gtk_editable_label_new(data->getName().c_str());
+        g_signal_connect(label, "notify::editing", G_CALLBACK(nameEditedCallback), this);
+    }
+    gtk_widget_set_margin_start(label, 12);
+
+    GtkWidget* row = gtk_list_box_row_new();
+    gtk_list_box_row_set_child(GTK_LIST_BOX_ROW(row), label);
+    g_object_set_data(G_OBJECT(row), DATA_KEY, data);
+    gtk_list_box_append(list, row);
+    return GTK_LIST_BOX_ROW(row);
+}
 
 void ToolbarManageDialog::buttonNewCallback(GtkButton* button, ToolbarManageDialog* dlg) {
     auto data = std::make_unique<ToolbarData>(false);
@@ -92,24 +107,11 @@ void ToolbarManageDialog::buttonNewCallback(GtkButton* button, ToolbarManageDial
 
 void ToolbarManageDialog::buttonDeleteCallback(GtkButton* button, ToolbarManageDialog* dlg) {
     ToolbarData* selected = dlg->getSelectedEntry();
-    if (selected == nullptr) {
+    if (selected == nullptr || selected->isPredefined()) {
         return;
     }
 
-    GtkTreeModel* model = GTK_TREE_MODEL(dlg->model.get());
-    GtkTreeIter iter;
-    if (gtk_tree_model_get_iter_first(model, &iter)) {
-        do {
-            ToolbarData* data = nullptr;
-            gtk_tree_model_get(model, &iter, COLUMN_POINTER, &data, -1);
-
-            if (data == selected) {
-                gtk_list_store_remove(dlg->model.get(), &iter);
-                break;
-            }
-        } while (gtk_tree_model_iter_next(model, &iter));
-    }
-
+    gtk_list_box_remove(dlg->list, GTK_WIDGET(gtk_list_box_get_selected_row(dlg->list)));
     dlg->tbModel->remove(selected);
     dlg->updateSelectionData();
 }
@@ -128,28 +130,30 @@ void ToolbarManageDialog::buttonCopyCallback(GtkButton* button, ToolbarManageDia
 void ToolbarManageDialog::addToolbarData(std::unique_ptr<ToolbarData> tbd) {
     auto* data = this->tbModel->add(std::move(tbd));
 
-    GtkTreeIter iter;
-    gtk_list_store_append(this->model.get(), &iter);
-    gtk_list_store_set(this->model.get(), &iter, COLUMN_STRING, data->getName().c_str(), COLUMN_BOLD,
-                       PANGO_WEIGHT_NORMAL, COLUMN_POINTER, data, COLUMN_EDITABLE, true, -1);
-
-    GtkTreePath* path = gtk_tree_model_get_path(GTK_TREE_MODEL(this->model.get()), &iter);
-    GtkTreeViewColumn* column = gtk_tree_view_get_column(tree, 0);
-
-    gtk_tree_view_set_cursor(tree, path, column, true);
+    // The "Customized" section is the last one, so new entries go at the end
+    GtkListBoxRow* row = appendEntry(data);
+    gtk_list_box_select_row(list, row);
+    GtkWidget* label = gtk_list_box_row_get_child(row);
+    gtk_widget_grab_focus(label);
+    gtk_editable_label_start_editing(GTK_EDITABLE_LABEL(label));
 }
 
-void ToolbarManageDialog::treeCellEditedCallback(GtkCellRendererText* renderer, gchar* pathString, gchar* newText,
-                                                 ToolbarManageDialog* dlg) {
-    GtkTreeIter iter;
-    ToolbarData* data = nullptr;
-
-    gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(dlg->model.get()), &iter, pathString);
-    gtk_tree_model_get(GTK_TREE_MODEL(dlg->model.get()), &iter, COLUMN_POINTER, &data, -1);
-    if (data) {
-        gtk_list_store_set(dlg->model.get(), &iter, COLUMN_STRING, newText, -1);
-        data->setName(newText);
+void ToolbarManageDialog::nameEditedCallback(GtkEditableLabel* label, GParamSpec*, ToolbarManageDialog* dlg) {
+    if (gtk_editable_label_get_editing(label)) {
+        return;
     }
+    GtkWidget* row = gtk_widget_get_ancestor(GTK_WIDGET(label), GTK_TYPE_LIST_BOX_ROW);
+    auto* data = row ? static_cast<ToolbarData*>(g_object_get_data(G_OBJECT(row), DATA_KEY)) : nullptr;
+    if (!data) {
+        return;
+    }
+    std::string name = gtk_editable_get_text(GTK_EDITABLE(label));
+    if (name.find_first_not_of(" \t") == std::string::npos) {
+        // An empty name would make the toolbar invisible in the menus: keep the previous one
+        gtk_editable_set_text(GTK_EDITABLE(label), data->getName().c_str());
+        return;
+    }
+    data->setName(name);
 }
 
 void ToolbarManageDialog::entrySelected(ToolbarData* data) {
@@ -163,25 +167,15 @@ void ToolbarManageDialog::entrySelected(ToolbarData* data) {
 }
 
 auto ToolbarManageDialog::getSelectedEntry() -> ToolbarData* {
-    GtkTreeIter iter;
-    GtkTreeModel* model = nullptr;
-    ToolbarData* data = nullptr;
-
-    GtkTreeSelection* selection = gtk_tree_view_get_selection(tree);
-    if (selection == nullptr) {
+    GtkListBoxRow* row = gtk_list_box_get_selected_row(list);
+    if (row == nullptr) {
         return nullptr;
     }
-
-    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-        gtk_tree_model_get(model, &iter, COLUMN_POINTER, &data, -1);
-        return data;
-    }
-
-    return nullptr;
+    return static_cast<ToolbarData*>(g_object_get_data(G_OBJECT(row), DATA_KEY));
 }
 
 void ToolbarManageDialog::updateSelectionData() { entrySelected(getSelectedEntry()); }
 
-void ToolbarManageDialog::treeSelectionChangedCallback(GtkTreeSelection* selection, ToolbarManageDialog* dlg) {
+void ToolbarManageDialog::selectionChangedCallback(GtkListBox*, GtkListBoxRow*, ToolbarManageDialog* dlg) {
     dlg->updateSelectionData();
 }

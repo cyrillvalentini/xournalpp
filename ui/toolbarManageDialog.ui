@@ -7,6 +7,8 @@
     <property name="modal">1</property>
     <property name="destroy-with-parent">1</property>
     <property name="focus-widget">toolbarList</property>
+    <property name="default-width">420</property>
+    <property name="default-height">400</property>
     <property name="child">
       <object class="GtkBox">
         <property name="name">dialog-main-box</property>
@@ -20,18 +22,25 @@
           <object class="GtkBox" id="hbox1">
             <property name="vexpand">1</property>
             <child>
-              <object class="GtkTreeView" id="toolbarList">
+              <object class="GtkScrolledWindow">
                 <property name="hexpand">1</property>
-                <property name="name">toolbarList</property>
-                <property name="focusable">1</property>
-                <child internal-child="selection">
-                  <object class="GtkTreeSelection"/>
-                </child>
+                <property name="hscrollbar-policy">never</property>
+                <property name="min-content-height">240</property>
+                <property name="min-content-width">220</property>
+                <property name="has-frame">1</property>
+                <property name="child">
+                  <object class="GtkListBox" id="toolbarList">
+                    <property name="name">toolbarList</property>
+                    <property name="selection-mode">single</property>
+                  </object>
+                </property>
               </object>
             </child>
             <child>
               <object class="GtkBox" id="vbox2">
                 <property name="orientation">vertical</property>
+                <property name="spacing">4</property>
+                <property name="margin-start">6</property>
                 <child>
                   <object class="GtkButton" id="btCopy">
                     <property name="sensitive">0</property>
