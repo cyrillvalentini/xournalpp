@@ -263,10 +263,18 @@ Progress:
 - Found while testing (both inherited from PR #5615, fixed and confirmed): links opened the help page
   (`XojMsgBox::openURL` ignored its argument); pages didn't re-centre on window resize (missing
   `recomputeCenteringPadding` in `size_allocate`).
-- [ ] Tree views
+- [x] Tree/list views (82 → 0 GTK deprecations). PDF outline: `Document` holds a `GListStore` of `XojLinkDest`
+  (children + notifiable "page-label"); sidebar is `GtkListView` + `GtkTreeListModel` + `GtkTreeExpander` with
+  its own type-ahead; PDF export walks the store. Toolbar manager → `GtkListBox` with section rows and
+  `GtkEditableLabel` (empty names rejected). Confirmed on the real desktop.
+- Also found and fixed while testing: `can-focus=0` on the sidebar and status bar boxes blocked focus for all
+  their children in GTK4; toolbar manager crashed on close (signal into the deleted dialog); search bar: Enter
+  never reached the shortcut (now capture phase), numpad Enter added, find-as-you-type from the starting page
+  with wrap-around.
 - [x] Message dialogs → `GtkAlertDialog` in `XojMsgBox` (94 → 82); phase 4 swaps it for `AdwAlertDialog`. Confirmed on the real desktop.
 
-Next session: tree/list views (~80 call sites: PDF outline sidebar tree, toolbar manager, language list).
+Phase 3 GTK work is done. Left over (not GTK): internal `LegacyRedrawable` (3), `Image::setImage(GdkPixbuf*)` (1),
+`std::wstring_convert` (1). Next: phase 4.
 
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)
 1. Add `libadwaita-1` to CMake; `AdwApplication`; `AdwApplicationWindow` + `AdwToolbarView` holding the classic menubar and toolbars at the top and the page/zoom bar at the bottom.
