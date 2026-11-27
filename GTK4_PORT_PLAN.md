@@ -306,6 +306,21 @@ Progress (branch `xournal-sharp-gtk4`, based on `gtk4-port` / tag `gtk4-phase3`)
 2. Settings: Xournal# GTK4 reads the existing `~/.config/xournal-sharp`; device config migration (GTK4 stores device config separately — devices need re-assigning once).
 3. File format unchanged; open old `.xopp`/`.xoj` test files.
 
+Results (2026-11-27):
+- Plugins: all 11 bundled plugins load without Lua errors; tested the Example dialog (`openDialog` on the new
+  `AdwAlertDialog`, callback receives the button) and ToggleGrid (page background). Release notes, plugin API: the
+  functions deprecated in 1.2/1.3 were removed by the GTK4 port: `msgbox` -> `openDialog`, `saveAs` ->
+  `fileDialogSave`, `getFilePath` -> `fileDialogOpen`, `uiAction` -> `activateAction` / `changeActionState`,
+  `sidebarAction` and `layerAction` -> `activateAction`, `getSidebarPageNo` / `setSidebarPageNo` (no replacement).
+  The bundled plugins use none of them.
+- Settings: a copy of the GTK3 `~/.config/xournal-sharp` is read without warnings. Only `adwaitaStyle` is unknown
+  (no longer needed, libadwaita is always on) and is dropped on the next save. Input devices are stored by name;
+  GTK4 names the mouse "Core Pointer" instead of "Wayland Pointer", so old entries no longer match and devices are
+  classified by their type again. Pens may need assigning once (Preferences -> Input System).
+- File format: 46 of 48 test files open and export to PDF from the command line. The two failures are not caused by
+  the port (same result with the GTK3 Xournal#): PDF export of links fails with Cairo "invalid tag name" (existing
+  bug with current Cairo), and `packaged_xopp/pdfBackground/new.xopp` lacks its attachment in the repository.
+
 ### Phase 6 — Packaging (1 day)
 1. Spec: `BuildRequires: pkgconfig(gtk4) pkgconfig(gtksourceview-5) pkgconfig(libadwaita-1)`; version bump (e.g. `1.4.0~gtk4`), Release `modernui`.
 2. Keep side-by-side install (`/opt/xournal-sharp`, own app ID). Build, install, test.
