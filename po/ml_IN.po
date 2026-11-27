@@ -4796,3 +4796,7 @@ msgstr "ശരി"
 #. Xournal#
 msgid "100%"
 msgstr "100%"
+
+#. Xournal#
+msgid "Based on Xournal++"
+msgstr "Xournal++ അടിസ്ഥാനമാക്കിയത്"

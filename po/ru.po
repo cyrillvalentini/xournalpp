@@ -4904,3 +4904,7 @@ msgstr "ОК"
 #. Xournal#
 msgid "100%"
 msgstr "100%"
+
+#. Xournal#
+msgid "Based on Xournal++"
+msgstr "Основано на Xournal++"

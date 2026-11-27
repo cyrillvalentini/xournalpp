@@ -4840,3 +4840,7 @@ msgstr "Гаразд"
 #. Xournal#
 msgid "100%"
 msgstr "100%"
+
+#. Xournal#
+msgid "Based on Xournal++"
+msgstr "Засновано на Xournal++"
