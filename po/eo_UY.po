@@ -4763,3 +4763,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Ĉu konservi la ŝanĝojn?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Kaŝi flankan breton"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbolaj (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Uzi la akcentan koloron de la sistemo por la paĝa bordero kaj elektoj"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Uzas la akcentan koloron elektitan en la labortablaj agordoj. Se vi elektas bordan aŭ elektan koloron supre, viaj propraj koloroj estos uzataj."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Kunsendi PDF- kaj bildfonojn kun la ĵurnalo"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Kiam vi prinotas PDF-on aŭ uzas bildon kiel paĝan fonon, konservi kopion de la dosiero apud la ĵurnalo anstataŭ ligi al la originala dosiero."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Fonaj koloroj"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Koloroj de Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Lastatempe uzitaj"
+
+#. Xournal#
+msgid "OK"
+msgstr "Bone"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

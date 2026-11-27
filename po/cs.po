@@ -4769,3 +4769,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Uložit změny?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Skrýt postranní panel"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Symbolické (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Pro okraj stránky a výběry používat zvýrazňující barvu systému"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Použije zvýrazňující barvu zvolenou v nastavení prostředí. Když výše zvolíte barvu okraje nebo výběru, použijí se vaše vlastní barvy."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Přiložit k zápisníku pozadí z PDF a obrázků"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Při anotaci PDF nebo použití obrázku jako pozadí stránky uloží kopii souboru vedle zápisníku místo odkazu na původní soubor."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Barvy pozadí"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Barvy Xournalu"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Nedávno použité"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100 %"

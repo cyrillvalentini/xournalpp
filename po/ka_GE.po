@@ -4738,3 +4738,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "შევინახო ცვლილებები?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "გვერდითი ზოლის დამალვა"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "სიმბოლური (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "სისტემის აქცენტის ფერის გამოყენება გვერდის ჩარჩოსა და მონიშვნებისთვის"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "იყენებს სამუშაო მაგიდის პარამეტრებში არჩეულ აქცენტის ფერს. თუ ზემოთ ჩარჩოს ან მონიშვნის ფერს აირჩევთ, თქვენი ფერები იქნება გამოყენებული."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "PDF-ისა და გამოსახულების ფონების მიმაგრება ჟურნალზე"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "PDF-ის ანოტირებისას ან გამოსახულების გვერდის ფონად გამოყენებისას, ფაილის ასლი ინახება ჟურნალის გვერდით, ორიგინალ ფაილზე ბმულის ნაცვლად."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "ფონის ფერები"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal-ის ფერები"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "ბოლოს გამოყენებული"
+
+#. Xournal#
+msgid "OK"
+msgstr "კარგი"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

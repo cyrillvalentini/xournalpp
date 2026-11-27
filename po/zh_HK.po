@@ -4750,3 +4750,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "要儲存變更嗎？"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "隱藏側邊欄"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "符號式 (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "頁面邊框和選取範圍使用系統強調色"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "使用桌面設定中選擇的強調色。在上方選擇邊框或選取範圍顏色後，會改用你自己的顏色。"
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "將 PDF 和圖像背景附加到日誌"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "註解 PDF 或將圖像用作頁面背景時，在日誌旁儲存檔案副本，而非連結到原始檔案。"
+
+#. Xournal#
+msgid "Background colors"
+msgstr "背景顏色"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal 顏色"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "最近使用"
+
+#. Xournal#
+msgid "OK"
+msgstr "確定"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

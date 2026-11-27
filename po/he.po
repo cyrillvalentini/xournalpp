@@ -4771,3 +4771,51 @@ msgstr "קובץ פתקית של Xournal++‎"
 msgid "Xournal++ page template file"
 msgstr "קובץ תבנית עמוד של Xournal++‎"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "לשמור את השינויים?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "הסתרת סרגל הצד"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "סמליים (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "שימוש בצבע ההדגשה של המערכת עבור מסגרת העמוד והבחירות"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "משתמש בצבע ההדגשה שנבחר בהגדרות שולחן העבודה. בחירת צבע מסגרת או בחירה למעלה תעביר לשימוש בצבעים שלך."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "צירוף רקעי PDF ותמונה ליומן"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "בעת הוספת הערות ל־PDF או שימוש בתמונה כרקע עמוד, נשמר עותק של הקובץ לצד היומן במקום קישור לקובץ המקורי."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "צבעי רקע"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "צבעי Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "בשימוש לאחרונה"
+
+#. Xournal#
+msgid "OK"
+msgstr "אישור"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

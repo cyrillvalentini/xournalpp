@@ -4856,3 +4856,56 @@ msgstr "Xournal++ Notiz Datei"
 msgid "Xournal++ page template file"
 msgstr "Xournal++ Seitenvorlagendatei"
 
+
+#: ../src/core/control/Control.cpp
+msgid "Save Changes?"
+msgstr "Änderungen speichern?"
+
+#: ../ui/main.ui
+msgid "Hide sidebar"
+msgstr "Seitenleiste ausblenden"
+
+#: ../ui/settings.ui
+msgid "Symbolic (GNOME)"
+msgstr "Symbolisch (GNOME)"
+
+#: ../ui/settings.ui
+msgid "Use the system accent color for the page border and selections"
+msgstr "Systemakzentfarbe für den Seitenrahmen und Auswahlen verwenden"
+
+#: ../ui/settings.ui
+msgid ""
+"Uses the accent color chosen in the desktop settings. Picking a border or "
+"selection color above switches to your own colors."
+msgstr ""
+"Verwendet die in den Desktop-Einstellungen gewählte Akzentfarbe. Wenn Sie "
+"oben eine Rahmen- oder Auswahlfarbe wählen, werden Ihre eigenen Farben "
+"verwendet."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "PDF- und Bildhintergründe an das Dokument anhängen"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Beim Annotieren einer PDF oder wenn ein Bild als Seitenhintergrund dient, wird eine Kopie der Datei neben dem Dokument gespeichert, statt auf die Originaldatei zu verweisen."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Hintergrundfarben"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal-Farben"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Zuletzt verwendet"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100 %"

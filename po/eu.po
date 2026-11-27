@@ -4851,3 +4851,51 @@ msgstr "Xournal++ ohar fitxategia"
 msgid "Xournal++ page template file"
 msgstr "Xournal++ orriaren txantiloi fitxategia"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Aldaketak gorde?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Ezkutatu alboko barra"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Sinbolikoak (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Erabili sistemaren nabarmentze-kolorea orriaren ertzerako eta hautapenetarako"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Mahaigainaren ezarpenetan aukeratutako nabarmentze-kolorea erabiltzen du. Goian ertz- edo hautapen-kolore bat aukeratzen baduzu, zure koloreak erabiliko dira."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Erantsi PDF eta irudi-atzeko planoak egunkariari"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "PDF bat oharrez hornitzean edo irudi bat orri-atzeko plano gisa erabiltzean, fitxategiaren kopia bat gordetzen da egunkariaren ondoan, jatorrizko fitxategira estekatu beharrean."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Atzeko planoko koloreak"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal-en koloreak"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Azken aldian erabiliak"
+
+#. Xournal#
+msgid "OK"
+msgstr "Ados"
+
+#. Xournal#
+msgid "100%"
+msgstr "% 100"

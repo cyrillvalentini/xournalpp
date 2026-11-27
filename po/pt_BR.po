@@ -4823,3 +4823,51 @@ msgstr "Arquivo de nota do Xournal++"
 msgid "Xournal++ page template file"
 msgstr "Arquivo de Página de Molde do Xournal++"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Salvar alterações?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Ocultar barra lateral"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbólicos (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Usar a cor de destaque do sistema para a borda da página e as seleções"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Usa a cor de destaque escolhida nas configurações da área de trabalho. Escolher acima uma cor de borda ou de seleção passa a usar suas próprias cores."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Anexar fundos de PDF e imagem ao diário"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Ao anotar um PDF ou usar uma imagem como fundo de página, uma cópia do arquivo é salva ao lado do diário em vez de vincular ao arquivo original."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Cores de fundo"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Cores do Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Usadas recentemente"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

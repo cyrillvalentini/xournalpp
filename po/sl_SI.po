@@ -4799,3 +4799,51 @@ msgstr "Xournal++ beležka"
 msgid "Xournal++ page template file"
 msgstr "Predloga Xournal++ beležke"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Ali želite shraniti spremembe?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Skrij stransko vrstico"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbolne (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Za rob strani in izbore uporabi poudarjalno barvo sistema"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Uporabi poudarjalno barvo, izbrano v nastavitvah namizja. Če zgoraj izberete barvo roba ali izbora, se uporabijo vaše barve."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Priloži ozadja PDF in slik dnevniku"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Pri označevanju PDF ali uporabi slike kot ozadja strani se kopija datoteke shrani poleg dnevnika namesto povezave na izvirno datoteko."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Barve ozadja"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Barve Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Nedavno uporabljeno"
+
+#. Xournal#
+msgid "OK"
+msgstr "V redu"
+
+#. Xournal#
+msgid "100%"
+msgstr "100 %"

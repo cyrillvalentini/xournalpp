@@ -4755,3 +4755,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Simpan perubahan?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Sembunyikan bilah sisi"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbolik (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Gunakan warna aksen sistem untuk bingkai halaman dan seleksi"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Menggunakan warna aksen yang dipilih di pengaturan desktop. Memilih warna bingkai atau seleksi di atas akan beralih ke warna Anda sendiri."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Lampirkan latar belakang PDF dan gambar ke jurnal"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Saat menganotasi PDF atau menggunakan gambar sebagai latar belakang halaman, salinan berkas disimpan di samping jurnal alih-alih menautkan ke berkas asli."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Warna latar belakang"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Warna Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Baru saja digunakan"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

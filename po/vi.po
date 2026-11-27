@@ -4756,3 +4756,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Lưu các thay đổi?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Ẩn thanh bên"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Biểu tượng (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Dùng màu nhấn của hệ thống cho viền trang và vùng chọn"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Dùng màu nhấn được chọn trong cài đặt màn hình nền. Chọn màu viền hoặc màu vùng chọn ở trên sẽ chuyển sang dùng màu của riêng bạn."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Đính kèm nền PDF và hình ảnh vào sổ ghi"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Khi chú thích PDF hoặc dùng hình ảnh làm nền trang, một bản sao của tệp được lưu cạnh sổ ghi thay vì liên kết tới tệp gốc."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Màu nền"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Màu Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Dùng gần đây"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

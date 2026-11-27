@@ -4855,3 +4855,51 @@ msgstr "Fișier de notițe Xournal++"
 msgid "Xournal++ page template file"
 msgstr "Fișier model de pagină Xournal++"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Salvați modificările?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Ascunde bara laterală"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbolice (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Folosește culoarea de accent a sistemului pentru chenarul paginii și selecții"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Folosește culoarea de accent aleasă în setările desktopului. Dacă alegeți mai sus o culoare de chenar sau de selecție, se vor folosi culorile proprii."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Atașează fundalurile PDF și imagine la jurnal"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "La adnotarea unui PDF sau la folosirea unei imagini ca fundal de pagină, o copie a fișierului este salvată lângă jurnal în loc de o legătură către fișierul original."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Culori de fundal"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Culori Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Folosite recent"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

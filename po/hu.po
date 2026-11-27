@@ -4853,3 +4853,51 @@ msgstr "Xournal++-jegyzetfájl"
 msgid "Xournal++ page template file"
 msgstr "Xournal++-oldalsablonfájl"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Menti a változtatásokat?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Oldalsáv elrejtése"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Szimbolikus (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "A rendszer kiemelőszínének használata az oldalkerethez és a kijelölésekhez"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Az asztali beállításokban választott kiemelőszínt használja. Ha fent keret- vagy kijelölésszínt választ, a saját színei lesznek használatban."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "PDF- és képhátterek csatolása a jegyzetfüzethez"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "PDF jegyzetelésekor vagy kép oldalháttérként való használatakor a fájl egy másolata a jegyzetfüzet mellé kerül, ahelyett hogy az eredeti fájlra hivatkozna."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Háttérszínek"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal-színek"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Nemrég használt"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

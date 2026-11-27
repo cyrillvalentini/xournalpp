@@ -4777,3 +4777,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Spara ändringar?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Dölj sidopanel"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Symboliska (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Använd systemets accentfärg för sidramen och markeringar"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Använder accentfärgen som valts i skrivbordsinställningarna. Om du väljer en ram- eller markeringsfärg ovan används dina egna färger."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Bifoga PDF- och bildbakgrunder till journalen"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "När du kommenterar en PDF eller använder en bild som sidbakgrund sparas en kopia av filen bredvid journalen i stället för en länk till originalfilen."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Bakgrundsfärger"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal-färger"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Nyligen använda"
+
+#. Xournal#
+msgid "OK"
+msgstr "OK"
+
+#. Xournal#
+msgid "100%"
+msgstr "100 %"

@@ -4792,3 +4792,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr "Файл шаблону сторінки Xournal++"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Зберегти зміни?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Сховати бічну панель"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Символьні (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Використовувати акцентний колір системи для рамки сторінки та виділень"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Використовує акцентний колір, вибраний у налаштуваннях стільниці. Якщо вибрати вище колір рамки або виділення, будуть використані ваші власні кольори."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Долучати тла PDF і зображень до журналу"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Під час анотування PDF або використання зображення як тла сторінки копія файлу зберігається поруч із журналом замість посилання на оригінальний файл."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Кольори тла"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Кольори Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Нещодавно використані"
+
+#. Xournal#
+msgid "OK"
+msgstr "Гаразд"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

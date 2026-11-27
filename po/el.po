@@ -4762,3 +4762,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Αποθήκευση αλλαγών;"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Απόκρυψη πλευρικής στήλης"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Συμβολικά (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Χρήση του χρώματος έμφασης του συστήματος για το περίγραμμα σελίδας και τις επιλογές"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Χρησιμοποιεί το χρώμα έμφασης που έχει επιλεγεί στις ρυθμίσεις της επιφάνειας εργασίας. Αν επιλέξετε παραπάνω χρώμα περιγράμματος ή επιλογής, χρησιμοποιούνται τα δικά σας χρώματα."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Επισύναψη φόντων PDF και εικόνων στο ημερολόγιο"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Κατά τον σχολιασμό ενός PDF ή τη χρήση εικόνας ως φόντο σελίδας, αποθηκεύεται αντίγραφο του αρχείου δίπλα στο ημερολόγιο αντί για σύνδεσμο προς το αρχικό αρχείο."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Χρώματα φόντου"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Χρώματα Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Χρησιμοποιήθηκαν πρόσφατα"
+
+#. Xournal#
+msgid "OK"
+msgstr "Εντάξει"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

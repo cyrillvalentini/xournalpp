@@ -4815,3 +4815,51 @@ msgstr "Xournal++ not dosyası"
 msgid "Xournal++ page template file"
 msgstr "Xournal++ sayfa şablon dosyası"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Değişiklikler kaydedilsin mi?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Kenar çubuğunu gizle"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Sembolik (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Sayfa kenarlığı ve seçimler için sistemin vurgu rengini kullan"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Masaüstü ayarlarında seçilen vurgu rengini kullanır. Yukarıda bir kenarlık veya seçim rengi seçerseniz kendi renkleriniz kullanılır."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "PDF ve resim arka planlarını günlüğe ekle"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "Bir PDF'ye not eklerken veya bir resmi sayfa arka planı olarak kullanırken, özgün dosyaya bağlantı vermek yerine dosyanın bir kopyası günlüğün yanına kaydedilir."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Arka plan renkleri"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal renkleri"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Son kullanılanlar"
+
+#. Xournal#
+msgid "OK"
+msgstr "Tamam"
+
+#. Xournal#
+msgid "100%"
+msgstr "%100"

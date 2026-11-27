@@ -4733,3 +4733,51 @@ msgstr ""
 msgid "Xournal++ page template file"
 msgstr ""
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "වෙනස්කම් සුරකින්නද?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "පැති තීරුව සඟවන්න"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "සංකේතාත්මක (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "පිටු මායිම සහ තේරීම් සඳහා පද්ධතියේ උච්චාරණ වර්ණය භාවිතා කරන්න"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "ඩෙස්ක්ටොප් සැකසුම් තුළ තෝරාගත් උච්චාරණ වර්ණය භාවිතා කරයි. ඉහතින් මායිම් හෝ තේරීම් වර්ණයක් තෝරා ගැනීමෙන් ඔබගේම වර්ණ භාවිතා වේ."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "PDF සහ රූප පසුබිම් සඟරාවට අමුණන්න"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "PDF එකකට සටහන් එක් කරන විට හෝ රූපයක් පිටු පසුබිමක් ලෙස භාවිතා කරන විට, මුල් ගොනුවට සබැඳීම වෙනුවට ගොනුවේ පිටපතක් සඟරාව අසල සුරකිනු ලැබේ."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "පසුබිම් වර්ණ"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Xournal වර්ණ"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "මෑතකදී භාවිතා කළ"
+
+#. Xournal#
+msgid "OK"
+msgstr "හරි"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"

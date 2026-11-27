@@ -4854,3 +4854,51 @@ msgstr "Fitxer de notes Xournal++"
 msgid "Xournal++ page template file"
 msgstr "Fitxer de plantilla de pàgina Xournal++"
 
+
+#. Xournal#
+msgid "Save Changes?"
+msgstr "Voleu desar els canvis?"
+
+#. Xournal#
+msgid "Hide sidebar"
+msgstr "Amaga la barra lateral"
+
+#. Xournal#
+msgid "Symbolic (GNOME)"
+msgstr "Simbòliques (GNOME)"
+
+#. Xournal#
+msgid "Use the system accent color for the page border and selections"
+msgstr "Utilitza el color d'èmfasi del sistema per a la vora de la pàgina i les seleccions"
+
+#. Xournal#
+msgid "Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors."
+msgstr "Utilitza el color d'èmfasi triat a la configuració de l'escriptori. Si trieu un color de vora o de selecció a dalt, s'utilitzaran els vostres colors."
+
+#. Xournal#
+msgid "Attach PDF and image backgrounds to the journal"
+msgstr "Adjunta els fons PDF i d'imatge al diari"
+
+#. Xournal#
+msgid "When annotating a PDF or using an image as page background, store a copy of the file next to the journal instead of linking to the original file."
+msgstr "En anotar un PDF o utilitzar una imatge com a fons de pàgina, desa una còpia del fitxer al costat del diari en lloc d'enllaçar el fitxer original."
+
+#. Xournal#
+msgid "Background colors"
+msgstr "Colors de fons"
+
+#. Xournal#
+msgid "Xournal colors"
+msgstr "Colors del Xournal"
+
+#. Xournal#
+msgid "Recently used"
+msgstr "Usats recentment"
+
+#. Xournal#
+msgid "OK"
+msgstr "D'acord"
+
+#. Xournal#
+msgid "100%"
+msgstr "100%"
