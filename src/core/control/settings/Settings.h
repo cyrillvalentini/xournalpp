@@ -391,13 +391,30 @@ public:
 
     void setViewMode(ViewModeId mode, ViewMode ViewMode);
 
+    /// Colour of the selected-page border: the system accent colour if enabled and known, otherwise the custom one
     Color getBorderColor() const;
+    /// The user's custom border colour, regardless of the accent colour setting
+    Color getCustomBorderColor() const;
     void setBorderColor(Color color);
 
+    /// Colour for text / element selections: the system accent colour if enabled and known, otherwise the custom one
     Color getSelectionColor() const;
+    /// The user's custom selection colour, regardless of the accent colour setting
+    Color getCustomSelectionColor() const;
     void setSelectionColor(Color color);
 
+    /// Colour between the pages. While it is the default colour, the style's colour (light/dark) is used instead
     Color getBackgroundColor() const;
+    /// The colour stored in the settings, regardless of the style
+    Color getCustomBackgroundColor() const;
+    /// Set at runtime from the style (see MainWindow::updateColorscheme); not saved
+    void setThemeBackgroundColor(std::optional<Color> color);
+
+    /// Follow the desktop's accent colour for the page border and selections
+    bool isUseSystemAccentColor() const;
+    void setUseSystemAccentColor(bool use);
+    /// Set at runtime from libadwaita's style manager; not saved
+    void setSystemAccentColor(std::optional<Color> color);
     void setBackgroundColor(Color color);
 
     Color getActiveSelectionColor() const;
@@ -1034,6 +1051,10 @@ private:
      * Color for Text selection, Stroke selection etc.
      */
     Color selectionMarkerColor{};
+
+    bool useSystemAccentColor{};
+    std::optional<Color> systemAccentColor;  ///< runtime only
+    std::optional<Color> themeBackgroundColor;  ///< runtime only
 
     /**
      * Color for active selection.

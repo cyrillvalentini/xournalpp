@@ -106,6 +106,8 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control, GtkAp
 
     // Follow the system's light/dark switch (or the forced variant from the settings)
     g_signal_connect(adw_style_manager_get_default(), "notify::dark", G_CALLBACK(themeCallback), this);
+    // ... and the system accent colour (page border and selections)
+    g_signal_connect(adw_style_manager_get_default(), "notify::accent-color", G_CALLBACK(themeCallback), this);
 
     updateColorscheme();
 }
@@ -148,6 +150,25 @@ void MainWindow::updateColorscheme() {
     }
     this->darkMode = adw_style_manager_get_dark(styleManager);
 
+    // Colours we draw ourselves follow the style too: the page border and selections use the accent colour (if
+    // enabled in the settings), the area between the pages the window colour (only while it is the default colour)
+    {
+        Settings* settings = control->getSettings();
+        const Color borderBefore = settings->getBorderColor();
+        const Color backgroundBefore = settings->getBackgroundColor();
+
+        GdkRGBA* accent = adw_style_manager_get_accent_color_rgba(styleManager);
+        settings->setSystemAccentColor(Util::GdkRGBA_to_rgb(*accent));
+        gdk_rgba_free(accent);
+        settings->setThemeBackgroundColor(darkMode ? Color(0x22, 0x22, 0x26) : Color(0xde, 0xdd, 0xda));
+
+        if ((borderBefore != settings->getBorderColor() || backgroundBefore != settings->getBackgroundColor()) &&
+            this->xournal) {
+            this->xournal->forceUpdatePagenumbers();
+            gtk_widget_queue_draw(this->winXournal);
+        }
+    }
+
     // Set up icons
     {
         const auto uiPath = this->getGladeSearchPath()->getFirstSearchPath();
@@ -165,6 +186,12 @@ void MainWindow::updateColorscheme() {
                 break;
             case ICON_THEME_LUCIDE:
                 iconLoadOrder = {darkColorIcons, lightColorIcons, darkLucideIcons, lightLucideIcons};
+                break;
+            case ICON_THEME_SYMBOLIC:
+                // The symbolic icons are recoloured by GTK, so one set serves light and dark mode.
+                // Lucide stays as a fallback for icons that have no symbolic version.
+                iconLoadOrder = {darkColorIcons, lightColorIcons, darkLucideIcons, lightLucideIcons,
+                                 uiPath / "iconsSymbolic"};
                 break;
             default:
                 g_message("Unknown icon theme!");
@@ -186,6 +213,12 @@ void MainWindow::updateColorscheme() {
         gtk_widget_add_css_class(this->window, "darkMode");
     } else {
         gtk_widget_remove_css_class(this->window, "darkMode");
+    }
+    // Makes GTK look up "<name>-symbolic" first for every icon in the window (see xournalpp.css)
+    if (control->getSettings()->getIconTheme() == ICON_THEME_SYMBOLIC) {
+        gtk_widget_add_css_class(this->window, "symbolicIcons");
+    } else {
+        gtk_widget_remove_css_class(this->window, "symbolicIcons");
     }
     g_debug("Theme variant: %s, icon theme: %s", this->darkMode ? "dark" : "light",
             iconThemeToString(control->getSettings()->getIconTheme()));

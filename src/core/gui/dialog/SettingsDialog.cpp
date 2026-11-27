@@ -369,6 +369,18 @@ void SettingsDialog::load() {
     loadCheckbox("cbSnapRecognizedShapesEnabled", settings->getSnapRecognizedShapesEnabled());
     loadCheckbox("cbRestoreLineWidthEnabled", settings->getRestoreLineWidthEnabled());
     loadCheckbox("cbStockIcons", settings->areStockIconsUsed());
+    loadCheckbox("cbSystemAccentColor", settings->isUseSystemAccentColor());
+    {
+        // The custom border / selection colours only apply when the accent colour is not followed
+        auto syncSensitivity = +[](GtkCheckButton* cb, SettingsDialog* self) {
+            const bool custom = !gtk_check_button_get_active(cb);
+            gtk_widget_set_sensitive(self->builder.get("colorBorder"), custom);
+            gtk_widget_set_sensitive(self->builder.get("colorSelection"), custom);
+        };
+        auto* cb = GTK_CHECK_BUTTON(builder.get("cbSystemAccentColor"));
+        g_signal_connect(cb, "toggled", G_CALLBACK(syncSensitivity), this);
+        syncSensitivity(cb, this);
+    }
     loadCheckbox("cbShowPageShadow", settings->isShowPageShadow());
     loadCheckbox("cbHideHorizontalScrollbar", settings->getScrollbarHideType() & SCROLLBAR_HIDE_HORIZONTAL);
     loadCheckbox("cbHideVerticalScrollbar", settings->getScrollbarHideType() & SCROLLBAR_HIDE_VERTICAL);
@@ -536,11 +548,11 @@ void SettingsDialog::load() {
     loadSlider("scaleMinimumPressure", settings->getMinimumPressure());
     loadSlider("scalePressureMultiplier", settings->getPressureMultiplier());
 
-    GdkRGBA color = Util::rgb_to_GdkRGBA(settings->getBorderColor());
+    GdkRGBA color = Util::rgb_to_GdkRGBA(settings->getCustomBorderColor());
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBorder")), &color);
-    color = Util::rgb_to_GdkRGBA(settings->getBackgroundColor());
+    color = Util::rgb_to_GdkRGBA(settings->getCustomBackgroundColor());
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBackground")), &color);
-    color = Util::rgb_to_GdkRGBA(settings->getSelectionColor());
+    color = Util::rgb_to_GdkRGBA(settings->getCustomSelectionColor());
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelection")), &color);
     color = Util::rgb_to_GdkRGBA(settings->getActiveSelectionColor());
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelectionActive")), &color);
@@ -600,6 +612,9 @@ void SettingsDialog::load() {
     switch (settings->getIconTheme()) {
         case ICON_THEME_LUCIDE:
             xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbIconTheme")), 1);
+            break;
+        case ICON_THEME_SYMBOLIC:
+            xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbIconTheme")), 2);
             break;
         case ICON_THEME_COLOR:
         default:
@@ -778,6 +793,7 @@ void SettingsDialog::save() {
     settings->setSnapRecognizedShapesEnabled(getCheckbox("cbSnapRecognizedShapesEnabled"));
     settings->setRestoreLineWidthEnabled(getCheckbox("cbRestoreLineWidthEnabled"));
     settings->setAreStockIconsUsed(getCheckbox("cbStockIcons"));
+    settings->setUseSystemAccentColor(getCheckbox("cbSystemAccentColor"));
     settings->setShowPageShadow(getCheckbox("cbShowPageShadow"));
     settings->setPressureGuessingEnabled(getCheckbox("cbEnablePressureInference"));
     settings->setTouchDrawingEnabled(getCheckbox("cbTouchDrawing"));
@@ -893,6 +909,9 @@ void SettingsDialog::save() {
     switch (xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbIconTheme")))) {
         case 1:
             settings->setIconTheme(ICON_THEME_LUCIDE);
+            break;
+        case 2:
+            settings->setIconTheme(ICON_THEME_SYMBOLIC);
             break;
         case 0:
         default:

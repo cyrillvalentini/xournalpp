@@ -2197,6 +2197,7 @@ This setting can make it easier to draw with touch.</property>
                                                             <items>
                                                               <item translatable="yes">Color</item>
                                                               <item translatable="no">Lucide</item>
+                                                              <item translatable="yes">Symbolic (GNOME)</item>
                                                             </items>
                                                           </object>
                                                         </property>
@@ -2265,6 +2266,20 @@ This setting can make it easier to draw with touch.</property>
                                                     <layout>
                                                       <property name="column">0</property>
                                                       <property name="row">7</property>
+                                                      <property name="column-span">2</property>
+                                                    </layout>
+                                                  </object>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkCheckButton" id="cbSystemAccentColor">
+                                                    <property name="label" translatable="1">Use the system accent color for the page border and selections</property>
+                                                    <property name="name">cbSystemAccentColor</property>
+                                                    <property name="tooltip-text" translatable="1">Uses the accent color chosen in the desktop settings. The custom border and selection colors above apply when this is off.</property>
+                                                    <property name="focusable">1</property>
+                                                    <property name="margin-top">6</property>
+                                                    <layout>
+                                                      <property name="column">0</property>
+                                                      <property name="row">8</property>
                                                       <property name="column-span">2</property>
                                                     </layout>
                                                   </object>

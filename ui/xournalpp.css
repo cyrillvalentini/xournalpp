@@ -7,6 +7,11 @@
  *  See: https://wiki.gnome.org/action/show/Projects/GTK/Inspector
  */
 
+/* With the "Symbolic (GNOME)" icon theme, GTK prefers "<name>-symbolic" icons, which it recolours to match the theme. */
+window.symbolicIcons {
+	-gtk-icon-style: symbolic;
+}
+
 #pdfFloatingToolGrid {
     padding: 7px;
 }

@@ -116,7 +116,7 @@ void Settings::loadDefault() {
 
     this->stylusCursorType = STYLUS_CURSOR_DOT;
     this->eraserVisibility = ERASER_VISIBILITY_ALWAYS;
-    this->iconTheme = ICON_THEME_COLOR;
+    this->iconTheme = ICON_THEME_SYMBOLIC;
     this->themeVariant = THEME_VARIANT_USE_SYSTEM;
     this->highlightPosition = false;
     this->cursorHighlightColor = 0x80FFFF00;  // Yellow with 50% opacity
@@ -205,6 +205,7 @@ void Settings::loadDefault() {
     this->eagerPageCleanup = true;
 
     this->selectionBorderColor = Colors::red;
+    this->useSystemAccentColor = true;
     this->selectionMarkerColor = Colors::xopp_cornflowerblue;
     this->activeSelectionColor = Colors::lawngreen;
 
@@ -559,6 +560,8 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
         this->preloadPagesBefore = g_ascii_strtoull(reinterpret_cast<const char*>(value), nullptr, 10);
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("preloadPagesAfter")) == 0) {
         this->preloadPagesAfter = g_ascii_strtoull(reinterpret_cast<const char*>(value), nullptr, 10);
+    } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("useSystemAccentColor")) == 0) {
+        this->useSystemAccentColor = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("eagerPageCleanup")) == 0) {
         this->eagerPageCleanup = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("selectionBorderColor")) == 0) {
@@ -1091,7 +1094,7 @@ void Settings::save() {
                    "\"hover\", \"touch\"");
 
     xmlNode = saveProperty("iconTheme", iconThemeToString(this->iconTheme), root);
-    ATTACH_COMMENT("The icon theme, allowed values are \"iconsColor\", \"iconsLucide\"");
+    ATTACH_COMMENT("The icon theme, allowed values are \"iconsColor\", \"iconsLucide\", \"iconsSymbolic\"");
 
     xmlNode = saveProperty("themeVariant", themeVariantToString(this->themeVariant), root);
     ATTACH_COMMENT("Dark/light mode, allowed values are \"useSystem\", \"forceLight\", \"forceDark\"");
@@ -1171,6 +1174,7 @@ void Settings::save() {
     SAVE_UINT_PROP(preloadPagesBefore);
     SAVE_UINT_PROP(preloadPagesAfter);
     SAVE_BOOL_PROP(eagerPageCleanup);
+    SAVE_BOOL_PROP(useSystemAccentColor);
 
     const auto pageTemplate = pageTemplateSettings.toString();
     SAVE_STRING_PROP(pageTemplate);
@@ -2208,7 +2212,11 @@ void Settings::setEagerPageCleanup(bool b) {
     save();
 }
 
-auto Settings::getBorderColor() const -> Color { return this->selectionBorderColor; }
+auto Settings::getBorderColor() const -> Color {
+    return useSystemAccentColor && systemAccentColor ? *systemAccentColor : this->selectionBorderColor;
+}
+
+auto Settings::getCustomBorderColor() const -> Color { return this->selectionBorderColor; }
 
 void Settings::setBorderColor(Color color) {
     if (this->selectionBorderColor == color) {
@@ -2218,7 +2226,23 @@ void Settings::setBorderColor(Color color) {
     save();
 }
 
-auto Settings::getSelectionColor() const -> Color { return this->selectionMarkerColor; }
+auto Settings::getSelectionColor() const -> Color {
+    return useSystemAccentColor && systemAccentColor ? *systemAccentColor : this->selectionMarkerColor;
+}
+
+auto Settings::getCustomSelectionColor() const -> Color { return this->selectionMarkerColor; }
+
+auto Settings::isUseSystemAccentColor() const -> bool { return this->useSystemAccentColor; }
+
+void Settings::setUseSystemAccentColor(bool use) {
+    if (this->useSystemAccentColor == use) {
+        return;
+    }
+    this->useSystemAccentColor = use;
+    save();
+}
+
+void Settings::setSystemAccentColor(std::optional<Color> color) { this->systemAccentColor = color; }
 
 void Settings::setSelectionColor(Color color) {
     if (this->selectionMarkerColor == color) {
@@ -2248,7 +2272,17 @@ void Settings::setRecolorParameters(RecolorParameters&& recolor) {
     save();
 }
 
-auto Settings::getBackgroundColor() const -> Color { return this->backgroundColor; }
+auto Settings::getBackgroundColor() const -> Color {
+    // Only replace the default colour: a colour the user picked always wins
+    if (themeBackgroundColor && this->backgroundColor == Colors::xopp_gainsboro02) {
+        return *themeBackgroundColor;
+    }
+    return this->backgroundColor;
+}
+
+auto Settings::getCustomBackgroundColor() const -> Color { return this->backgroundColor; }
+
+void Settings::setThemeBackgroundColor(std::optional<Color> color) { this->themeBackgroundColor = color; }
 
 void Settings::setBackgroundColor(Color color) {
     if (this->backgroundColor == color) {
