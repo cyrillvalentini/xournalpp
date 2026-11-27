@@ -107,4 +107,9 @@ private:
     SettingsDialogPaletteTab paletteTab;
 
     std::function<void()> callback;
+
+    /// Set while the dialog itself changes the border / selection colour buttons (see showBorderColors)
+    bool updatingColorButtons = false;
+    /// Show the system accent colour (followAccent) or the custom colours in the border / selection colour buttons
+    void showBorderColors(bool followAccent);
 };

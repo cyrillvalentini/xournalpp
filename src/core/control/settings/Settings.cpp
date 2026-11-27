@@ -2244,6 +2244,8 @@ void Settings::setUseSystemAccentColor(bool use) {
 
 void Settings::setSystemAccentColor(std::optional<Color> color) { this->systemAccentColor = color; }
 
+auto Settings::getSystemAccentColor() const -> std::optional<Color> { return this->systemAccentColor; }
+
 void Settings::setSelectionColor(Color color) {
     if (this->selectionMarkerColor == color) {
         return;

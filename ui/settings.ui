@@ -2296,7 +2296,7 @@ This setting can make it easier to draw with touch.</property>
                                                   <object class="GtkCheckButton" id="cbSystemAccentColor">
                                                     <property name="label" translatable="1">Use the system accent color for the page border and selections</property>
                                                     <property name="name">cbSystemAccentColor</property>
-                                                    <property name="tooltip-text" translatable="1">Uses the accent color chosen in the desktop settings. The custom border and selection colors above apply when this is off.</property>
+                                                    <property name="tooltip-text" translatable="1">Uses the accent color chosen in the desktop settings. Picking a border or selection color above switches to your own colors.</property>
                                                     <property name="focusable">1</property>
                                                     <property name="margin-top">6</property>
                                                     <layout>

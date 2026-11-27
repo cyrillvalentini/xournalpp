@@ -415,6 +415,7 @@ public:
     void setUseSystemAccentColor(bool use);
     /// Set at runtime from libadwaita's style manager; not saved
     void setSystemAccentColor(std::optional<Color> color);
+    std::optional<Color> getSystemAccentColor() const;
     void setBackgroundColor(Color color);
 
     Color getActiveSelectionColor() const;

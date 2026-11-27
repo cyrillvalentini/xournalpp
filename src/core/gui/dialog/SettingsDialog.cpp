@@ -370,17 +370,6 @@ void SettingsDialog::load() {
     loadCheckbox("cbRestoreLineWidthEnabled", settings->getRestoreLineWidthEnabled());
     loadCheckbox("cbStockIcons", settings->areStockIconsUsed());
     loadCheckbox("cbSystemAccentColor", settings->isUseSystemAccentColor());
-    {
-        // The custom border / selection colours only apply when the accent colour is not followed
-        auto syncSensitivity = +[](GtkCheckButton* cb, SettingsDialog* self) {
-            const bool custom = !gtk_check_button_get_active(cb);
-            gtk_widget_set_sensitive(self->builder.get("colorBorder"), custom);
-            gtk_widget_set_sensitive(self->builder.get("colorSelection"), custom);
-        };
-        auto* cb = GTK_CHECK_BUTTON(builder.get("cbSystemAccentColor"));
-        g_signal_connect(cb, "toggled", G_CALLBACK(syncSensitivity), this);
-        syncSensitivity(cb, this);
-    }
     loadCheckbox("cbShowPageShadow", settings->isShowPageShadow());
     loadCheckbox("cbHideHorizontalScrollbar", settings->getScrollbarHideType() & SCROLLBAR_HIDE_HORIZONTAL);
     loadCheckbox("cbHideVerticalScrollbar", settings->getScrollbarHideType() & SCROLLBAR_HIDE_VERTICAL);
@@ -556,6 +545,31 @@ void SettingsDialog::load() {
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelection")), &color);
     color = Util::rgb_to_GdkRGBA(settings->getActiveSelectionColor());
     gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelectionActive")), &color);
+
+    // Border and selection colours: by default they follow the system accent colour (shown in the buttons).
+    // Picking a colour switches to custom colours; ticking the checkbox again goes back to the accent colour.
+    showBorderColors(settings->isUseSystemAccentColor());
+    g_signal_connect(builder.get("cbSystemAccentColor"), "toggled", G_CALLBACK(+[](GtkCheckButton* cb, gpointer d) {
+                         auto* self = static_cast<SettingsDialog*>(d);
+                         if (!self->updatingColorButtons) {
+                             self->showBorderColors(gtk_check_button_get_active(cb));
+                         }
+                     }),
+                     this);
+    for (const char* name: {"colorBorder", "colorSelection"}) {
+        g_signal_connect(builder.get(name), "notify::rgba", G_CALLBACK(+[](GObject*, GParamSpec*, gpointer d) {
+                             auto* self = static_cast<SettingsDialog*>(d);
+                             if (self->updatingColorButtons) {
+                                 return;
+                             }
+                             // The user picked a colour: use the custom colours from now on
+                             self->updatingColorButtons = true;
+                             gtk_check_button_set_active(GTK_CHECK_BUTTON(self->builder.get("cbSystemAccentColor")),
+                                                         false);
+                             self->updatingColorButtons = false;
+                         }),
+                         this);
+    }
 
     {
         const auto& recolor = settings->getRecolorParameters();
@@ -843,14 +857,20 @@ void SettingsDialog::save() {
     settings->setScrollbarHideType(static_cast<ScrollbarHideType>(scrollbarHideType));
 
     GdkRGBA color;
-    color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBorder")));
-    settings->setBorderColor(Util::GdkRGBA_to_argb(color));
+    // While the accent colour is followed, the buttons show it: keep the stored custom colours then
+    const bool customBorderColors = !getCheckbox("cbSystemAccentColor");
+    if (customBorderColors) {
+        color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBorder")));
+        settings->setBorderColor(Util::GdkRGBA_to_argb(color));
+    }
 
     color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBackground")));
     settings->setBackgroundColor(Util::GdkRGBA_to_argb(color));
 
-    color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelection")));
-    settings->setSelectionColor(Util::GdkRGBA_to_argb(color));
+    if (customBorderColors) {
+        color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelection")));
+        settings->setSelectionColor(Util::GdkRGBA_to_argb(color));
+    }
 
     color = *gtk_color_dialog_button_get_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelectionActive")));
     settings->setActiveSelectionColor(Util::GdkRGBA_to_argb(color));
@@ -1167,3 +1187,16 @@ void SettingsDialog::setAudioRecordingFolder(fs::path folder) {
     }
 }
 #endif
+
+void SettingsDialog::showBorderColors(bool followAccent) {
+    const auto accent = settings->getSystemAccentColor();
+    const Color border = followAccent && accent ? *accent : settings->getCustomBorderColor();
+    const Color selection = followAccent && accent ? *accent : settings->getCustomSelectionColor();
+
+    updatingColorButtons = true;
+    GdkRGBA color = Util::rgb_to_GdkRGBA(border);
+    gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorBorder")), &color);
+    color = Util::rgb_to_GdkRGBA(selection);
+    gtk_color_dialog_button_set_rgba(GTK_COLOR_DIALOG_BUTTON(builder.get("colorSelection")), &color);
+    updatingColorButtons = false;
+}
