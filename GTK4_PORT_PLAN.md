@@ -273,8 +273,10 @@ Progress:
   with wrap-around.
 - [x] Message dialogs → `GtkAlertDialog` in `XojMsgBox` (94 → 82); phase 4 swaps it for `AdwAlertDialog`. Confirmed on the real desktop.
 
-Phase 3 GTK work is done. Left over (not GTK): internal `LegacyRedrawable` (3), `Image::setImage(GdkPixbuf*)` (1),
-`std::wstring_convert` (1). Next: phase 4.
+Phase 3 GTK work is done. `Image::setImage(GdkPixbuf*)` and `std::wstring_convert` were replaced as well; the only
+deprecation left is upstream's internal `LegacyRedrawable` (3 uses, part of upstream's move to `Repaintable`; left to
+upstream). Formatting the branch's changed lines with `git clang-format` is pending (needs `clang-tools-extra`).
+Next: phase 4.
 
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)
 1. Add `libadwaita-1` to CMake; `AdwApplication`; `AdwApplicationWindow` + `AdwToolbarView` holding the classic menubar and toolbars at the top and the page/zoom bar at the bottom.
