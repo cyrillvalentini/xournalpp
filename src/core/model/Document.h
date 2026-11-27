@@ -21,8 +21,8 @@
 #include <vector>         // for vector
 
 #include <cairo.h>    // for cairo_surface_t
-#include <glib.h>     // for gpointer, gsize
 #include <gio/gio.h>  // for GListModel, GListStore
+#include <glib.h>     // for gpointer, gsize
 
 #include "pdf/base/XojPdfDocument.h"  // for XojPdfDocument
 #include "pdf/base/XojPdfPage.h"      // for XojPdfPageSPtr

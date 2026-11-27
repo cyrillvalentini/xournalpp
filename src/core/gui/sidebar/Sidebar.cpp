@@ -139,9 +139,7 @@ void Sidebar::setTmpDisabled(bool disabled) {
     gdk_display_sync(gdk_display_get_default());
 }
 
-void Sidebar::saveSize() {
-    this->control->getSettings()->setSidebarWidth(gtk_widget_get_width(this->sidebarContents));
-}
+void Sidebar::saveSize() { this->control->getSettings()->setSidebarWidth(gtk_widget_get_width(this->sidebarContents)); }
 
 size_t Sidebar::getNumberOfTabs() const { return this->tabs.size(); }
 

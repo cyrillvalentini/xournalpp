@@ -20,23 +20,23 @@
 #include "gui/toolbarMenubar/model/ColorPalette.h"  // for Palette
 #include "gui/widgets/ZoomCallib.h"                 // for zoomcallib_new, zoom...
 #include "model/PageType.h"                         // for PageType
-#include "util/DropDown.h"
 #include "util/Color.h"                             // for GdkRGBA_to_argb, rgb...
-#include "util/GtkUtil.h"                           // for getWidgetDPI
-#include "util/PathUtil.h"                          // for fromGFile
-#include "util/Util.h"                              // for systemWithMessage
-#include "util/i18n.h"                              // for _
-#include "util/raii/CStringWrapper.h"               // for OwnedCString
-#include "util/raii/CairoWrappers.h"                // for CairoSurfaceSPtr
-#include "util/safe_casts.h"                        // for round_cast
-#include "util/utf8_view.h"                         // for utf8
+#include "util/DropDown.h"
+#include "util/GtkUtil.h"              // for getWidgetDPI
+#include "util/PathUtil.h"             // for fromGFile
+#include "util/Util.h"                 // for systemWithMessage
+#include "util/i18n.h"                 // for _
+#include "util/raii/CStringWrapper.h"  // for OwnedCString
+#include "util/raii/CairoWrappers.h"   // for CairoSurfaceSPtr
+#include "util/safe_casts.h"           // for round_cast
+#include "util/utf8_view.h"            // for utf8
 
-#include "ButtonConfigGui.h"       // for ButtonConfigGui
-#include "DeviceTestingArea.h"     // for DeviceTestingArea
-#include "LanguageConfigGui.h"     // for LanguageConfigGui
-#include "LatexSettingsPanel.h"    // for LatexSettingsPanel
-#include "XojOpenDlg.h"            // for showSelectFolderDialog
-#include "filesystem.h"            // for is_directory
+#include "ButtonConfigGui.h"     // for ButtonConfigGui
+#include "DeviceTestingArea.h"   // for DeviceTestingArea
+#include "LanguageConfigGui.h"   // for LanguageConfigGui
+#include "LatexSettingsPanel.h"  // for LatexSettingsPanel
+#include "XojOpenDlg.h"          // for showSelectFolderDialog
+#include "filesystem.h"          // for is_directory
 
 class GladeSearchpath;
 
@@ -342,8 +342,8 @@ void SettingsDialog::showStabilizerPreprocessorOptions(StrokeStabilizer::Preproc
     gtk_widget_set_visible(builder.get("lbStabilizerMass"), showInertia);
     gtk_widget_set_visible(builder.get("sbStabilizerMass"), showInertia);
 
-    bool averagingOn = static_cast<StrokeStabilizer::AveragingMethod>(
-                               xoj::util::dropdown::getActive(GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods")))) !=
+    bool averagingOn = static_cast<StrokeStabilizer::AveragingMethod>(xoj::util::dropdown::getActive(
+                               GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods")))) !=
                        StrokeStabilizer::AveragingMethod::NONE;
     bool sensitive = showDeadzone || showInertia || averagingOn;
     gtk_widget_set_sensitive(builder.get("cbStabilizerEnableFinalizeStroke"), sensitive);
@@ -412,7 +412,8 @@ void SettingsDialog::load() {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(sbStabilizerSigma), settings->getStabilizerSigma());
 
     GtkDropDown* cbStabilizerAveragingMethods = GTK_DROP_DOWN(builder.get("cbStabilizerAveragingMethods"));
-    xoj::util::dropdown::setActive(cbStabilizerAveragingMethods, static_cast<int>(settings->getStabilizerAveragingMethod()));
+    xoj::util::dropdown::setActive(cbStabilizerAveragingMethods,
+                                   static_cast<int>(settings->getStabilizerAveragingMethod()));
     showStabilizerAvMethodOptions(settings->getStabilizerAveragingMethod());
     GtkDropDown* cbStabilizerPreprocessors = GTK_DROP_DOWN(builder.get("cbStabilizerPreprocessors"));
     xoj::util::dropdown::setActive(cbStabilizerPreprocessors, static_cast<int>(settings->getStabilizerPreprocessor()));
@@ -703,11 +704,13 @@ void SettingsDialog::load() {
         xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), "System default");
         xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), 0);
         for (auto& audioInputDevice: this->audioInputDevices) {
-            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), audioInputDevice.getDeviceName());
+            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")),
+                                        audioInputDevice.getDeviceName());
         }
         for (size_t i = 0; i < this->audioInputDevices.size(); i++) {
             if (this->audioInputDevices[i].getSelected()) {
-                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")), static_cast<gint>(i + 1));
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioInputDevice")),
+                                               static_cast<gint>(i + 1));
             }
         }
 
@@ -715,11 +718,13 @@ void SettingsDialog::load() {
         xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), "System default");
         xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), 0);
         for (auto& audioOutputDevice: this->audioOutputDevices) {
-            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), audioOutputDevice.getDeviceName());
+            xoj::util::dropdown::append(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")),
+                                        audioOutputDevice.getDeviceName());
         }
         for (size_t i = 0; i < this->audioOutputDevices.size(); i++) {
             if (this->audioOutputDevices[i].getSelected()) {
-                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")), static_cast<gint>(i + 1));
+                xoj::util::dropdown::setActive(GTK_DROP_DOWN(builder.get("cbAudioOutputDevice")),
+                                               static_cast<gint>(i + 1));
             }
         }
 

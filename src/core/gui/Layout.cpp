@@ -362,8 +362,7 @@ void Layout::computePrecalculated() {
         pc.paddingRight += settings->getAddHorizontalSpaceAmountRight();
     }
 
-    recomputeCenteringPaddingUnsafe(gtk_widget_get_width(view->getWidget()),
-                                    gtk_widget_get_height(view->getWidget()));
+    recomputeCenteringPaddingUnsafe(gtk_widget_get_width(view->getWidget()), gtk_widget_get_height(view->getWidget()));
 }
 
 void Layout::recomputeCenteringPaddingUnsafe(int allocWidth, int allocHeight) {

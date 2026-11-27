@@ -1,11 +1,11 @@
 #include "util/XojMsgBox.h"
 
+#include <memory>  // for unique_ptr
 #include <utility>  // for move
 
 #include <glib-object.h>  // for g_object_set_property, g_value_init, g_valu...
 #include <glib.h>         // for g_free, g_markup_escape_text, g_error_free
 
-#include <memory>  // for unique_ptr
 #include "util/Util.h"
 #include "util/i18n.h"  // for _, FS, _F
 #include "util/raii/CStringWrapper.h"
@@ -148,8 +148,7 @@ void XojMsgBox::replaceFileQuestion(GtkWindow* win, fs::path file,
         return;
     }
 
-    showAlert(win,
-              FS(_F("The file {1} already exists! Do you want to replace it?") % file.filename().u8string()),
+    showAlert(win, FS(_F("The file {1} already exists! Do you want to replace it?") % file.filename().u8string()),
               std::string(),
               {Button(_("Select another name"), GTK_RESPONSE_CANCEL), Button(_("Replace"), GTK_RESPONSE_OK)},
               [overwrite = std::move(writeTofile), file = std::move(file)](int response) mutable {

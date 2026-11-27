@@ -275,7 +275,7 @@ Progress:
 
 Phase 3 GTK work is done. `Image::setImage(GdkPixbuf*)` and `std::wstring_convert` were replaced as well; the only
 deprecation left is upstream's internal `LegacyRedrawable` (3 uses, part of upstream's move to `Repaintable`; left to
-upstream). Formatting the branch's changed lines with `git clang-format` is pending (needs `clang-tools-extra`).
+upstream). The branch's changed lines are formatted with clang-format (version 23 locally; CI accepts 19-22).
 Next: phase 4.
 
 ### Phase 4 — libadwaita and the Xournal# UI (1–2 weeks)

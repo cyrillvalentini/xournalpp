@@ -52,8 +52,7 @@ void PreviewJob::finishPaint() {
     }
     this->cr.reset();
 
-    xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(buffer.get()),
-                                               xoj::util::adopt);
+    xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(buffer.get()), xoj::util::adopt);
     buffer.reset();
 
     xoj::util::WidgetSPtr pic(gtk_picture_new_for_paintable(GDK_PAINTABLE(texture.get())), xoj::util::adopt);

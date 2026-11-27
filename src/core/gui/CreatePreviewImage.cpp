@@ -1,8 +1,8 @@
 #include "CreatePreviewImage.h"
 
 #include "model/PageType.h"  // for PageType
-#include "util/GtkUtil.h"
 #include "util/Color.h"      // for Color
+#include "util/GtkUtil.h"
 #include "util/raii/CairoWrappers.h"
 #include "util/raii/GObjectSPtr.h"
 #include "view/background/BackgroundView.h"  // for BackgroundView

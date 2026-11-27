@@ -27,8 +27,8 @@
 #include "undo/InsertUndoAction.h"  // for InsertUndoAction
 #include "undo/UndoAction.h"        // for UndoAction
 #include "undo/UndoRedoHandler.h"   // for UndoRedoHandler
-#include "util/GtkUtil.h"
 #include "util/Assert.h"            // for xoj_assert
+#include "util/GtkUtil.h"
 
 #include "MainWindow.h"  // for MainWindow
 

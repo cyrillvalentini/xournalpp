@@ -707,13 +707,9 @@ void XournalView::repaintSelection(bool evenWithoutSelection) {
 
 void XournalView::layoutPages() { this->getLayout()->recalculate(); }
 
-auto XournalView::getDisplayHeight() const -> int {
-    return gtk_widget_get_height(this->widget.get());
-}
+auto XournalView::getDisplayHeight() const -> int { return gtk_widget_get_height(this->widget.get()); }
 
-auto XournalView::getDisplayWidth() const -> int {
-    return gtk_widget_get_width(this->widget.get());
-}
+auto XournalView::getDisplayWidth() const -> int { return gtk_widget_get_width(this->widget.get()); }
 
 auto XournalView::isPageVisible(size_t page, int* visibleHeight) const -> bool {
     Rectangle<double>* rect = getVisibleRect(page);

@@ -13,6 +13,7 @@
 #include <optional>
 
 #include <gtk/gtk.h>
+
 #include "util/GtkUtil.h"
 
 namespace xoj::util {

@@ -3,8 +3,8 @@
 #include <gdk/gdk.h>      // for GdkRectangle
 #include <glib-object.h>  // for G_CALLBACK, g_signal_con...
 
-#include "util/GtkUtil.h"
 #include "util/Assert.h"
+#include "util/GtkUtil.h"
 #include "util/glib_casts.h"
 #include "util/safe_casts.h"
 

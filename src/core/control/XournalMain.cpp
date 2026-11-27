@@ -35,13 +35,13 @@
 #include "model/Document.h"                  // for Document
 #include "undo/EmergencySaveRestore.h"       // for EmergencySaveRestore
 #include "undo/UndoRedoHandler.h"            // for UndoRedoHandler
-#include "util/PathUtil.h"                   // for getConfigFolder, openFil...
-#include "util/PlaceholderString.h"          // for PlaceholderString
-#include "util/Util.h"                       // for execWhenIdle
-#include "util/VersionInfo.h"                // for getVersionInfo
 #include "util/GtkUtil.h"
-#include "util/XojMsgBox.h"                  // for XojMsgBox
-#include "util/i18n.h"                       // for _, FS, _F
+#include "util/PathUtil.h"           // for getConfigFolder, openFil...
+#include "util/PlaceholderString.h"  // for PlaceholderString
+#include "util/Util.h"               // for execWhenIdle
+#include "util/VersionInfo.h"        // for getVersionInfo
+#include "util/XojMsgBox.h"          // for XojMsgBox
+#include "util/i18n.h"               // for _, FS, _F
 
 #include "Control.h"       // for Control
 #include "ExportHelper.h"  // for exportImg, exportPdf

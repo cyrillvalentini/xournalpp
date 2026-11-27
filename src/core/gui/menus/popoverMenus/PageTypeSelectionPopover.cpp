@@ -13,11 +13,11 @@
 #include "gui/dialog/FormatDialog.h"
 #include "gui/menus/StaticAssertActionNamespace.h"
 #include "model/XojPage.h"
-#include "util/DropDown.h"
 #include "util/Assert.h"
+#include "util/DropDown.h"
 #include "util/PopupWindowWrapper.h"
 #include "util/Util.h"
-#include "util/i18n.h"         // for _
+#include "util/i18n.h"  // for _
 #include "util/raii/GVariantSPtr.h"
 
 #include "PageTypeSelectionPopoverGridHelper.h"
@@ -237,7 +237,7 @@ GtkWidget* PageTypeSelectionPopover::createPopover() const {
     PaperFormatUtils::fillPaperFormatDropDown(paperSizeMenuOptions, GTK_DROP_DOWN(pageFormatComboBox));
     gtk_widget_set_halign(pageFormatComboBox, GTK_ALIGN_END);
     xoj::util::dropdown::setActive(GTK_DROP_DOWN(pageFormatComboBox),
-                             static_cast<gint>(getComboBoxIndexForPaperSize(selectedPageSize)));
+                                   static_cast<gint>(getComboBoxIndexForPaperSize(selectedPageSize)));
     xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(pageFormatComboBox), changedPaperFormatTemplateCb,
                                         const_cast<PageTypeSelectionPopover*>(this));
     gtk_box_append(pageFormatBox, pageFormatComboBox);
@@ -308,8 +308,9 @@ GtkWidget* PageTypeSelectionPopover::createPopover() const {
     g_signal_connect_object(this->comboBoxChangeSelectionAction.get(), "activate",
                             G_CALLBACK(+[](GSimpleAction*, GVariant* comboBoxIndex, gpointer comboBoxPtr) {
                                 auto* comboBox = static_cast<GtkWidget*>(comboBoxPtr);
-                                xoj::util::dropdown::setActive(GTK_DROP_DOWN(comboBox),
-                                                         static_cast<gint>(getGVariantValue<guint32>(comboBoxIndex)));
+                                xoj::util::dropdown::setActive(
+                                        GTK_DROP_DOWN(comboBox),
+                                        static_cast<gint>(getGVariantValue<guint32>(comboBoxIndex)));
                             }),
                             pageFormatComboBox, GConnectFlags(0));
 

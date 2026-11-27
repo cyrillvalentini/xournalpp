@@ -118,7 +118,8 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath, size_t currentPage,
     });
 
     g_signal_connect(builder.get("rdRangePages"), "toggled", toggledHandler, this);
-    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(builder.get("cbQuality")), ExportDialog::selectQualityCriterion, this);
+    xoj::util::dropdown::connectChanged(GTK_DROP_DOWN(builder.get("cbQuality")), ExportDialog::selectQualityCriterion,
+                                        this);
     g_signal_connect(builder.get("txtPages"), "changed", changedHandler, this);
 
 
@@ -183,7 +184,9 @@ void ExportDialog::onSuccessCallback(ExportDialog* self) {
         return range;
     }();
     self->parameters->pdfExportBackend = PdfExportBackend::fromString(
-            xoj::util::dropdown::getActiveId(GTK_DROP_DOWN(self->builder.get("cbtPdfExportBackend"))).value_or("").c_str());
+            xoj::util::dropdown::getActiveId(GTK_DROP_DOWN(self->builder.get("cbtPdfExportBackend")))
+                    .value_or("")
+                    .c_str());
     self->parameters->qualityParameter = RasterImageQualityParameter(
             static_cast<ExportQualityCriterion>(
                     xoj::util::dropdown::getActive(GTK_DROP_DOWN(self->builder.get("cbQuality")))),

@@ -9,8 +9,8 @@ auto ids(GtkDropDown* dd) -> std::vector<std::string>* {
     auto* v = static_cast<std::vector<std::string>*>(g_object_get_data(G_OBJECT(dd), IDS_KEY));
     if (!v) {
         v = new std::vector<std::string>();
-        g_object_set_data_full(G_OBJECT(dd), IDS_KEY, v,
-                               +[](gpointer p) { delete static_cast<std::vector<std::string>*>(p); });
+        g_object_set_data_full(
+                G_OBJECT(dd), IDS_KEY, v, +[](gpointer p) { delete static_cast<std::vector<std::string>*>(p); });
     }
     return v;
 }
@@ -103,8 +103,7 @@ gulong connectChanged(GtkDropDown* dd, void (*callback)(GtkDropDown*, gpointer),
     };
     auto* c = new Closure{callback, data};
     return g_signal_connect_data(
-            dd, "notify::selected",
-            G_CALLBACK(+[](GtkDropDown* d, GParamSpec*, gpointer p) {
+            dd, "notify::selected", G_CALLBACK(+[](GtkDropDown* d, GParamSpec*, gpointer p) {
                 auto* c = static_cast<Closure*>(p);
                 c->cb(d, c->data);
             }),

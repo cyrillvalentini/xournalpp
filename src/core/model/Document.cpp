@@ -147,7 +147,7 @@ auto Document::createSaveFilename(DocumentType type, std::u8string_view defaultS
     // Expand the date/time placeholders (strftime syntax); GLib works in UTF-8 on all platforms
     std::unique_ptr<GDateTime, decltype(&g_date_time_unref)> now(g_date_time_new_now_local(), g_date_time_unref);
     std::unique_ptr<gchar, decltype(&g_free)> formatted(g_date_time_format(now.get(), char_cast(format_str).data()),
-                                                         g_free);
+                                                        g_free);
     std::string filename = formatted ? formatted.get() : std::string(char_cast(format_str));
     // All forbidden characters are ASCII, so replacing bytes keeps the UTF-8 sequences intact
     for (auto& c: filename) {

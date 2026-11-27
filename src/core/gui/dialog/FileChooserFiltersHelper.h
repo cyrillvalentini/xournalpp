@@ -35,7 +35,8 @@ constexpr FileType SVG = {"svg", "image/svg+xml", N_("SVG graphics")};
 constexpr FileType PNG = {"png", "image/png", N_("PNG graphics")};
 constexpr FileType ZIP = {"zip", "application/zip", N_("ZIP archive")};
 };  // namespace FileTypes
-/// The filter-adding functions append GtkFileFilter's to `filters` (a GListStore of GtkFileFilter, as GtkFileDialog takes)
+/// The filter-adding functions append GtkFileFilter's to `filters` (a GListStore of GtkFileFilter, as GtkFileDialog
+/// takes)
 GListStore* newFilterList();  ///< Returns a new, empty GListStore for GtkFileFilter's (full reference)
 
 void addFilterForFile(GListStore* filters, const FileType& f);

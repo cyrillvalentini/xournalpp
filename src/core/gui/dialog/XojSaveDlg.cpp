@@ -12,9 +12,8 @@
 
 using Callback = xoj::util::move_only_function<void(std::optional<fs::path>)>;
 
-void xoj::SaveExportDialog::show(GtkWindow* parent, Settings* settings, fs::path suggestedPath,
-                                 const char* windowTitle, const char* buttonLabel, const FileType* filetype,
-                                 Callback callback) {
+void xoj::SaveExportDialog::show(GtkWindow* parent, Settings* settings, fs::path suggestedPath, const char* windowTitle,
+                                 const char* buttonLabel, const FileType* filetype, Callback callback) {
     GtkFileDialog* dialog = gtk_file_dialog_new();
     gtk_file_dialog_set_title(dialog, windowTitle);
     gtk_file_dialog_set_accept_label(dialog, buttonLabel);

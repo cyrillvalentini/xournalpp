@@ -62,7 +62,7 @@ LanguageConfigGui::LanguageConfigGui(GtkBox* parent, Settings* settings):
         return availableLocales.begin();
     }();
     xoj::util::dropdown::setActive(GTK_DROP_DOWN(comboBox.get()),
-                             static_cast<gint>(std::distance(availableLocales.begin(), prefPos)));
+                                   static_cast<gint>(std::distance(availableLocales.begin(), prefPos)));
 }
 
 

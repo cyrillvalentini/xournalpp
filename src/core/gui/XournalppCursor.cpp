@@ -1,6 +1,6 @@
-#include <algorithm>
 #include "XournalppCursor.h"
 
+#include <algorithm>
 #include <cmath>             // for cos, sin, M_PI, NAN, fmod
 #include <cstdint>           // for uint32_t
 #include <initializer_list>  // for initializer_list
@@ -17,9 +17,9 @@
 #include "control/settings/SettingsEnums.h"  // for STYLUS_CURSOR_BIG, STYLU...
 #include "control/zoom/ZoomControl.h"        // for ZoomControl
 #include "gui/MainWindow.h"                  // for MainWindow
-#include "util/GtkUtil.h"
 #include "util/Color.h"                      // for argb_to_GdkRGBA, rgb_to_...
-#include "util/safe_casts.h"                 // for ceil_cast
+#include "util/GtkUtil.h"
+#include "util/safe_casts.h"  // for ceil_cast
 
 #include "XournalView.h"  // for XournalView
 

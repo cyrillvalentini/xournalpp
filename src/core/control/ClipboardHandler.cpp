@@ -251,8 +251,7 @@ auto ClipboardHandler::copy() -> bool {
 
         cairo_destroy(crPng);
 
-        xoj::util::GObjectSPtr<GdkTexture> image(xoj::util::gtk::textureFromCairoSurface(surfacePng),
-                                                 xoj::util::adopt);
+        xoj::util::GObjectSPtr<GdkTexture> image(xoj::util::gtk::textureFromCairoSurface(surfacePng), xoj::util::adopt);
 
         cairo_surface_destroy(surfacePng);
         return image;

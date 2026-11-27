@@ -11,8 +11,8 @@
 #include "control/settings/ButtonConfig.h"  // for ButtonConfig
 #include "control/settings/Settings.h"      // for Settings
 #include "gui/Builder.h"
-#include "util/DropDown.h"
 #include "util/Color.h"  // for GdkRGBA_to_argb, rgb_to_G...
+#include "util/DropDown.h"
 #include "util/i18n.h"  // for _
 
 class GladeSearchpath;
@@ -107,8 +107,8 @@ ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkBox* box, 
                          GtkWidget* box = gtk_list_item_get_child(item);
                          GtkWidget* image = gtk_widget_get_first_child(box);
                          GtkWidget* label = gtk_widget_get_next_sibling(image);
-                         gtk_label_set_text(GTK_LABEL(label), gtk_string_object_get_string(GTK_STRING_OBJECT(
-                                                                      gtk_list_item_get_item(item))));
+                         gtk_label_set_text(GTK_LABEL(label), gtk_string_object_get_string(
+                                                                      GTK_STRING_OBJECT(gtk_list_item_get_item(item))));
                          guint pos = gtk_list_item_get_position(item);
                          if (pos < self->toolEntries.size()) {
                              gtk_image_set_from_icon_name(GTK_IMAGE(image), self->toolEntries[pos].first.c_str());

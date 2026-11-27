@@ -98,7 +98,6 @@ gboolean fitWindowToScrolledContent(gpointer data) {
             }
             gtk_scrolled_window_set_min_content_height(sw, natH);
         }
-
     }
     g_object_unref(win);
     return G_SOURCE_REMOVE;
@@ -111,9 +110,8 @@ GdkTexture* textureFromCairoSurface(cairo_surface_t* surface) {
     const int height = cairo_image_surface_get_height(surface);
     const int stride = cairo_image_surface_get_stride(surface);
     // Cairo's ARGB32 is premultiplied, native-endian 32 bit = GDK_MEMORY_DEFAULT; RGB24 leaves the alpha byte undefined
-    const GdkMemoryFormat format = cairo_image_surface_get_format(surface) == CAIRO_FORMAT_RGB24 ?
-                                           GDK_MEMORY_B8G8R8X8 :
-                                           GDK_MEMORY_DEFAULT;
+    const GdkMemoryFormat format =
+            cairo_image_surface_get_format(surface) == CAIRO_FORMAT_RGB24 ? GDK_MEMORY_B8G8R8X8 : GDK_MEMORY_DEFAULT;
     GBytes* bytes = g_bytes_new(cairo_image_surface_get_data(surface), static_cast<gsize>(stride) * height);
     GdkTexture* texture = gdk_memory_texture_new(width, height, format, bytes, static_cast<gsize>(stride));
     g_bytes_unref(bytes);
@@ -140,17 +138,17 @@ void installColorChooserDialogSizeFix() {
                                  !g_object_get_data(G_OBJECT(win), "xopp-size-fix")) {
                                  g_object_set_data(G_OBJECT(win), "xopp-size-fix", GINT_TO_POINTER(1));
                                  if (GtkWidget* chooser = findDescendant(win, "GtkColorChooserWidget")) {
-                                     g_signal_connect_object(
-                                             chooser, "notify::show-editor",
-                                             G_CALLBACK(+[](GObject* chooser, GParamSpec*, gpointer w) {
-                                                 gboolean editor = false;
-                                                 g_object_get(chooser, "show-editor", &editor, nullptr);
-                                                 if (editor) {
-                                                     // Measure once the editor is laid out
-                                                     g_idle_add(fitWindowToScrolledContent, g_object_ref(w));
-                                                 }
-                                             }),
-                                             win, GConnectFlags(0));
+                                     g_signal_connect_object(chooser, "notify::show-editor",
+                                                             G_CALLBACK(+[](GObject* chooser, GParamSpec*, gpointer w) {
+                                                                 gboolean editor = false;
+                                                                 g_object_get(chooser, "show-editor", &editor, nullptr);
+                                                                 if (editor) {
+                                                                     // Measure once the editor is laid out
+                                                                     g_idle_add(fitWindowToScrolledContent,
+                                                                                g_object_ref(w));
+                                                                 }
+                                                             }),
+                                                             win, GConnectFlags(0));
                                  }
                              }
                              g_object_unref(win);

@@ -8,8 +8,8 @@
 #include "control/settings/Settings.h"       // for Settings
 #include "control/settings/SettingsEnums.h"  // for InputDeviceTypeOption
 #include "gui/Builder.h"                     // for Builder
-#include "util/DropDown.h"
 #include "util/Assert.h"                     // for xoj_assert
+#include "util/DropDown.h"
 
 class GladeSearchpath;
 

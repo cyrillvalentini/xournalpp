@@ -44,9 +44,8 @@ static void link_dest_class_init(XojLinkDestClass* linkClass) {
     objectClass->finalize = link_dest_finalize;
     objectClass->get_property = link_dest_get_property;
 
-    linkDestProps[PROP_PAGE_LABEL] = g_param_spec_string("page-label", nullptr, nullptr, "",
-                                                         static_cast<GParamFlags>(G_PARAM_READABLE |
-                                                                                  G_PARAM_STATIC_STRINGS));
+    linkDestProps[PROP_PAGE_LABEL] = g_param_spec_string(
+            "page-label", nullptr, nullptr, "", static_cast<GParamFlags>(G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
     g_object_class_install_properties(objectClass, N_PROPS, linkDestProps);
 }
 

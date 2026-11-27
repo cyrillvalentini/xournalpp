@@ -49,12 +49,12 @@ SearchBar::SearchBar(Control* control): control(control) {
 
     GtkEventController* ctrl = gtk_shortcut_controller_new();
     for (guint key: {GDK_KEY_Return, GDK_KEY_KP_Enter, GDK_KEY_ISO_Enter}) {
-        gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
-                                             gtk_shortcut_new(gtk_keyval_trigger_new(key, GdkModifierType(0)),
-                                                              gtk_signal_action_new("next-match")));
-        gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
-                                             gtk_shortcut_new(gtk_keyval_trigger_new(key, GDK_SHIFT_MASK),
-                                                              gtk_signal_action_new("previous-match")));
+        gtk_shortcut_controller_add_shortcut(
+                GTK_SHORTCUT_CONTROLLER(ctrl),
+                gtk_shortcut_new(gtk_keyval_trigger_new(key, GdkModifierType(0)), gtk_signal_action_new("next-match")));
+        gtk_shortcut_controller_add_shortcut(
+                GTK_SHORTCUT_CONTROLLER(ctrl),
+                gtk_shortcut_new(gtk_keyval_trigger_new(key, GDK_SHIFT_MASK), gtk_signal_action_new("previous-match")));
     }
     // The entry's inner text field consumes Return (as "activate"), so catch it before it gets there
     gtk_event_controller_set_propagation_phase(ctrl, GTK_PHASE_CAPTURE);

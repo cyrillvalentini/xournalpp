@@ -100,8 +100,8 @@ SelectBackgroundColorDialog::SelectBackgroundColorDialog(Control* control, std::
                          gtk_color_dialog_choose_rgba(
                                  dlg, self->window.get(), &self->lastBackgroundColors[0], nullptr,
                                  +[](GObject* src, GAsyncResult* res, gpointer d) {
-                                     GdkRGBA* c = gtk_color_dialog_choose_rgba_finish(GTK_COLOR_DIALOG(src), res,
-                                                                                      nullptr);
+                                     GdkRGBA* c =
+                                             gtk_color_dialog_choose_rgba_finish(GTK_COLOR_DIALOG(src), res, nullptr);
                                      if (c) {
                                          static_cast<SelectBackgroundColorDialog*>(d)->choose(*c);
                                          gdk_rgba_free(c);
