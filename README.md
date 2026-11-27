@@ -40,6 +40,7 @@ The note-taking itself is unchanged: same features, same `.xopp` file format, sa
   regular Xournal++** without interfering with it
 - Lua plugins: the functions deprecated in Xournal++ 1.2/1.3 (`app.msgbox`, `app.uiAction`, …) are removed; use
   `app.openDialog`, `app.activateAction` etc. instead. All bundled plugins work.
+- Imports and exports .sba files used by ([saber-notes/saber](https://github.com/saber-notes/saber)
 
 ## Installing
 
