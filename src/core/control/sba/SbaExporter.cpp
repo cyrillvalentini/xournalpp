@@ -54,6 +54,80 @@ bs::Value point(double x, double y, std::optional<double> pressure) {
     return bs::Binary{std::move(data)};
 }
 
+struct SPoint {
+    double x;
+    double y;
+    std::optional<double> pressure;
+};
+
+/**
+ * When zoomed out, Saber draws strokes from every 4th point only, without smoothing. Strokes drawn with Saber have very
+ * dense points, so that does not show. Xournal++ strokes (e.g. drawn with a mouse) can have points far apart, which
+ * then look like polygons. Add points so that they are at most MAX_SPACING apart: on a Catmull-Rom curve through the
+ * points where the stroke bends gently, on the straight segment at corners (so that shapes keep their corners).
+ */
+std::vector<SPoint> densify(const std::vector<SPoint>& pts) {
+    constexpr double MAX_SPACING = 2.0;          // Saber units
+    constexpr int MAX_INSERTED_PER_SEGMENT = 200;
+    constexpr double SMOOTH_COS = 0.5;  // corners sharper than 60 degrees stay corners
+    if (pts.size() < 2) {
+        return pts;
+    }
+    auto at = [&](ptrdiff_t i) -> const SPoint& {
+        return pts[static_cast<size_t>(std::clamp<ptrdiff_t>(i, 0, static_cast<ptrdiff_t>(pts.size()) - 1))];
+    };
+    // cosine of the turn at point i (1 = straight on)
+    auto turnCos = [&](ptrdiff_t i) {
+        const SPoint& a = at(i - 1);
+        const SPoint& b = at(i);
+        const SPoint& c = at(i + 1);
+        const double ux = b.x - a.x, uy = b.y - a.y, vx = c.x - b.x, vy = c.y - b.y;
+        const double nu = std::hypot(ux, uy), nv = std::hypot(vx, vy);
+        if (nu == 0 || nv == 0) {
+            return 1.0;
+        }
+        return (ux * vx + uy * vy) / (nu * nv);
+    };
+
+    std::vector<SPoint> out;
+    out.reserve(pts.size());
+    for (size_t i = 0; i + 1 < pts.size(); i++) {
+        const SPoint& p1 = pts[i];
+        const SPoint& p2 = pts[i + 1];
+        out.push_back(p1);
+        const double len = std::hypot(p2.x - p1.x, p2.y - p1.y);
+        if (len <= MAX_SPACING) {
+            continue;
+        }
+        const auto ii = static_cast<ptrdiff_t>(i);
+        const bool smooth = turnCos(ii) > SMOOTH_COS && turnCos(ii + 1) > SMOOTH_COS;
+        const SPoint& p0 = at(ii - 1);
+        const SPoint& p3 = at(ii + 2);
+        const int n = std::min(MAX_INSERTED_PER_SEGMENT, static_cast<int>(std::ceil(len / MAX_SPACING)) - 1);
+        for (int k = 1; k <= n; k++) {
+            const double t = static_cast<double>(k) / (n + 1);
+            SPoint q;
+            if (smooth) {
+                const double t2 = t * t, t3 = t2 * t;
+                auto cr = [&](double a, double b, double c, double d) {
+                    return 0.5 * (2 * b + (c - a) * t + (2 * a - 5 * b + 4 * c - d) * t2 + (3 * b - a - 3 * c + d) * t3);
+                };
+                q.x = cr(p0.x, p1.x, p2.x, p3.x);
+                q.y = cr(p0.y, p1.y, p2.y, p3.y);
+            } else {
+                q.x = p1.x + (p2.x - p1.x) * t;
+                q.y = p1.y + (p2.y - p1.y) * t;
+            }
+            if (p1.pressure && p2.pressure) {
+                q.pressure = *p1.pressure + (*p2.pressure - *p1.pressure) * t;
+            }
+            out.push_back(q);
+        }
+    }
+    out.push_back(pts.back());
+    return out;
+}
+
 std::optional<std::string> pixbufToPng(GdkPixbuf* pixbuf) {
     gchar* buffer = nullptr;
     gsize size = 0;
@@ -287,10 +361,15 @@ void SbaExporter::choosePattern(const Document* doc, const std::vector<size_t>& 
 
 bs::Document SbaExporter::buildPage(const Document* doc, const ConstPageRef& page, int pageIndex) {
     shiftY = rulingShift(page->getBackgroundType());
+    pageScale = SCALE;
+    if (page->getBackgroundType().isPdfPage()) {
+        // Saber gives PDF pages the area of a standard page, keeping the aspect ratio of the PDF
+        pageScale = page->getWidth() / normalizedPageSize(page->getWidth(), page->getHeight()).first;
+    }
 
     bs::Document json;
-    json.push_back({"w", page->getWidth() / SCALE});
-    json.push_back({"h", page->getHeight() / SCALE});
+    json.push_back({"w", page->getWidth() / pageScale});
+    json.push_back({"h", page->getHeight() / pageScale});
 
     bs::Array strokes;
     bs::Array images;
@@ -305,16 +384,39 @@ bs::Document SbaExporter::buildPage(const Document* doc, const ConstPageRef& pag
         for (const Element* e: elements) {
             switch (e->getType()) {
                 case ELEMENT_STROKE:
-                    strokes.push_back(strokeToJson(static_cast<const Stroke*>(e), pageIndex, page->getBackgroundColor()));
+                    if (static_cast<const Stroke*>(e)->getFill() != -1) {
+                        // Saber has no filled shapes: keep the look with a picture
+                        warn(_("Filled shapes were exported as pictures."));
+                        if (auto j = rasterizedElementToJson(e, pageIndex)) {
+                            images.push_back(std::move(*j));
+                        }
+                    } else {
+                        strokes.push_back(
+                                strokeToJson(static_cast<const Stroke*>(e), pageIndex, page->getBackgroundColor()));
+                    }
                     break;
                 case ELEMENT_IMAGE:
                     if (auto j = imageToJson(static_cast<const Image*>(e), pageIndex)) {
                         images.push_back(std::move(*j));
                     }
                     break;
-                case ELEMENT_TEXT:
-                    texts.push_back(static_cast<const Text*>(e));
+                case ELEMENT_TEXT: {
+                    // Saber's typed text always starts at the left of the page and flows down. Text boxes in that
+                    // column (e.g. text that came from Saber) become typed text again; text boxes anywhere else become
+                    // pictures, so that they stay where they are.
+                    const auto* t = static_cast<const Text*>(e);
+                    const double column = lineHeight * TEXT_LEFT * pageScale;
+                    if (std::abs(t->getTransformation().shift.x - column) <= lineHeight * pageScale * 0.5) {
+                        texts.push_back(t);
+                    } else {
+                        warn(_("Text boxes were exported as pictures at their position, as Saber's typed text "
+                               "always starts at the left of the page."));
+                        if (auto j = rasterizedElementToJson(e, pageIndex)) {
+                            images.push_back(std::move(*j));
+                        }
+                    }
                     break;
+                }
                 case ELEMENT_TEXIMAGE:
                     warn(_("LaTeX formulas were exported as pictures."));
                     [[fallthrough]];
@@ -351,14 +453,14 @@ bs::Value SbaExporter::strokeToJson(const Stroke* s, int pageIndex, Color pageCo
     const bool highlighter = tool == StrokeTool::HIGHLIGHTER;
     const bool pressure = !highlighter && s->hasPressure() && pts.size() >= 2;
 
-    double size = s->getWidth() / SCALE;
+    double size = s->getWidth() / pageScale;
     std::vector<double> diameters;
     if (pressure) {
         // Width of point i: the width of the segment starting there (the last point has none)
         diameters.reserve(pts.size());
         double sum = 0, max = 0;
         for (size_t i = 0; i < pts.size(); i++) {
-            double d = (i + 1 < pts.size() ? pts[i].z : pts[i - 1].z) / SCALE;
+            double d = (i + 1 < pts.size() ? pts[i].z : pts[i - 1].z) / pageScale;
             d = std::max(d, 0.0);
             diameters.push_back(d);
             sum += d;
@@ -367,18 +469,26 @@ bs::Value SbaExporter::strokeToJson(const Stroke* s, int pageIndex, Color pageCo
         // perfect_freehand with thinning 0.5: diameter = size * (0.5 + pressure), pressure in [0, 1]
         size = std::max(sum / static_cast<double>(diameters.size()), max / 1.5);
         if (size <= 0) {
-            size = s->getWidth() / SCALE;
+            size = s->getWidth() / pageScale;
         }
     }
 
-    bs::Array points;
-    points.reserve(pts.size());
+    // Saber coordinates
+    std::vector<SPoint> sp;
+    sp.reserve(pts.size());
     for (size_t i = 0; i < pts.size(); i++) {
         std::optional<double> p;
         if (pressure) {
             p = std::clamp(diameters[i] / size - 0.5, 0.0, 1.0);
         }
-        points.push_back(point(pts[i].x / SCALE, (pts[i].y - shiftY) / SCALE, p));
+        sp.push_back({pts[i].x / pageScale, (pts[i].y - shiftY) / pageScale, p});
+    }
+    sp = densify(sp);
+
+    bs::Array points;
+    points.reserve(sp.size());
+    for (const auto& p: sp) {
+        points.push_back(point(p.x, p.y, p.pressure));
     }
 
     uint32_t color = rgb(s->getColor()) | 0xff000000U;
@@ -392,9 +502,6 @@ bs::Value SbaExporter::strokeToJson(const Stroke* s, int pageIndex, Color pageCo
     }
     if (s->getLineStyle().hasDashes()) {
         warn(_("Dashed and dotted lines were exported as solid lines."));
-    }
-    if (s->getFill() != -1) {
-        warn(_("Filled shapes were exported without their fill."));
     }
 
     bs::Document json;
@@ -455,7 +562,7 @@ std::optional<bs::Value> SbaExporter::imageToJson(const Image* img, int pageInde
 
     const auto& box = img->getBoundingBox();
     const int asset = addAsset(std::move(data));
-    return imageJson(pageIndex, ext, box.x / SCALE, (box.y - shiftY) / SCALE, box.width / SCALE, box.height / SCALE, w, h, asset);
+    return imageJson(pageIndex, ext, box.x / pageScale, (box.y - shiftY) / pageScale, box.width / pageScale, box.height / pageScale, w, h, asset);
 }
 
 std::optional<bs::Value> SbaExporter::rasterizedElementToJson(const Element* e, int pageIndex) {
@@ -484,15 +591,15 @@ std::optional<bs::Value> SbaExporter::rasterizedElementToJson(const Element* e, 
         return std::nullopt;
     }
     const int asset = addAsset(std::move(*png));
-    return imageJson(pageIndex, ".png", box.x / SCALE, (box.y - shiftY) / SCALE, box.width / SCALE, box.height / SCALE, pw, ph,
+    return imageJson(pageIndex, ".png", box.x / pageScale, (box.y - shiftY) / pageScale, box.width / pageScale, box.height / pageScale, pw, ph,
                      asset);
 }
 
 std::optional<bs::Document> SbaExporter::backgroundToJson(const Document* doc, const ConstPageRef& page,
                                                           int pageIndex) {
     const PageType& type = page->getBackgroundType();
-    const double w = page->getWidth() / SCALE;
-    const double h = page->getHeight() / SCALE;
+    const double w = page->getWidth() / pageScale;
+    const double h = page->getHeight() / pageScale;
 
     if (type.isPdfPage()) {
         if (pdfAsset == -1) {
@@ -538,7 +645,7 @@ bs::Array SbaExporter::textToQuill(std::vector<const Text*> texts) {
     // Saber's typed text flows from the top of the page, one line every `lineHeight`. Put each text box on the line
     // closest to its position, in top-to-bottom order.
     // The baseline of each text box decides its line: Saber's line k has its baseline just above y = (2 + k) * lh
-    const double lh = lineHeight * SCALE;
+    const double lh = lineHeight * pageScale;
     std::vector<std::pair<double, const Text*>> sorted;
     for (const Text* t: texts) {
         auto layout = t->createPangoLayout();

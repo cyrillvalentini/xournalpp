@@ -65,6 +65,8 @@ private:
     int nextImageId = 0;
     /// Vertical offset of the current page's content, see rulingShift()
     double shiftY = 0;
+    /// Points per Saber unit on the current page
+    double pageScale = 0;
 
     std::string pattern;
     int lineHeight = 40;

@@ -14,6 +14,7 @@
 #include <cstdint>   // for uint32_t
 #include <optional>  // for optional
 #include <string>    // for string
+#include <utility>   // for pair
 
 #include <cairo.h>  // for cairo_surface_t
 
@@ -59,6 +60,10 @@ constexpr double FIRST_RULING_LINE = 2.0;
  * on the lines. Returns 0 for all other backgrounds.
  */
 double rulingShift(const PageType& type);
+
+/// Saber's EditorPage.normalizePageSize(): the size with the aspect ratio of (width, height) and the area of a
+/// default page. Saber uses it for the pages of imported PDFs.
+std::pair<double, double> normalizedPageSize(double width, double height);
 constexpr const char* TEXT_FONT = "Sans";
 
 /// Flutter's BoxFit.contain, the fit Saber uses for page backgrounds

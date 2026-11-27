@@ -6,6 +6,7 @@
  * @license GNU GPLv2 or later
  */
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
@@ -188,11 +189,25 @@ TEST(Sba, exportImportRoundTrip) {
     ASSERT_NE(pen, nullptr);
     EXPECT_EQ(pen->getToolType(), StrokeTool::PEN);
     EXPECT_TRUE(pen->hasPressure());
-    ASSERT_EQ(pen->getPointCount(), 20u);
-    EXPECT_NEAR(pen->getPoint(5).x, 150, 1e-3);
-    EXPECT_NEAR(pen->getPoint(5).y, 215, 1e-3);
-    // The import averages the widths of neighbouring points: off by half a step
-    EXPECT_NEAR(pen->getPoint(5).z, 2 * (0.8 + 0.01 * 5.5), 0.01);
+    // The export adds points between points that are far apart (for Saber's zoomed-out rendering)
+    const auto& pp = pen->getPointVector();
+    ASSERT_GT(pp.size(), 20u);
+    EXPECT_NEAR(pp.front().x, 100, 1e-3);
+    EXPECT_NEAR(pp.front().y, 200, 1e-3);
+    EXPECT_NEAR(pp.back().x, 290, 1e-3);
+    EXPECT_NEAR(pp.back().y, 257, 1e-3);
+    for (const auto& q: pp) {
+        // The original points are on a straight line, so the added ones must be too
+        EXPECT_NEAR(q.y, 200 + 0.3 * (q.x - 100), 1e-3);
+    }
+    for (size_t i = 0; i + 1 < pp.size(); i++) {
+        // About 2 Saber units apart (not exactly: the curve parameter is not spaced evenly at the ends)
+        EXPECT_LE(std::hypot(pp[i + 1].x - pp[i].x, pp[i + 1].y - pp[i].y), 3 * SCALE);
+    }
+    // Widths are interpolated: around x = 150 (original point 5) the width is close to the original one
+    auto near150 = std::min_element(pp.begin(), pp.end(),
+                                    [](const Point& a, const Point& b) { return std::abs(a.x - 150) < std::abs(b.x - 150); });
+    EXPECT_NEAR(near150->z, 2 * (0.8 + 0.01 * 5), 0.01);
 
     auto* plain = dynamic_cast<Stroke*>(els[3]);
     ASSERT_NE(plain, nullptr);
@@ -341,4 +356,44 @@ TEST(Sba, writesAndReadsArchive) {
 
     std::error_code ec;
     fs::remove_all(file.parent_path(), ec);
+}
+
+TEST(Sba, freeTextAndFilledShapesBecomePictures) {
+    DocumentHandler handler;
+    Document doc(&handler);
+    auto page = std::make_shared<XojPage>(595.2755905511812, 833.0);
+    page->setBackgroundType(PageType(PageTypeFormat::Plain));  // no line offset (see rulingShift())
+    Layer* layer = page->getLayers().front();
+
+    auto text = std::make_unique<Text>();
+    text->getFont().setName("Sans");
+    text->getFont().setSize(12);
+    text->setText("hallo");
+    text->setTransformation(xoj::util::Matrix::TRANSLATION(200, 100));
+    const auto textBox = text->getBoundingBox();
+    layer->addElement(std::move(text));
+
+    auto filled = makeStroke(StrokeTool::HIGHLIGHTER, Color(0xff00ff00U), 2, false);
+    filled->setFill(128);
+    layer->addElement(std::move(filled));
+    doc.addPage(page);
+
+    SbaExporter exporter;
+    std::string mainFile;
+    std::vector<std::string> assetFiles;
+    ASSERT_TRUE(exporter.build(&doc, {}, mainFile, assetFiles));
+    EXPECT_EQ(assetFiles.size(), 2u);
+
+    auto root = bs::parse(mainFile);
+    const auto& pageJson = *(*bs::getArray(root, "z"))[0].document();
+    EXPECT_EQ(bs::find(pageJson, "q"), nullptr);
+    EXPECT_EQ(bs::find(pageJson, "s"), nullptr);
+    const auto* images = bs::getArray(pageJson, "i");
+    ASSERT_NE(images, nullptr);
+    ASSERT_EQ(images->size(), 2u);
+    // The text picture covers exactly the text box
+    const auto& textImage = *(*images)[0].document();
+    EXPECT_NEAR(bs::getNumber(textImage, "x", 0) * SCALE, textBox.x, 1e-6);
+    EXPECT_NEAR(bs::getNumber(textImage, "y", 0) * SCALE, textBox.y, 1e-6);
+    EXPECT_NEAR(bs::getNumber(textImage, "w", 0) * SCALE, textBox.width, 1e-6);
 }

@@ -1,11 +1,20 @@
 #include "SbaFormat.h"
 
-#include <cmath>  // for fmod
+#include <cmath>  // for fmod, sqrt, isfinite
 
 #include "model/BackgroundConfig.h"
 #include "model/PageType.h"
 
 namespace xoj::sba {
+
+std::pair<double, double> normalizedPageSize(double width, double height) {
+    const double area = width * height;
+    if (!(area > 0) || !std::isfinite(area)) {
+        return {DEFAULT_PAGE_WIDTH, DEFAULT_PAGE_HEIGHT};
+    }
+    const double sf = std::sqrt(DEFAULT_PAGE_WIDTH * DEFAULT_PAGE_HEIGHT / area);
+    return {width * sf, height * sf};
+}
 
 double rulingShift(const PageType& type) {
     if (type.format != PageTypeFormat::Ruled && type.format != PageTypeFormat::Lined) {

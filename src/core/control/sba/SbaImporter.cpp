@@ -354,7 +354,7 @@ const std::string* SbaImporter::getAsset(int index) {
 void SbaImporter::readPage(const bs::Document& pageJson, int pageIndex) {
     const double w = std::clamp(bs::getNumber(pageJson, "w", DEFAULT_PAGE_WIDTH), 1.0, 100000.0);
     const double h = std::clamp(bs::getNumber(pageJson, "h", DEFAULT_PAGE_HEIGHT), 1.0, 100000.0);
-    const double scale = SCALE;
+    double scale = SCALE;
 
     // XojPage creates the first layer itself
     auto page = std::make_shared<XojPage>(w * scale, h * scale);
@@ -365,6 +365,15 @@ void SbaImporter::readPage(const bs::Document& pageJson, int pageIndex) {
         readBackgroundImage(*bg, page);
     } else {
         setPatternBackground(page);
+    }
+
+    if (page->getBackgroundType().isPdfPage()) {
+        // Saber scales PDF pages to the area of a standard page. Use the real size of the PDF page instead (the PDF
+        // would not fit the page otherwise), and scale the content accordingly.
+        if (auto pdfPage = doc->getPdfPage(page->getPdfPageNr()); pdfPage && pdfPage->getWidth() > 0) {
+            scale = pdfPage->getWidth() / w;
+            page->setSize(pdfPage->getWidth(), pdfPage->getHeight());
+        }
     }
 
     if (const auto* images = bs::getArray(pageJson, "i")) {
