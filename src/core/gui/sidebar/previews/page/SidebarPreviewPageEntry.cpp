@@ -24,7 +24,8 @@ SidebarPreviewPageEntry::SidebarPreviewPageEntry(SidebarPreviewPages* sidebar, c
 
     if (numberingStyle == SidebarNumberingStyle::NUMBER_BELOW_PREVIEW) {
         gtk_widget_set_halign(lbl, GTK_ALIGN_CENTER);
-        this->widget.reset(gtk_box_new(GTK_ORIENTATION_VERTICAL, 2), xoj::util::adopt);
+        this->widget.reset(gtk_box_new(GTK_ORIENTATION_VERTICAL, 6), xoj::util::adopt);
+        gtk_widget_add_css_class(widget.get(), "miniature-entry");
         gtk_box_append(GTK_BOX(widget.get()), button.get());
         gtk_box_append(GTK_BOX(widget.get()), lbl);
         gtk_widget_add_css_class(lbl, CSS_CLASS_NUMBER_BELOW);
@@ -32,6 +33,7 @@ SidebarPreviewPageEntry::SidebarPreviewPageEntry(SidebarPreviewPages* sidebar, c
     }
 
     this->widget.reset(gtk_overlay_new(), xoj::util::adopt);
+    gtk_widget_add_css_class(widget.get(), "miniature-entry");
     gtk_overlay_set_child(GTK_OVERLAY(widget.get()), button.get());
     gtk_overlay_add_overlay(GTK_OVERLAY(widget.get()), lbl);
     gtk_widget_set_halign(lbl, GTK_ALIGN_END);

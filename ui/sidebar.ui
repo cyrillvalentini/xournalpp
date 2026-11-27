@@ -2,7 +2,8 @@
 <interface>
     <requires lib="gtk" version="4.0"/>
     <object class="GtkBox" id="PreviewPagesToolbar">
-        <property name="css-classes">toolbar,linked</property>
+        <property name="css-classes">sidebar-actions</property>
+        <property name="homogeneous">1</property>
         <child>
             <object class="GtkButton">
                 <property name="action-name">win.move-page-towards-beginning</property>
@@ -27,7 +28,7 @@
         <child>
             <object class="GtkButton">
                 <property name="action-name">win.delete-page</property>
-                <property name="icon-name">delete</property>
+                <property name="icon-name">user-trash-symbolic</property>
                 <property name="tooltip-text">Delete this page</property>
             </object>
         </child>
@@ -65,7 +66,8 @@
         </section>
     </menu>
     <object class="GtkBox" id="PreviewLayersToolbar">
-        <property name="css-classes">toolbar,linked</property>
+        <property name="css-classes">sidebar-actions</property>
+        <property name="homogeneous">1</property>
         <child>
             <object class="GtkButton">
                 <property name="action-name">win.layer-move-up</property>
@@ -90,7 +92,7 @@
         <child>
             <object class="GtkButton">
                 <property name="action-name">win.layer-delete</property>
-                <property name="icon-name">delete</property>
+                <property name="icon-name">user-trash-symbolic</property>
                 <property name="tooltip-text">Delete this layer</property>
             </object>
         </child>

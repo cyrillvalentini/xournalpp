@@ -94,7 +94,7 @@ private:
     /**
      * The Zoom of the previews
      */
-    double zoom = 0.15;
+    double zoom = 0.2;  ///< Xournal#: larger miniatures, like GNOME's document viewer (was 0.15)
 
     /// last recorded width of the sidebar
     double lastWidth = -1;

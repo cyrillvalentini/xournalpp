@@ -234,54 +234,141 @@ image.flying-icon.TR {
 }
 
 /** Sidebar miniature widgetry **/
-@define-color SidebarSelectedMiniature red;
-@define-color SidebarUnselectedMiniature grey;
+/*
+ * Styled like GNOME's document viewer: the libadwaita sidebar colour, and every page (miniature + number)
+ * on a rounded card that is highlighted when selected.
+ */
+#sidebar {
+  background-color: @sidebar_bg_color;
+  color: @sidebar_fg_color;
+}
+
+/* Sidebar tab switcher (top) and page / layer actions (bottom): one rounded block like the page number field,
+   with flat buttons inside */
+#sidebar .sidebar-header {
+  padding: 6px;
+  border-spacing: 6px;
+}
+
+#sidebar .sidebar-actions {
+  background-color: alpha(currentColor, 0.1);
+  border-radius: 9px;
+  padding: 2px;
+  border-spacing: 2px;
+}
+
+#sidebarContents .sidebar-actions {
+  margin: 6px;
+}
+
+#sidebar .sidebar-actions > button {
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 7px;
+  min-height: 28px;
+  min-width: 32px;
+  padding: 0 6px;
+}
+
+#sidebar .sidebar-actions > button:hover {
+  background-color: alpha(currentColor, 0.08);
+}
+
+#sidebar .sidebar-actions > button:active,
+#sidebar .sidebar-actions > button:checked {
+  background-color: alpha(currentColor, 0.15);
+}
+
+/* Close button: like the window's close button (small round button on a light tint). It is bound to the
+   "show sidebar" toggle action, so GTK would draw it as checked while the sidebar is open: ignore that state. */
+#sidebar button.sidebar-close,
+#sidebar button.sidebar-close:checked {
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0;
+  margin: 0 4px;
+  border-radius: 100%;
+  background-color: alpha(currentColor, 0.1);
+  box-shadow: none;
+}
+
+#sidebar button.sidebar-close:hover {
+  background-color: alpha(currentColor, 0.15);
+}
+
+#sidebar button.sidebar-close:active {
+  background-color: alpha(currentColor, 0.25);
+}
+
+#sidebarContents .miniature-entry {
+  padding: 8px;
+  border-radius: 12px;
+}
+
+#sidebarContents .miniature-entry:hover {
+  background-color: alpha(currentColor, 0.05);
+}
+
+#sidebarContents .miniature-entry.page-selected {
+  background-color: alpha(currentColor, 0.1);
+}
 
 #sidebarContents button.miniature {
-  border-style: solid;
+  border: none;
   outline-style: none;
-  box-shadow: none;
   padding: 0px;
   margin: 0px;
-  border-radius: 8px;
+  border-radius: 4px;
   border-spacing: 0px;
-  border-color: @SidebarUnselectedMiniature;
-  border-width: 2px;
+  background: none;
+  box-shadow: 0 0 0 1px alpha(black, 0.12), 0 1px 3px alpha(black, 0.2);
 }
 
 #sidebarContents button.miniature picture {
   border-style: none;
   outline-style: none;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow: none;
   padding: 0px;
   margin: 0px;
   border-spacing: 0px;
 }
 
+/* Without a card around it (no page numbers, layer previews), the selected miniature gets an accent ring */
 #sidebarContents button.miniature.page-selected {
-  border-color: @SidebarSelectedMiniature;
+  box-shadow: 0 0 0 3px @accent_bg_color;
+}
+
+#sidebarContents .miniature-entry button.miniature.page-selected {
+  box-shadow: 0 0 0 1px alpha(black, 0.12), 0 1px 3px alpha(black, 0.2);
+}
+
+#sidebarContents label.page-number-below {
+  font-feature-settings: "tnum";
+}
+
+#sidebarContents label.page-number-square,
+#sidebarContents label.page-number-circular {
+  margin: 4px;
+  min-width: 24px;
+  background-color: alpha(@sidebar_bg_color, 0.85);
+  color: @sidebar_fg_color;
 }
 
 #sidebarContents label.page-number-square {
-  margin:0;
-  background-color: @SidebarUnselectedMiniature;
-  min-width:24px;
+  margin: 0;
+  border-radius: 4px 0 4px 0;
 }
 
 #sidebarContents label.page-number-circular {
-  margin:4px;
-  background-color: @SidebarUnselectedMiniature;
-  min-width:24px;
-  border-radius:100px; /* this value is clamped to min(width, height)/2 */
+  border-radius: 100px; /* this value is clamped to min(width, height)/2 */
 }
 
-#sidebarContents overlay > button.miniature.page-selected ~ label {
-  background-color: @SidebarSelectedMiniature;
-}
-
-#sidebarContents box > button.miniature.page-selected ~ label.page-number-below {
-  color: @SidebarSelectedMiniature;
+#sidebarContents .miniature-entry.page-selected label.page-number-square,
+#sidebarContents .miniature-entry.page-selected label.page-number-circular {
+  background-color: @accent_bg_color;
+  color: @accent_fg_color;
 }
 
 #pageFormatDialog button.image-button.orientation {

@@ -56,10 +56,14 @@ void SidebarPreviewBaseEntry::setSelected(bool selected) {
     }
     this->selected = selected;
 
-    if (selected) {
-        gtk_widget_add_css_class(this->button.get(), "page-selected");
-    } else {
-        gtk_widget_remove_css_class(this->button.get(), "page-selected");
+    // Mark the miniature and, if there is one, the entry around it (miniature + page number), which the
+    // stylesheet highlights as a whole
+    for (GtkWidget* w: {this->button.get(), getWidget()}) {
+        if (selected) {
+            gtk_widget_add_css_class(w, "page-selected");
+        } else {
+            gtk_widget_remove_css_class(w, "page-selected");
+        }
     }
 }
 

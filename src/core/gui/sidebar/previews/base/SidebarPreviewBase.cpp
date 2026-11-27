@@ -28,6 +28,8 @@ SidebarPreviewBase::SidebarPreviewBase(Control* control, const char* menuId, con
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollableBox.get()), GTK_POLICY_AUTOMATIC,
                                    GTK_POLICY_AUTOMATIC);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrollableBox.get()), GTK_WIDGET(miniaturesContainer.get()));
+    // Centre the miniatures in the sidebar (like GNOME's document viewer)
+    gtk_widget_set_halign(GTK_WIDGET(miniaturesContainer.get()), GTK_ALIGN_CENTER);
     gtk_widget_set_vexpand(scrollableBox.get(), true);
 
     Document* doc = this->control->getDocument();
