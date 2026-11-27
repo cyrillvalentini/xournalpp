@@ -4903,3 +4903,151 @@ msgstr "% 100"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++-en oinarritua"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Ezin izan da \"{1}\" sortu: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Ezin izan da \"{1}\" idatzi: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Ez dago esportatzeko orririk."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber-ek atzeko plano bera erabiltzen du orri guztietarako. Lehen orriaren atzeko planoa erabili da."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Atzeko plano isometrikoak sareta karratu edo puntuekin ordezkatu dira."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Betetako formak irudi gisa esportatu dira."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Testu-koadroak irudi gisa esportatu dira beren posizioan, Saber-en idatzitako testua beti orriaren ezkerrean hasten delako."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX formulak irudi gisa esportatu dira."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Orri baten geruzak bakar batean batu dira."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Marra etenak eta puntukatuak marra jarraitu gisa esportatu dira."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Biratutako irudiak beren laukizuzen mugatzailearen irudi gisa esportatu dira."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Elementu bat handiegia zen esportatzeko."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Ezin izan da PDF atzeko planoa esportatu."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Ezin izan da irudi-atzeko plano bat esportatu."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Testu-koadroak Saber-en idatzitako testu bihurtu dira. Haien posizioak orriaren lerroetara egokitu dira."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "\"{1}\" fitxategia ez da existitzen"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Ezin izan da \"{1}\" fitxategia irakurri"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Fitxategia ez da Saber artxibo bat (ez da zip fitxategi bat)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Ezin izan da Saber artxiboa irakurri: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Saber ohar honek fitxategi-formatu zahar bat erabiltzen du (.sbn). Ireki Saber-en bertsio berri batean eta esportatu berriro."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Artxiboak ez du Saber oharrik"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber oharra hondatuta dago: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Saber oharra Saber-en bertsio berriago batekin sortu zen. Edukiren bat falta daiteke."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber oharrak falta den irudi edo PDF bati egiten dio erreferentzia."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber-en atzeko planoko ereduak (tablatura edo Cornell oharrak) ez du baliokiderik eta lerroekin ordezkatu da."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Saber-en atzeko planoko eredu ezezaguna \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Ezin izan da Saber oharreko PDF bat irakurri: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber oharrak existitzen ez den PDF orri bati egiten dio erreferentzia."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber oharrak PDF bat baino gehiago ditu. PDF gehigarrien orriak irudi gisa inportatu dira."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Ezin izan da Saber oharreko irudi bat irakurri."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Ezin izan da Saber oharreko PDF bat irakurri."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Arkatz-trazuak boligrafo-trazu gisa inportatu dira (arkatzaren testura ez dago erabilgarri)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Idatzitako testuaren formatua (lodia, izenburuak, zerrendak…) ez da inportatu."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Errorea \"{1}\" Saber oharra irekitzean.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber oharra inportatu da. Eduki batzuk ezin izan dira zehazki bihurtu:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Oharra Saber-erako esportatu da. Eduki batzuk ezin izan dira zehazki bihurtu:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber oharrak"

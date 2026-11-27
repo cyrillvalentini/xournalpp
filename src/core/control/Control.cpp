@@ -38,6 +38,7 @@
 #include "control/settings/SettingsEnums.h"                      // for Button
 #include "control/settings/ViewModes.h"                          // for ViewM..
 #include "control/tools/TextEditor.h"                            // for Text...
+#include "control/sba/SbaImporter.h"                             // for SbaImporter
 #include "control/xojfile/LoadHandler.h"                         // for Load...
 #include "control/zoom/ZoomControl.h"                            // for Zoom...
 #include "gui/FloatingToolbox.h"                                 // for Floa...
@@ -1748,6 +1749,29 @@ bool Control::openPngFile(fs::path filepath, bool attachToDocument, int scrollTo
     return true;
 }
 
+bool Control::openSbaFile(fs::path filepath) {
+    this->getCursor()->setCursorBusy(true);
+    xoj::sba::SbaImporter importer;
+    std::unique_ptr<Document> doc;
+    try {
+        doc = importer.load(filepath);
+    } catch (const std::exception& e) {
+        this->getCursor()->setCursorBusy(false);
+        std::string msg = FS(_F("Error opening Saber note \"{1}\".\n\n{2}") % filepath.u8string() % e.what());
+        XojMsgBox::showErrorToUser(this->getGtkWindow(), msg);
+        return false;
+    }
+    this->replaceDocument(std::move(doc), -1);
+    this->getCursor()->setCursorBusy(false);
+
+    if (!importer.getWarnings().empty()) {
+        std::string msg = FS(_F("The Saber note was imported. Some content could not be converted exactly:\n\n{1}") %
+                             formatErrorMessages(importer.getWarnings()));
+        XojMsgBox::showMarkupMessageToUser(this->getGtkWindow(), msg, "", GTK_MESSAGE_INFO);
+    }
+    return true;
+}
+
 bool Control::openXoptFile(fs::path filepath) {
     auto pageTemplate = Util::readString(filepath);
     if (!pageTemplate) {
@@ -1788,6 +1812,11 @@ void Control::openFileWithoutSavingTheCurrentDocument(fs::path filepath, bool at
 
     if (filepath.extension() == ".xopt") {
         callback(this->openXoptFile(std::move(filepath)));
+        return;
+    }
+
+    if (Util::hasSbaFileExt(filepath)) {
+        callback(this->openSbaFile(std::move(filepath)));
         return;
     }
 
@@ -2147,6 +2176,8 @@ static const xoj::FileType& getFileType(ExportFormat fmt) {
             return xoj::FileTypes::SVG;
         case EXPORT_XOJ:
             return xoj::FileTypes::XOJ;
+        case EXPORT_SBA:
+            return xoj::FileTypes::SBA;
         case EXPORT_GRAPHICS_PDF:
         default:
             return xoj::FileTypes::PDF;

@@ -4913,3 +4913,151 @@ msgstr "100 %"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Basierend auf Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Konnte \"{1}\" nicht erstellen: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Konnte \"{1}\" nicht schreiben: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Es gibt keine Seiten zum Exportieren."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber verwendet für alle Seiten denselben Hintergrund. Der Hintergrund der ersten Seite wurde übernommen."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Isometrische Hintergründe wurden durch ein quadratisches Raster oder Punkte ersetzt."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Gefüllte Formen wurden als Bilder exportiert."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Textfelder wurden als Bilder an ihrer Position exportiert, da der getippte Text in Saber immer am linken Seitenrand beginnt."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX-Formeln wurden als Bilder exportiert."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Die Ebenen einer Seite wurden zu einer zusammengeführt."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Gestrichelte und gepunktete Linien wurden als durchgezogene Linien exportiert."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Gedrehte Bilder wurden als Bilder ihres umgebenden Rechtecks exportiert."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Ein Element war zu groß zum Exportieren."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Der PDF-Hintergrund konnte nicht exportiert werden."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Ein Bildhintergrund konnte nicht exportiert werden."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Textfelder wurden in getippten Saber-Text umgewandelt. Ihre Positionen wurden an die Linien der Seite angepasst."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Die Datei \"{1}\" existiert nicht"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Die Datei \"{1}\" konnte nicht gelesen werden"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Die Datei ist kein Saber-Archiv (keine ZIP-Datei)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Das Saber-Archiv konnte nicht gelesen werden: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Diese Saber-Notiz verwendet ein altes Dateiformat (.sbn). Öffnen Sie sie in einer aktuellen Version von Saber und exportieren Sie sie erneut."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Das Archiv enthält keine Saber-Notiz"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Die Saber-Notiz ist beschädigt: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Die Saber-Notiz wurde mit einer neueren Version von Saber erstellt. Möglicherweise fehlen Inhalte."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Die Saber-Notiz verweist auf ein fehlendes Bild oder PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Das Saber-Hintergrundmuster (Tabulatur oder Cornell-Notizen) hat keine Entsprechung und wurde durch Linien ersetzt."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Unbekanntes Saber-Hintergrundmuster \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Ein PDF in der Saber-Notiz konnte nicht gelesen werden: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Die Saber-Notiz verweist auf eine PDF-Seite, die nicht existiert."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Die Saber-Notiz enthält mehr als ein PDF. Die Seiten der weiteren PDFs wurden als Bilder importiert."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Ein Bild in der Saber-Notiz konnte nicht gelesen werden."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Ein PDF in der Saber-Notiz konnte nicht gelesen werden."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Bleistiftstriche wurden als Stiftstriche importiert (die Bleistiftstruktur ist nicht verfügbar)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Die Formatierung (fett, Überschriften, Listen …) des getippten Texts wurde nicht importiert."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Fehler beim Öffnen der Saber-Notiz \"{1}\".\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Die Saber-Notiz wurde importiert. Einige Inhalte konnten nicht genau umgewandelt werden:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Die Notiz wurde für Saber exportiert. Einige Inhalte konnten nicht genau umgewandelt werden:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber-Notizen"

@@ -29,6 +29,7 @@
 #include "control/settings/LatexSettings.h"  // for LatexSettings
 #include "control/settings/Settings.h"       // for Settings
 #include "control/settings/SettingsEnums.h"  // for ICON_THEME_COLOR, ICON_T...
+#include "control/sba/SbaImporter.h"        // for SbaImporter
 #include "control/xojfile/LoadHandler.h"     // for LoadHandler
 #include "control/xojfile/SaveHandler.h"     // for SaveHandler
 #include "gui/GladeSearchpath.h"             // for GladeSearchpath
@@ -198,6 +199,15 @@ void throwIfMissingPdfFileName(const LoadHandler& loader) {
 
 auto loadDocumentOrExit(const fs::path& filename, ExportBackgroundType exportBackground) -> std::unique_ptr<Document> {
     try {
+        if (Util::hasSbaFileExt(filename)) {
+            xoj::sba::SbaImporter importer;
+            auto doc = importer.load(filename);
+            for (const auto& w: importer.getWarnings()) {
+                std::cerr << w << std::endl;
+            }
+            return doc;
+        }
+
         LoadHandler loader;
         auto doc = loader.loadDocument(filename);
 

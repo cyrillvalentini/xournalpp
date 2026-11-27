@@ -4800,3 +4800,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ पर आधारित"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "\"{1}\" नहीं बनाया जा सका: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "\"{1}\" में नहीं लिखा जा सका: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "निर्यात करने के लिए कोई पृष्ठ नहीं है।"
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber सभी पृष्ठों के लिए एक ही पृष्ठभूमि का उपयोग करता है। पहले पृष्ठ की पृष्ठभूमि का उपयोग किया गया।"
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "आइसोमेट्रिक पृष्ठभूमियों को वर्गाकार ग्रिड या बिंदुओं से बदल दिया गया।"
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "भरी हुई आकृतियाँ चित्रों के रूप में निर्यात की गईं।"
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "टेक्स्ट बॉक्स अपनी जगह पर चित्रों के रूप में निर्यात किए गए, क्योंकि Saber का टाइप किया गया टेक्स्ट हमेशा पृष्ठ के बाईं ओर से शुरू होता है।"
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX सूत्र चित्रों के रूप में निर्यात किए गए।"
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "एक पृष्ठ की परतों को एक में मिला दिया गया।"
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "डैश और बिंदीदार रेखाएँ ठोस रेखाओं के रूप में निर्यात की गईं।"
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "घुमाए गए चित्र उनके सीमा आयत के चित्रों के रूप में निर्यात किए गए।"
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "एक तत्व निर्यात करने के लिए बहुत बड़ा था।"
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF पृष्ठभूमि निर्यात नहीं की जा सकी।"
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "एक चित्र पृष्ठभूमि निर्यात नहीं की जा सकी।"
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "टेक्स्ट बॉक्स को Saber के टाइप किए गए टेक्स्ट में बदला गया। उनकी स्थिति पृष्ठ की पंक्तियों के अनुसार समायोजित की गई।"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "फ़ाइल \"{1}\" मौजूद नहीं है"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "फ़ाइल \"{1}\" पढ़ी नहीं जा सकी"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "यह फ़ाइल Saber संग्रह नहीं है (zip फ़ाइल नहीं है)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber संग्रह पढ़ा नहीं जा सका: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "यह Saber नोट पुराने फ़ाइल प्रारूप (.sbn) का उपयोग करता है। इसे Saber के वर्तमान संस्करण में खोलें और फिर से निर्यात करें।"
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "संग्रह में कोई Saber नोट नहीं है"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber नोट क्षतिग्रस्त है: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "यह Saber नोट Saber के नए संस्करण से बनाया गया था। कुछ सामग्री गायब हो सकती है।"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber नोट किसी गायब चित्र या PDF का संदर्भ देता है।"
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber पृष्ठभूमि पैटर्न (टैबलेचर या कॉर्नेल नोट्स) का कोई समकक्ष नहीं है और इसे रेखाओं से बदल दिया गया।"
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "अज्ञात Saber पृष्ठभूमि पैटर्न \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber नोट में एक PDF पढ़ी नहीं जा सकी: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber नोट ऐसे PDF पृष्ठ का संदर्भ देता है जो मौजूद नहीं है।"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber नोट में एक से अधिक PDF हैं। अतिरिक्त PDF के पृष्ठ चित्रों के रूप में आयात किए गए।"
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber नोट में एक चित्र पढ़ा नहीं जा सका।"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber नोट में एक PDF पढ़ी नहीं जा सकी।"
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "पेंसिल स्ट्रोक पेन स्ट्रोक के रूप में आयात किए गए (पेंसिल बनावट उपलब्ध नहीं है)।"
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "टाइप किए गए टेक्स्ट का स्वरूपण (बोल्ड, शीर्षक, सूचियाँ...) आयात नहीं किया गया।"
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Saber नोट \"{1}\" खोलने में त्रुटि।\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber नोट आयात किया गया। कुछ सामग्री सटीक रूप से परिवर्तित नहीं की जा सकी:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "नोट Saber के लिए निर्यात किया गया। कुछ सामग्री सटीक रूप से परिवर्तित नहीं की जा सकी:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber नोट्स"

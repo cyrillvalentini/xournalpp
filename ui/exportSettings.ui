@@ -283,6 +283,7 @@ Set export parameters</property>
                           <item>PNG</item>
                           <item>SVG</item>
                           <item>XOJ</item>
+                          <item>SBA (Saber)</item>
                         </items>
                       </object>
                     </property>

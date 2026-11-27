@@ -28,6 +28,8 @@ void addFilterSupported(GListStore* filters) {
     gtk_file_filter_add_pattern(filter, (std::string("*.") + FileTypes::PDF.extension).c_str());
 #endif
     gtk_file_filter_add_pattern(filter, "*.moj");  // MrWriter
+    gtk_file_filter_add_pattern(filter, "*.sba");  // Saber
+    gtk_file_filter_add_pattern(filter, "*.SBA");
     g_list_store_append(filters, filter);
     g_object_unref(filter);
 }
@@ -36,7 +38,11 @@ void addFilterForFile(GListStore* filters, const FileType& f) {
     GtkFileFilter* filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, fetch_translation(f.description));
 #ifndef _WIN32
-    gtk_file_filter_add_mime_type(filter, f.mimetype);
+    if (f.mimetype) {
+        gtk_file_filter_add_mime_type(filter, f.mimetype);
+    } else {
+        gtk_file_filter_add_pattern(filter, (std::string("*.") + f.extension).c_str());
+    }
 #else
     gtk_file_filter_add_pattern(filter, (std::string("*.") + f.extension).c_str());
 #endif

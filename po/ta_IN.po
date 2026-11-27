@@ -4785,3 +4785,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ அடிப்படையிலானது"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "\"{1}\" ஐ உருவாக்க முடியவில்லை: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "\"{1}\" இல் எழுத முடியவில்லை: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "ஏற்றுமதி செய்ய பக்கங்கள் இல்லை."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber அனைத்து பக்கங்களுக்கும் ஒரே பின்னணியைப் பயன்படுத்துகிறது. முதல் பக்கத்தின் பின்னணி பயன்படுத்தப்பட்டது."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "ஐசோமெட்ரிக் பின்னணிகள் சதுர கட்டம் அல்லது புள்ளிகளால் மாற்றப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "நிரப்பப்பட்ட வடிவங்கள் படங்களாக ஏற்றுமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Saber இல் தட்டச்சு செய்த உரை எப்போதும் பக்கத்தின் இடதுபுறத்தில் தொடங்குவதால், உரைப் பெட்டிகள் அவற்றின் இடத்தில் படங்களாக ஏற்றுமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX சூத்திரங்கள் படங்களாக ஏற்றுமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "ஒரு பக்கத்தின் அடுக்குகள் ஒன்றாக இணைக்கப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "கோடிட்ட மற்றும் புள்ளியிட்ட கோடுகள் தொடர் கோடுகளாக ஏற்றுமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "சுழற்றப்பட்ட படங்கள் அவற்றின் எல்லைச் செவ்வகத்தின் படங்களாக ஏற்றுமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "ஒரு உறுப்பு ஏற்றுமதி செய்ய முடியாத அளவுக்குப் பெரியதாக இருந்தது."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF பின்னணியை ஏற்றுமதி செய்ய முடியவில்லை."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "ஒரு படப் பின்னணியை ஏற்றுமதி செய்ய முடியவில்லை."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "உரைப் பெட்டிகள் Saber இன் தட்டச்சு உரையாக மாற்றப்பட்டன. அவற்றின் நிலைகள் பக்கத்தின் வரிகளுக்கு ஏற்ப சரிசெய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "\"{1}\" கோப்பு இல்லை"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "\"{1}\" கோப்பைப் படிக்க முடியவில்லை"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "இந்தக் கோப்பு Saber காப்பகம் அல்ல (zip கோப்பு அல்ல)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber காப்பகத்தைப் படிக்க முடியவில்லை: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "இந்த Saber குறிப்பு பழைய கோப்பு வடிவத்தைப் (.sbn) பயன்படுத்துகிறது. Saber இன் தற்போதைய பதிப்பில் திறந்து மீண்டும் ஏற்றுமதி செய்யவும்."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "காப்பகத்தில் Saber குறிப்பு இல்லை"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber குறிப்பு சேதமடைந்துள்ளது: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "இந்த Saber குறிப்பு Saber இன் புதிய பதிப்பில் உருவாக்கப்பட்டது. சில உள்ளடக்கம் இல்லாமல் இருக்கலாம்."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber குறிப்பு காணாமல் போன படம் அல்லது PDF ஐக் குறிப்பிடுகிறது."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber பின்னணி வடிவத்திற்கு (டேப்லேச்சர் அல்லது கார்னெல் குறிப்புகள்) இணையானது இல்லாததால் கோடுகளால் மாற்றப்பட்டது."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "அறியப்படாத Saber பின்னணி வடிவம் \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber குறிப்பில் உள்ள PDF ஐப் படிக்க முடியவில்லை: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber குறிப்பு இல்லாத PDF பக்கத்தைக் குறிப்பிடுகிறது."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber குறிப்பில் ஒன்றுக்கு மேற்பட்ட PDF உள்ளன. கூடுதல் PDF களின் பக்கங்கள் படங்களாக இறக்குமதி செய்யப்பட்டன."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber குறிப்பில் உள்ள படத்தைப் படிக்க முடியவில்லை."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber குறிப்பில் உள்ள PDF ஐப் படிக்க முடியவில்லை."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "பென்சில் கோடுகள் பேனா கோடுகளாக இறக்குமதி செய்யப்பட்டன (பென்சில் அமைப்பு கிடைக்கவில்லை)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "தட்டச்சு உரையின் வடிவமைப்பு (தடிமன், தலைப்புகள், பட்டியல்கள்...) இறக்குமதி செய்யப்படவில்லை."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Saber குறிப்பு \"{1}\" ஐத் திறப்பதில் பிழை.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber குறிப்பு இறக்குமதி செய்யப்பட்டது. சில உள்ளடக்கத்தைத் துல்லியமாக மாற்ற முடியவில்லை:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "குறிப்பு Saber க்காக ஏற்றுமதி செய்யப்பட்டது. சில உள்ளடக்கத்தைத் துல்லியமாக மாற்ற முடியவில்லை:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber குறிப்புகள்"

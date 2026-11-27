@@ -4814,3 +4814,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ 기반"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "\"{1}\"을(를) 만들 수 없습니다: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "\"{1}\"에 쓸 수 없습니다: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "내보낼 페이지가 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber는 모든 페이지에 같은 배경을 사용합니다. 첫 페이지의 배경을 사용했습니다."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "등각 배경을 정사각형 격자 또는 점으로 바꿨습니다."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "채워진 도형을 그림으로 내보냈습니다."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Saber의 입력 텍스트는 항상 페이지 왼쪽에서 시작하므로 텍스트 상자를 해당 위치에 그림으로 내보냈습니다."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX 수식을 그림으로 내보냈습니다."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "페이지의 레이어를 하나로 병합했습니다."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "파선과 점선을 실선으로 내보냈습니다."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "회전된 이미지를 경계 상자의 그림으로 내보냈습니다."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "요소가 너무 커서 내보낼 수 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF 배경을 내보낼 수 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "이미지 배경을 내보낼 수 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "텍스트 상자를 Saber의 입력 텍스트로 변환했습니다. 위치는 페이지의 줄에 맞게 조정되었습니다."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "\"{1}\" 파일이 존재하지 않습니다"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "\"{1}\" 파일을 읽을 수 없습니다"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "이 파일은 Saber 아카이브가 아닙니다(zip 파일이 아님)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber 아카이브를 읽을 수 없습니다: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "이 Saber 노트는 이전 파일 형식(.sbn)을 사용합니다. 최신 버전의 Saber에서 열어 다시 내보내세요."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "아카이브에 Saber 노트가 없습니다"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber 노트가 손상되었습니다: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "이 Saber 노트는 더 새로운 버전의 Saber로 만들어졌습니다. 일부 내용이 누락될 수 있습니다."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber 노트가 없는 이미지 또는 PDF를 참조합니다."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber 배경 패턴(타브 악보 또는 코넬 노트)에 해당하는 항목이 없어 줄로 바꿨습니다."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "알 수 없는 Saber 배경 패턴 \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber 노트의 PDF를 읽을 수 없습니다: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber 노트가 존재하지 않는 PDF 페이지를 참조합니다."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber 노트에 PDF가 두 개 이상 있습니다. 추가 PDF의 페이지는 그림으로 가져왔습니다."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber 노트의 이미지를 읽을 수 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber 노트의 PDF를 읽을 수 없습니다."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "연필 획을 펜 획으로 가져왔습니다(연필 질감은 사용할 수 없음)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "입력 텍스트의 서식(굵게, 제목, 목록 등)은 가져오지 않았습니다."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Saber 노트 \"{1}\"을(를) 여는 중 오류가 발생했습니다.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber 노트를 가져왔습니다. 일부 내용은 정확하게 변환할 수 없었습니다:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "노트를 Saber용으로 내보냈습니다. 일부 내용은 정확하게 변환할 수 없었습니다:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber 노트"

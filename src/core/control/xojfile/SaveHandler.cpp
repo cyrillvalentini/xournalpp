@@ -59,6 +59,7 @@ void SaveHandler::prepareSave(const Document* doc, const fs::path& target) {
 
     this->firstPdfPageVisited = false;
     this->attachBgId = 1;
+    this->usesCurrentFormatFeatures = false;
 
     root.reset(new XmlNode(TAG_NAMES[TagType::XOURNAL]));
 
@@ -80,6 +81,16 @@ void SaveHandler::prepareSave(const Document* doc, const fs::path& target) {
         PageRef p = doc->getPage(i);
         visitPage(root.get(), p, doc, static_cast<int>(i), target);
     }
+
+    writeFileVersion();
+}
+
+void SaveHandler::writeFileVersion() {
+    // File format version 4 is the last one that released versions of Xournal++ (up to 1.3) read. Use it unless the
+    // document needs version 5.
+    constexpr int COMPATIBLE_FILE_FORMAT_VERSION = 4;
+    this->root->setAttrib(xoj::xml_attrs::FILEVERSION_STR,
+                          usesCurrentFormatFeatures ? FILE_FORMAT_VERSION : COMPATIBLE_FILE_FORMAT_VERSION);
 }
 
 void SaveHandler::writeHeader() {
@@ -215,16 +226,24 @@ void SaveHandler::visitLayer(XmlNode* page, const Layer* l) {
             } else {
                 text->setAttrib(xoj::xml_attrs::SIZE_STR, f.getSize());
                 text->setAttrib(xoj::xml_attrs::MATRIX_STR, makeMatrixVector(*t));
+                usesCurrentFormatFeatures = true;
+                // Fallback for Xournal++ <= 1.3, which needs the position (and shows the text unrotated)
+                const auto& origin = t->getTransformation().shift;
+                text->setAttrib(xoj::xml_attrs::X_COORD_STR, origin.x);
+                text->setAttrib(xoj::xml_attrs::Y_COORD_STR, origin.y);
             }
             text->setAttrib(xoj::xml_attrs::COLOR_STR, getColorStr(t->getColor()).c_str());
             if (auto w = t->getWrap(); w != Text::NO_WRAP) {
                 text->setAttrib(xoj::xml_attrs::WRAP_STR, w);
+                usesCurrentFormatFeatures = true;
             }
             if (auto al = t->getAlign(); al != TextAlignment::LEFT) {
                 text->setAttrib(xoj::xml_attrs::ALIGN_STR, TextAlignment::NAMES[al]);
+                usesCurrentFormatFeatures = true;
             }
             if (t->getJustify()) {
                 text->setAttrib(xoj::xml_attrs::JUSTIFY_STR, xoj::xml_values::TRUE_STR);
+                usesCurrentFormatFeatures = true;
             }
 
             writeAudio(text, *t);
@@ -246,6 +265,14 @@ void SaveHandler::visitLayer(XmlNode* page, const Layer* l) {
                 image->setAttrib(xoj::xml_attrs::NATURAL_SIZE_STR, std::vector<double>{s.width, s.height});
             } else {
                 image->setAttrib(xoj::xml_attrs::MATRIX_STR, makeMatrixVector(*i));
+                usesCurrentFormatFeatures = true;
+                // Fallback for Xournal++ <= 1.3, which needs these (and shows the element unrotated in its bounding
+                // box). Newer versions use the matrix.
+                Range r(i->getBoundingBox());
+                image->setAttrib(xoj::xml_attrs::LEFT_POS_STR, r.minX);
+                image->setAttrib(xoj::xml_attrs::TOP_POS_STR, r.minY);
+                image->setAttrib(xoj::xml_attrs::RIGHT_POS_STR, r.maxX);
+                image->setAttrib(xoj::xml_attrs::BOTTOM_POS_STR, r.maxY);
             }
         } else if (e->getType() == ELEMENT_TEXIMAGE) {
             auto* i = dynamic_cast<const TexImage*>(e);
@@ -265,10 +292,19 @@ void SaveHandler::visitLayer(XmlNode* page, const Layer* l) {
                 image->setAttrib(xoj::xml_attrs::NATURAL_SIZE_STR, std::vector<double>{s.width, s.height});
             } else {
                 image->setAttrib(xoj::xml_attrs::MATRIX_STR, makeMatrixVector(*i));
+                usesCurrentFormatFeatures = true;
+                // Fallback for Xournal++ <= 1.3, which needs these (and shows the element unrotated in its bounding
+                // box). Newer versions use the matrix.
+                Range r(i->getBoundingBox());
+                image->setAttrib(xoj::xml_attrs::LEFT_POS_STR, r.minX);
+                image->setAttrib(xoj::xml_attrs::TOP_POS_STR, r.minY);
+                image->setAttrib(xoj::xml_attrs::RIGHT_POS_STR, r.maxX);
+                image->setAttrib(xoj::xml_attrs::BOTTOM_POS_STR, r.maxY);
             }
         } else if (e->getType() == ELEMENT_LINK) {
             auto* l = dynamic_cast<const Link*>(e);
             auto* link = new XmlTextNode(TAG_NAMES[TagType::LINK], l->getText());
+            usesCurrentFormatFeatures = true;
             layer->addChild(link);
 
             const XojFont& f = l->getFont();

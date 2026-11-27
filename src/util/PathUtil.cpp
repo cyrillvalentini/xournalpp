@@ -145,6 +145,10 @@ auto Util::hasXournalFileExt(const fs::path& path) -> bool {
     return extension == ".xoj" || extension == ".xopp";
 }
 
+auto Util::hasSbaFileExt(const fs::path& path) -> bool {
+    return StringUtils::toLowerCase(path.extension().string()) == ".sba";
+}
+
 auto Util::hasPdfFileExt(const fs::path& path) -> bool {
     return StringUtils::toLowerCase(path.extension().string()) == ".pdf";
 }

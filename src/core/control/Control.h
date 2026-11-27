@@ -460,6 +460,11 @@ private:
     bool openPngFile(fs::path filepath, bool attachToDocument, int scrollToPage);
 
     /**
+     * Imports a Saber note (.sba) as a new, unsaved document
+     */
+    bool openSbaFile(fs::path filepath);
+
+    /**
      * Opens the provided path and parse it as a .xopt template  file. Then forcibly replaces the currently opened
      * document with a new one based on the template. WARNING: Be sure the active document has been saved (or discarded)
      * before calling openXoptFile()

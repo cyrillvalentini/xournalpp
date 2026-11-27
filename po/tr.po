@@ -4867,3 +4867,151 @@ msgstr "%100"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ tabanlı"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "\"{1}\" oluşturulamadı: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "\"{1}\" yazılamadı: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Dışa aktarılacak sayfa yok."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber tüm sayfalar için aynı arka planı kullanır. İlk sayfanın arka planı kullanıldı."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "İzometrik arka planlar kare ızgara veya noktalarla değiştirildi."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Dolgulu şekiller resim olarak dışa aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Saber'de yazılan metin her zaman sayfanın solundan başladığı için metin kutuları konumlarında resim olarak dışa aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX formülleri resim olarak dışa aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Bir sayfanın katmanları tek katmanda birleştirildi."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Kesikli ve noktalı çizgiler düz çizgi olarak dışa aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Döndürülmüş resimler, sınırlayıcı dikdörtgenlerinin resmi olarak dışa aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Bir öge dışa aktarılamayacak kadar büyüktü."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF arka planı dışa aktarılamadı."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Bir resim arka planı dışa aktarılamadı."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Metin kutuları Saber'in yazılı metnine dönüştürüldü. Konumları sayfanın satırlarına uyarlandı."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "\"{1}\" dosyası yok"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "\"{1}\" dosyası okunamadı"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Dosya bir Saber arşivi değil (zip dosyası değil)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber arşivi okunamadı: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Bu Saber notu eski bir dosya biçimi (.sbn) kullanıyor. Saber'in güncel bir sürümünde açıp yeniden dışa aktarın."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Arşiv bir Saber notu içermiyor"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber notu hasarlı: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Saber notu, Saber'in daha yeni bir sürümüyle oluşturulmuş. Bazı içerikler eksik olabilir."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber notu eksik bir resme veya PDF'ye başvuruyor."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber arka plan deseninin (tablatür veya Cornell notları) karşılığı yok ve çizgilerle değiştirildi."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Bilinmeyen Saber arka plan deseni \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber notundaki bir PDF okunamadı: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber notu var olmayan bir PDF sayfasına başvuruyor."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber notu birden fazla PDF içeriyor. Ek PDF'lerin sayfaları resim olarak içe aktarıldı."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber notundaki bir resim okunamadı."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber notundaki bir PDF okunamadı."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Kurşun kalem çizgileri kalem çizgisi olarak içe aktarıldı (kurşun kalem dokusu kullanılamıyor)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Yazılan metnin biçimlendirmesi (kalın, başlıklar, listeler…) içe aktarılmadı."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "\"{1}\" Saber notu açılırken hata oluştu.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber notu içe aktarıldı. Bazı içerikler tam olarak dönüştürülemedi:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Not Saber için dışa aktarıldı. Bazı içerikler tam olarak dönüştürülemedi:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber notları"

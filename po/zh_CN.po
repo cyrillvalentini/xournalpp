@@ -4910,3 +4910,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "基于 Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "无法创建“{1}”：{2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "无法写入“{1}”：{2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "没有可导出的页面。"
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber 对所有页面使用相同的背景。已使用第一页的背景。"
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "等距背景已替换为方格或点阵。"
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "填充的形状已导出为图片。"
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "文本框已在原位置导出为图片，因为 Saber 的输入文本总是从页面左侧开始。"
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX 公式已导出为图片。"
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "页面的图层已合并为一个。"
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "虚线和点线已导出为实线。"
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "旋转的图像已导出为其外接矩形的图片。"
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "某个元素太大，无法导出。"
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "无法导出 PDF 背景。"
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "无法导出图像背景。"
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "文本框已转换为 Saber 的输入文本。其位置已对齐到页面的行。"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "文件“{1}”不存在"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "无法读取文件“{1}”"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "该文件不是 Saber 存档（不是 zip 文件）"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "无法读取 Saber 存档：{1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "此 Saber 笔记使用旧的文件格式（.sbn）。请在当前版本的 Saber 中打开并重新导出。"
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "存档中不包含 Saber 笔记"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber 笔记已损坏：{1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "此 Saber 笔记由较新版本的 Saber 创建。部分内容可能缺失。"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber 笔记引用了缺失的图像或 PDF。"
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber 背景图案（六线谱或康奈尔笔记）没有对应项，已替换为横线。"
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "未知的 Saber 背景图案“{1}”"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "无法读取 Saber 笔记中的 PDF：{1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber 笔记引用了不存在的 PDF 页面。"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber 笔记包含多个 PDF。其他 PDF 的页面已作为图片导入。"
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "无法读取 Saber 笔记中的图像。"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "无法读取 Saber 笔记中的 PDF。"
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "铅笔笔画已作为钢笔笔画导入（无法使用铅笔纹理）。"
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "输入文本的格式（粗体、标题、列表等）未导入。"
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "打开 Saber 笔记“{1}”时出错。\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "已导入 Saber 笔记。部分内容无法精确转换：\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "笔记已导出为 Saber 格式。部分内容无法精确转换："
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber 笔记"
