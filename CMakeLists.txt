@@ -140,6 +140,8 @@ endif()
 set(pkg-module-spec "")
 list(APPEND pkg-module-spec "glib-2.0 >= 2.32.0")
 list(APPEND pkg-module-spec "gtk4 >= 4.14.0")
+# Xournal#: GNOME look (style manager with accent colours since 1.6)
+list(APPEND pkg-module-spec "libadwaita-1 >= 1.6")
 list(APPEND pkg-module-spec "poppler-glib >= 0.41.0")
 if (APPLE)
   list(APPEND pkg-module-spec "poppler-cpp >= 0.41.0")
@@ -279,6 +281,7 @@ target_link_libraries(external_modules INTERFACE
 target_compile_definitions(external_modules INTERFACE
         GLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_40
         GDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_14
+        ADW_VERSION_MIN_REQUIRED=ADW_VERSION_1_6
         )
 target_link_options(external_modules INTERFACE
         $<$<AND:$<NOT:$<PLATFORM_ID:Windows>>,$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>>:-rdynamic>

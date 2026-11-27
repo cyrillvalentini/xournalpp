@@ -16,6 +16,7 @@
 #include <string>     // for string, basic_string
 #include <vector>     // for vector
 
+#include <adwaita.h>      // for adw_application_new
 #include <gio/gio.h>      // for GApplication, G_APPLICATION
 #include <glib-object.h>  // for G_CALLBACK, g_signal_con...
 #include <glib.h>         // for GOptionEntry, gchar, G_O...
@@ -604,7 +605,8 @@ void XournalMain::initLocalisation() {
 auto XournalMain::run(int argc, char** argv) -> int {
 
     XournalMainPrivate app_data;
-    GtkApplication* app = gtk_application_new("com.github.xournalpp.xournalpp", APP_FLAGS);
+    // AdwApplication (a GtkApplication) initialises libadwaita on startup: Adwaita style, dark mode and accent colour
+    GtkApplication* app = GTK_APPLICATION(adw_application_new("com.github.xournalpp.xournalpp", APP_FLAGS));
     g_object_set(G_OBJECT(app), "register-session", true, nullptr);  // Needed for opening files on MacOS from Finder
     g_set_prgname("com.github.xournalpp.xournalpp");
     g_signal_connect(app, "activate", G_CALLBACK(&on_activate), &app_data);

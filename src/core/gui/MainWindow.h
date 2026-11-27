@@ -161,7 +161,6 @@ private:
 
     bool maximized = false;
     bool darkMode = false;
-    bool modifiedGtkSettingsTheme = false;
 
     ToolbarArray toolbars;
 

@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 
-#include <regex>
 
+#include <adwaita.h>  // for AdwStyleManager
 #include <gtk/gtk.h>
 
 #include "control/AudioController.h"                    // for AudioController
@@ -44,13 +44,6 @@
 #include "XournalView.h"         // for XournalView
 #include "config-dev.h"          // for TOOLBAR_CONFIG
 #include "filesystem.h"          // for path, exists
-
-#ifdef __APPLE__
-// the following header file contains a definition of struct Point that conflicts with model/Point.h
-#define Point Point_CF
-#include <CoreFoundation/CoreFoundation.h>
-#undef Point
-#endif
 
 using std::string;
 
@@ -111,9 +104,8 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control, GtkAp
         control->setShowMenubar(control->getSettings()->isMenubarVisible());
     });
 
-    g_signal_connect(gtk_widget_get_settings(this->window), "notify::gtk-theme-name", G_CALLBACK(themeCallback), this);
-    g_signal_connect(gtk_widget_get_settings(this->window), "notify::gtk-application-prefer-dark-theme",
-                     G_CALLBACK(themeCallback), this);
+    // Follow the system's light/dark switch (or the forced variant from the settings)
+    g_signal_connect(adw_style_manager_get_default(), "notify::dark", G_CALLBACK(themeCallback), this);
 
     updateColorscheme();
 }
@@ -132,83 +124,29 @@ void MainWindow::populate(GladeSearchpath* gladeSearchPath) {
 
 GMenuModel* MainWindow::getMenuModel() const { return menubar->getModel(); }
 
-MainWindow::~MainWindow() = default;
-
-struct ThemeProperties {
-    bool dark;
-    bool darkSuffix;
-    std::string rootname;  ///< Name without any putative -dark suffix
-};
-static ThemeProperties getThemeProperties(GtkWidget* w) {
-    xoj::util::OwnedCString name;
-    [[maybe_unused]] bool useEnv = false;
-    // Gtk prioritizes GTK_THEME over GtkSettings content
-    // cf https://gitlab.gnome.org/GNOME/gtk/blob/90d84a2af8b367bd5a5312b3fa3b67563462c0ef/gtk/gtksettings.c#L1567-L1622
-    if (auto* p = g_getenv("GTK_THEME")) {
-        *(name.contentReplacer()) = g_strdup(p);
-        useEnv = true;
-    } else {
-        g_object_get(gtk_widget_get_settings(w), "gtk-theme-name", name.contentReplacer(), nullptr);
-    }
-
-    // Try to figure out if the theme is dark or light
-    // Some themes handle their dark variant via "gtk-application-prefer-dark-theme" while other just append "-dark"
-    const std::regex nameparser("([a-zA-Z0-9_\\.-]+?)([:-][dD]ark)?");
-    std::cmatch sm;
-    std::regex_match(name.get(), sm, nameparser);
-
-    ThemeProperties props;
-    if (sm.size() < 3) {
-        g_warning("Fails to extract theme root name from: \"%s\"", name.get());
-        props.rootname = name.get();
-        props.darkSuffix = false;
-    } else {
-        props.rootname = sm[1];
-        props.darkSuffix = sm[2].length() > 0;
-    }
-    gboolean dark = false;
-
-#ifdef __APPLE__
-    if (!useEnv) {
-        CFStringRef interfaceStyle =
-                (CFStringRef)CFPreferencesCopyAppValue(CFSTR("AppleInterfaceStyle"), kCFPreferencesCurrentApplication);
-        if (interfaceStyle) {
-            char buffer[128];
-            if (CFStringGetCString(interfaceStyle, buffer, sizeof(buffer), kCFStringEncodingUTF8)) {
-                std::string style = buffer;
-                if (auto pos = style.find("Dark"); pos != std::string::npos) {
-                    dark = true;
-                }
-            }
-        }
-    }
-#else
-    g_object_get(gtk_widget_get_settings(w), "gtk-application-prefer-dark-theme", &dark, nullptr);
-#endif
-
-    g_debug("Extracted theme info: Name = %s, rootname = %s, dark = %s", name.get(), props.rootname.c_str(),
-            dark ? "true" : "false");
-
-    props.dark = props.darkSuffix || dark;  // Some themes handle their dark variant via this setting
-
-    return props;
+MainWindow::~MainWindow() {
+    g_signal_handlers_disconnect_by_func(adw_style_manager_get_default(), reinterpret_cast<gpointer>(themeCallback),
+                                         this);
 }
 
 void MainWindow::updateColorscheme() {
-    g_signal_handlers_block_by_func(gtk_widget_get_settings(this->window),
-                                    reinterpret_cast<gpointer>(G_CALLBACK(themeCallback)), this);
-    auto variant = control->getSettings()->getThemeVariant();
-    if (variant == THEME_VARIANT_USE_SYSTEM) {
-        gtk_settings_reset_property(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme");
-        if (modifiedGtkSettingsTheme) {
-            // Some bug in Gtk makes an infinite loop despite us blocking the signals
-            gtk_settings_reset_property(gtk_widget_get_settings(this->window), "gtk-theme-name");
-            modifiedGtkSettingsTheme = false;
-        }
-    }
-    auto props = getThemeProperties(this->window);
+    AdwStyleManager* styleManager = adw_style_manager_get_default();
+    g_signal_handlers_block_by_func(styleManager, reinterpret_cast<gpointer>(themeCallback), this);
 
-    this->darkMode = (props.dark && variant != THEME_VARIANT_FORCE_LIGHT) || variant == THEME_VARIANT_FORCE_DARK;
+    // libadwaita takes care of the Adwaita style, the dark variant and the system accent colour
+    switch (control->getSettings()->getThemeVariant()) {
+        case THEME_VARIANT_FORCE_LIGHT:
+            adw_style_manager_set_color_scheme(styleManager, ADW_COLOR_SCHEME_FORCE_LIGHT);
+            break;
+        case THEME_VARIANT_FORCE_DARK:
+            adw_style_manager_set_color_scheme(styleManager, ADW_COLOR_SCHEME_FORCE_DARK);
+            break;
+        case THEME_VARIANT_USE_SYSTEM:
+        default:
+            adw_style_manager_set_color_scheme(styleManager, ADW_COLOR_SCHEME_DEFAULT);
+            break;
+    }
+    this->darkMode = adw_style_manager_get_dark(styleManager);
 
     // Set up icons
     {
@@ -246,29 +184,13 @@ void MainWindow::updateColorscheme() {
 
     if (this->darkMode) {
         gtk_widget_add_css_class(this->window, "darkMode");
-        g_object_set(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme", true, nullptr);
     } else {
         gtk_widget_remove_css_class(this->window, "darkMode");
-        g_object_set(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme", false, nullptr);
-        if (props.darkSuffix) {  // The active theme is all dark. Remove the trailing "-dark"
-            g_object_set(gtk_widget_get_settings(this->window), "gtk-theme-name", props.rootname.c_str(), nullptr);
-            modifiedGtkSettingsTheme = true;
-        }
     }
+    g_debug("Theme variant: %s, icon theme: %s", this->darkMode ? "dark" : "light",
+            iconThemeToString(control->getSettings()->getIconTheme()));
 
-    {
-        gchar* name = nullptr;
-        g_object_get(gtk_widget_get_settings(this->window), "gtk-theme-name", &name, nullptr);
-        g_debug("Theme name: %s", name);
-        g_debug("Modified in GtkSettings: %s", modifiedGtkSettingsTheme ? "true" : "false");
-        g_free(name);
-        gboolean gtkdark = true;
-        g_object_get(gtk_widget_get_settings(this->window), "gtk-application-prefer-dark-theme", &gtkdark, nullptr);
-        g_debug("Theme variant: %s", gtkdark ? "dark" : "light");
-        g_debug("Icon theme: %s", iconThemeToString(control->getSettings()->getIconTheme()));
-    }
-    g_signal_handlers_unblock_by_func(gtk_widget_get_settings(this->window), reinterpret_cast<gpointer>(themeCallback),
-                                      this);
+    g_signal_handlers_unblock_by_func(styleManager, reinterpret_cast<gpointer>(themeCallback), this);
 }
 
 void MainWindow::initXournalWidget() {
