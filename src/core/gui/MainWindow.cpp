@@ -87,6 +87,12 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control, GtkAp
                      this->control);
     g_signal_connect(this->window, "notify::maximized", xoj::util::wrap_for_g_callback_v<windowMaximizedCallback>,
                      this);
+    // The title bar is part of the window content (AdwHeaderBar): hide it in fullscreen, like a regular title bar
+    g_signal_connect(this->window, "notify::fullscreened", G_CALLBACK(+[](GtkWindow* w, GParamSpec*, gpointer d) {
+                         auto* self = static_cast<MainWindow*>(d);
+                         gtk_widget_set_visible(self->get("mainHeaderBar"), !gtk_window_is_fullscreen(w));
+                     }),
+                     this);
 
     updateScrollbarSidebarPosition();
 
@@ -343,7 +349,8 @@ void MainWindow::setToolbarVisible(bool visible) {
 }
 
 void MainWindow::setMenubarVisible(bool visible) {
-    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(this->getWindow()), visible);
+    // The menu bar is part of the window content (see Menubar::populate)
+    gtk_widget_set_visible(get("menubarBox"), visible);
 }
 
 void MainWindow::setMaximized(bool maximized) { this->maximized = maximized; }

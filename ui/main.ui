@@ -69,10 +69,23 @@
       </object>
     </property>
   </object>
-  <object class="GtkApplicationWindow" id="mainWindow">
+  <object class="AdwApplicationWindow" id="mainWindow">
     <property name="name">mainWindow</property>
     <property name="icon-name">com-github-xournalpp-xournalpp</property>
-    <child>
+    <property name="content">
+      <!-- Xournal#: libadwaita window. Title bar and menu bar are top bars of the toolbar view; the rest of the
+           window (tool bars, sidebar, canvas, bottom bar) stays in mainBox as before. -->
+      <object class="AdwToolbarView" id="mainToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="mainHeaderBar"/>
+        </child>
+        <child type="top">
+          <!-- The menu bar (a GtkPopoverMenuBar) is added by Menubar::populate -->
+          <object class="GtkBox" id="menubarBox">
+            <property name="name">menubarBox</property>
+          </object>
+        </child>
+        <property name="content">
       <object class="GtkOverlay" id="mainOverlay">
         <property name="name">mainOverlay</property>
         <property name="child">
@@ -282,7 +295,9 @@
           </object>
         </property>
       </object>
-    </child>
+        </property>
+      </object>
+    </property>
   </object>
   <object class="GtkRevealer" id="pdfFloatingToolbox">
     <property name="name">pdfFloatingTool</property>

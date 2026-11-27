@@ -123,9 +123,14 @@ void Menubar::populate(const GladeSearchpath* gladeSearchPath, MainWindow* win) 
 
     undoRedoSection = G_MENU(gtk_builder_get_object(builder.get(), UNDO_REDO_SECTION_ID));
 
+    // Global menu bar where the platform has one (macOS)
     gtk_application_set_menubar(gtk_window_get_application(GTK_WINDOW(win->getWindow())), menu);
     gtk_window_set_handle_menubar_accel(GTK_WINDOW(win->getWindow()), false);  // Disable GTK handling F10.
-    gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(win->getWindow()), true);
+    // Xournal#: an AdwApplicationWindow does not show the application's menu bar, so the window gets its own,
+    // as a row below the title bar (see menubarBox in main.ui)
+    GtkWidget* menubarWidget = gtk_popover_menu_bar_new_from_model(menu);
+    gtk_widget_set_hexpand(menubarWidget, true);
+    gtk_box_append(GTK_BOX(win->get("menubarBox")), menubarWidget);
 
     /*
      * Due to a bug in gtk4 see https://gitlab.gnome.org/GNOME/gtk/-/issues/4574
