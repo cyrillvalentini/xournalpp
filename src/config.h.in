@@ -34,6 +34,16 @@ constexpr auto PROJECT_CRASHREPORT = "@PROJECT_CRASHREPORT@";
 constexpr auto PROJECT_STRING = "@PROJECT_NAME@ @PROJECT_VERSION@";
 
 /**
+ * Application ID (D-Bus name, Wayland app ID, .desktop file name)
+ */
+constexpr auto XOPP_APP_ID = "@XOURNALPP_APP_ID@";
+
+/**
+ * Name of the settings folder inside the user's config directory
+ */
+constexpr auto XOPP_CONFIG_FOLDER_NAME = "@XOURNALPP_CONFIG_FOLDER@";
+
+/**
  * Project URL
  */
 constexpr auto PROJECT_HOMEPAGE_URL = "@PROJECT_HOMEPAGE_URL@";

@@ -11,6 +11,7 @@
 #include <locale>     // for locale
 #include <memory>     // for unique_ptr, allocator
 #include <optional>   // for optional, nullopt
+#include <fstream>    // for ifstream, ofstream
 #include <sstream>    // for stringstream
 #include <stdexcept>  // for runtime_error
 #include <string>     // for string, basic_string
@@ -90,6 +91,33 @@ auto migrateSettings() -> MigrateResult {
     const fs::path newConfigPath = Util::getConfigFolder();
 
     if (!fs::exists(newConfigPath)) {
+        // A build with its own config folder (see XOURNALPP_CONFIG_FOLDER) starts from a copy of the regular
+        // Xournal++ settings; afterwards the two keep separate settings.
+        const fs::path stockConfigPath = newConfigPath.parent_path() / "xournalpp";
+        if (stockConfigPath != newConfigPath && fs::is_directory(stockConfigPath)) {
+            try {
+                fs::copy(stockConfigPath, newConfigPath, fs::copy_options::recursive);
+                g_message("Copied the Xournal++ settings from %s to %s", stockConfigPath.string().c_str(),
+                          newConfigPath.string().c_str());
+                // Drop the copied icon set choice, so this build starts with its own default (the GNOME icons)
+                const fs::path settingsFile = newConfigPath / SETTINGS_XML_FILE;
+                if (std::ifstream in(settingsFile); in) {
+                    std::stringstream buf;
+                    buf << in.rdbuf();
+                    in.close();
+                    std::string xml = buf.str();
+                    if (auto pos = xml.find("<property name=\"iconTheme\""); pos != std::string::npos) {
+                        if (auto end = xml.find('>', pos); end != std::string::npos) {
+                            xml.erase(pos, end - pos + 1);
+                            std::ofstream(settingsFile, std::ios::trunc) << xml;
+                        }
+                    }
+                }
+                return {MigrateStatus::NotNeeded, ""};
+            } catch (const fs::filesystem_error& e) {
+                g_message("Could not copy the Xournal++ settings: %s", e.what());
+            }
+        }
         const std::array oldPaths = {
                 Util::getConfigFolder().parent_path() / "com.github.xournalpp.xournalpp",
                 Util::getConfigFolder().parent_path() / "com.github.xournalpp.xournalpp.exe",
@@ -606,9 +634,9 @@ auto XournalMain::run(int argc, char** argv) -> int {
 
     XournalMainPrivate app_data;
     // AdwApplication (a GtkApplication) initialises libadwaita on startup: Adwaita style, dark mode and accent colour
-    GtkApplication* app = GTK_APPLICATION(adw_application_new("com.github.xournalpp.xournalpp", APP_FLAGS));
+    GtkApplication* app = GTK_APPLICATION(adw_application_new(XOPP_APP_ID, APP_FLAGS));
     g_object_set(G_OBJECT(app), "register-session", true, nullptr);  // Needed for opening files on MacOS from Finder
-    g_set_prgname("com.github.xournalpp.xournalpp");
+    g_set_prgname(XOPP_APP_ID);
     g_signal_connect(app, "activate", G_CALLBACK(&on_activate), &app_data);
     g_signal_connect(app, "command-line", G_CALLBACK(&on_command_line), &app_data);
     g_signal_connect(app, "open", G_CALLBACK(&on_open_files), &app_data);
