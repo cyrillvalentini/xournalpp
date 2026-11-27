@@ -29,12 +29,7 @@ ToolButton::ToolButton(std::string id, Category cat, Action action, GVariant* ta
 
 auto ToolButton::createItem(ToolbarSide side) -> Widgetry {
     GtkWidget* btn = toggle ? gtk_toggle_button_new() : gtk_button_new();
-    if (buttonLabel.empty()) {
-        gtk_button_set_child(GTK_BUTTON(btn), getNewToolIcon());
-    } else {
-        gtk_button_set_label(GTK_BUTTON(btn), buttonLabel.c_str());
-        gtk_widget_add_css_class(btn, "text-button");
-    }
+    gtk_button_set_child(GTK_BUTTON(btn), getNewToolIcon());
     gtk_widget_set_tooltip_text(btn, getToolDisplayName().c_str());
     gtk_actionable_set_action_name(GTK_ACTIONABLE(btn), (std::string("win.") + Action_toString(action)).c_str());
     if (target) {
@@ -94,5 +89,3 @@ auto ToolButton::getToolDisplayName() const -> std::string { return description;
 auto ToolButton::getIconName() const -> const char* { return iconName.c_str(); }
 
 void ToolButton::setPopoverFactory(const PopoverFactory* factory) { popoverFactory = factory; }
-
-void ToolButton::setButtonLabel(std::string label) { buttonLabel = std::move(label); }
