@@ -37,6 +37,7 @@
 #include "model/TextAlignment.h"
 #include "model/XojPage.h"
 #include "util/Color.h"
+#include "util/Matrix.h"
 #include "util/PathUtil.h"
 #include "util/StringUtils.h"
 
@@ -1125,4 +1126,58 @@ TEST(ControlLoadHandler, testUrlLink_v5) {
                     {0.73051218, 0.32708413, -0.25284672, 0.94499522, {347.95598, 144.02478}});
 
     checkSaveAndReload(doc);
+}
+
+/**
+ * Documents that do not need file format version 5 are saved as version 4, so that released versions of Xournal++
+ * (up to 1.3) open them. Set XOPP_KEEP_COMPAT_FILES to a directory to keep the saved files (e.g. to open them there).
+ */
+TEST(ControlLoadHandler, saveCompatibleFileVersion) {
+    auto save = [](Document* doc, const std::string& name) {
+        fs::path out = Util::getTmpDirSubfolder() / name;
+        if (const char* keep = std::getenv("XOPP_KEEP_COMPAT_FILES")) {
+            out = fs::path(keep) / name;
+        }
+        SaveHandler saver;
+        saver.prepareSave(doc, out);
+        saver.saveTo(out);
+        LoadHandler loader;
+        auto loaded = loader.loadDocument(out);
+        EXPECT_TRUE(loaded);
+        return loader.getFileVersion();
+    };
+
+    // Images without rotation: version 4
+    auto doc = loadTestDocument(GET_TESTFILE(u8"load/image-fileversion-4.xopp"));
+    ASSERT_TRUE(doc);
+    EXPECT_EQ(save(doc.get(), "compat-images.xopp"), 4);
+
+    // A text box without wrapping: still version 4
+    {
+        auto text = std::make_unique<Text>();
+        text->setText("hello");
+        text->setTransformation(xoj::util::Matrix::TRANSLATION(100, 100));
+        doc->getPage(0)->getLayers().front()->addElement(std::move(text));
+    }
+    EXPECT_EQ(save(doc.get(), "compat-text.xopp"), 4);
+
+    // A wrapped text box needs version 5
+    {
+        auto text = std::make_unique<Text>();
+        text->setText("wrapped");
+        text->setWrap(200);
+        doc->getPage(0)->getLayers().front()->addElement(std::move(text));
+    }
+    EXPECT_EQ(save(doc.get(), "compat-wrap.xopp"), 5);
+
+    // So does a rotated image
+    auto doc2 = loadTestDocument(GET_TESTFILE(u8"load/image-fileversion-4.xopp"));
+    ASSERT_TRUE(doc2);
+    for (auto& e: doc2->getPage(0)->getLayers().front()->getElements()) {
+        if (e->getType() == ELEMENT_IMAGE) {
+            e->rotate(0, 0, 0.5);
+            break;
+        }
+    }
+    EXPECT_EQ(save(doc2.get(), "compat-rotated.xopp"), 5);
 }
