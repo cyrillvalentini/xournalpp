@@ -23,9 +23,12 @@
 class XojMsgBox final {
 public:
     struct Button {
-        Button(std::string l, int r): label(std::move(l)), response(r) {}
+        /// How the button is drawn (libadwaita response appearance)
+        enum Style { DEFAULT, SUGGESTED, DESTRUCTIVE };
+        Button(std::string l, int r, Style s = DEFAULT): label(std::move(l)), response(r), style(s) {}
         std::string label;
         int response;
+        Style style;
     };
 
     /**

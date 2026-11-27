@@ -1,8 +1,10 @@
 #include "util/XojMsgBox.h"
 
-#include <memory>  // for unique_ptr
+#include <cstdlib>  // for strtoul
+#include <memory>   // for unique_ptr
 #include <utility>  // for move
 
+#include <adwaita.h>      // for AdwAlertDialog
 #include <glib-object.h>  // for g_object_set_property, g_value_init, g_valu...
 #include <glib.h>         // for g_free, g_markup_escape_text, g_error_free
 
@@ -20,7 +22,7 @@
 GtkWindow* defaultWindow = nullptr;
 
 namespace {
-/// GtkAlertDialog shows plain text: drop Pango markup (e.g. "<b>Error in </b>...")
+/// The alert dialog shows plain text: drop Pango markup (e.g. "<b>Error in </b>...")
 std::string stripMarkup(std::string_view markup) {
     char* text = nullptr;
     if (pango_parse_markup(markup.data(), static_cast<int>(markup.size()), 0, nullptr, &text, nullptr, nullptr)) {
@@ -32,50 +34,73 @@ std::string stripMarkup(std::string_view markup) {
 }
 
 /**
- * Shows a modal GtkAlertDialog and calls callback(response) with the chosen button's response id, or
- * GTK_RESPONSE_DELETE_EVENT if the dialog was dismissed without a button. A button with GTK_RESPONSE_CANCEL (if any)
- * is used for Escape; the first button is the default one.
+ * Shows a modal AdwAlertDialog (heading = message, body = detail) and calls callback(response) with the chosen
+ * button's response id, or GTK_RESPONSE_DELETE_EVENT if the dialog was dismissed without a button. A button with
+ * GTK_RESPONSE_CANCEL (if any) is used for Escape; the suggested button (else the first one) is the default.
  */
 void showAlert(GtkWindow* parent, const std::string& message, const std::string& detail,
                const std::vector<XojMsgBox::Button>& buttons, xoj::util::move_only_function<void(int)> callback) {
     if (parent == nullptr) {
         parent = defaultWindow;
     }
-    GtkAlertDialog* dialog = gtk_alert_dialog_new("%s", message.c_str());
-    if (!detail.empty()) {
-        gtk_alert_dialog_set_detail(dialog, detail.c_str());
-    }
-    gtk_alert_dialog_set_modal(dialog, true);
+    AdwDialog* dialog = adw_alert_dialog_new(message.c_str(), detail.empty() ? nullptr : detail.c_str());
+    AdwAlertDialog* alert = ADW_ALERT_DIALOG(dialog);
 
-    std::vector<const char*> labels;
-    std::vector<int> responses;
+    constexpr auto DISMISSED = "dismissed";
+    adw_alert_dialog_set_close_response(alert, DISMISSED);
+    const char* defaultResponse = nullptr;
+    std::vector<std::string> ids;
+    ids.reserve(buttons.size());
     for (size_t i = 0; i < buttons.size(); i++) {
-        labels.push_back(buttons[i].label.c_str());
-        responses.push_back(buttons[i].response);
+        ids.push_back(std::to_string(i));
+        const char* id = ids.back().c_str();
+        adw_alert_dialog_add_response(alert, id, buttons[i].label.c_str());
+        switch (buttons[i].style) {
+            case XojMsgBox::Button::SUGGESTED:
+                adw_alert_dialog_set_response_appearance(alert, id, ADW_RESPONSE_SUGGESTED);
+                defaultResponse = id;
+                break;
+            case XojMsgBox::Button::DESTRUCTIVE:
+                adw_alert_dialog_set_response_appearance(alert, id, ADW_RESPONSE_DESTRUCTIVE);
+                break;
+            default:
+                break;
+        }
         if (buttons[i].response == GTK_RESPONSE_CANCEL) {
-            gtk_alert_dialog_set_cancel_button(dialog, static_cast<int>(i));
+            adw_alert_dialog_set_close_response(alert, id);
         }
     }
-    labels.push_back(nullptr);
-    gtk_alert_dialog_set_buttons(dialog, labels.data());
-    if (!buttons.empty()) {
-        gtk_alert_dialog_set_default_button(dialog, 0);
+    if (!defaultResponse && !ids.empty()) {
+        defaultResponse = ids.front().c_str();
     }
+    if (defaultResponse) {
+        adw_alert_dialog_set_default_response(alert, defaultResponse);
+    }
+    // A wider dialog keeps three buttons side by side (the narrow one stacks them once a label is long)
+    adw_alert_dialog_set_prefer_wide_layout(alert, buttons.size() >= 3);
 
+    std::vector<int> responses;
+    for (auto& b: buttons) {
+        responses.push_back(b.response);
+    }
     struct Data {
         std::vector<int> responses;
         xoj::util::move_only_function<void(int)> callback;
     };
     auto* data = new Data{std::move(responses), std::move(callback)};
-    gtk_alert_dialog_choose(
-            dialog, parent, nullptr,
+    adw_alert_dialog_choose(
+            alert, parent ? GTK_WIDGET(parent) : nullptr, nullptr,
             +[](GObject* src, GAsyncResult* res, gpointer d) {
                 std::unique_ptr<Data> data(static_cast<Data*>(d));
-                int index = gtk_alert_dialog_choose_finish(GTK_ALERT_DIALOG(src), res, nullptr);
-                int response = index >= 0 && static_cast<size_t>(index) < data->responses.size() ?
-                                       data->responses[static_cast<size_t>(index)] :
-                                       GTK_RESPONSE_DELETE_EVENT;
-                g_object_unref(src);
+                const char* id = adw_alert_dialog_choose_finish(ADW_ALERT_DIALOG(src), res);
+                int response = GTK_RESPONSE_DELETE_EVENT;
+                if (id) {
+                    char* end = nullptr;
+                    auto index = std::strtoul(id, &end, 10);
+                    if (end != id && *end == '\0' && index < data->responses.size()) {
+                        response = data->responses[index];
+                    }
+                }
                 // Called after the dialog has closed, so the callback may open another dialog
                 data->callback(response);
             },
