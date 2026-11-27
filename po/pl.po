@@ -4844,3 +4844,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Oparty na Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Nie można utworzyć „{1}”: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Nie można zapisać „{1}”: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Brak stron do wyeksportowania."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber używa tego samego tła dla wszystkich stron. Użyto tła pierwszej strony."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Tła izometryczne zastąpiono kwadratową siatką lub kropkami."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Wypełnione kształty wyeksportowano jako obrazy."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Pola tekstowe wyeksportowano jako obrazy w ich położeniu, ponieważ wpisany tekst w Saberze zawsze zaczyna się z lewej strony."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "Formuły LaTeX wyeksportowano jako obrazy."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Warstwy strony scalono w jedną."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Linie kreskowane i kropkowane wyeksportowano jako linie ciągłe."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Obrócone obrazy wyeksportowano jako obrazy ich prostokąta ograniczającego."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Element był zbyt duży, aby go wyeksportować."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Nie można wyeksportować tła PDF."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Nie można wyeksportować tła obrazu."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Pola tekstowe przekształcono we wpisany tekst Sabera. Ich położenie dopasowano do linii strony."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Plik „{1}” nie istnieje"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Nie można odczytać pliku „{1}”"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Plik nie jest archiwum Sabera (nie jest plikiem zip)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Nie można odczytać archiwum Sabera: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Ta notatka Sabera używa starego formatu pliku (.sbn). Otwórz ją w aktualnej wersji Sabera i wyeksportuj ponownie."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Archiwum nie zawiera notatki Sabera"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Notatka Sabera jest uszkodzona: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Notatka Sabera została utworzona w nowszej wersji Sabera. Może brakować części treści."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Notatka Sabera odwołuje się do brakującego obrazu lub pliku PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Wzór tła Sabera (tabulatura lub notatki Cornella) nie ma odpowiednika i został zastąpiony liniami."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Nieznany wzór tła Sabera „{1}”"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Nie można odczytać pliku PDF w notatce Sabera: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Notatka Sabera odwołuje się do nieistniejącej strony PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Notatka Sabera zawiera więcej niż jeden plik PDF. Strony dodatkowych plików PDF zaimportowano jako obrazy."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Nie można odczytać obrazu w notatce Sabera."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Nie można odczytać pliku PDF w notatce Sabera."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Pociągnięcia ołówkiem zaimportowano jako pociągnięcia piórem (tekstura ołówka nie jest dostępna)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Formatowanie (pogrubienie, nagłówki, listy…) wpisanego tekstu nie zostało zaimportowane."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Błąd podczas otwierania notatki Sabera „{1}”.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Notatkę Sabera zaimportowano. Części treści nie udało się przekształcić dokładnie:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Notatkę wyeksportowano dla Sabera. Części treści nie udało się przekształcić dokładnie:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Notatki Sabera"

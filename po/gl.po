@@ -4816,3 +4816,151 @@ msgstr "100 %"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Baseado en Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Non foi posíbel crear «{1}»: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Non foi posíbel escribir «{1}»: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Non hai páxinas para exportar."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber usa o mesmo fondo para todas as páxinas. Usouse o fondo da primeira páxina."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Os fondos isométricos substituíronse por unha grella cadrada ou puntos."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "As formas recheas exportáronse como imaxes."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "As caixas de texto exportáronse como imaxes na súa posición, xa que o texto escrito de Saber sempre comeza á esquerda da páxina."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "As fórmulas LaTeX exportáronse como imaxes."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "As capas dunha páxina combináronse nunha soa."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "As liñas descontinuas e punteadas exportáronse como liñas continuas."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "As imaxes xiradas exportáronse como imaxes do seu rectángulo delimitador."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Un elemento era grande de máis para exportalo."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Non foi posíbel exportar o fondo PDF."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Non foi posíbel exportar un fondo de imaxe."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "As caixas de texto convertéronse en texto escrito de Saber. As súas posicións axustáronse ás liñas da páxina."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "O ficheiro «{1}» non existe"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Non foi posíbel ler o ficheiro «{1}»"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "O ficheiro non é un arquivo de Saber (non é un ficheiro zip)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Non foi posíbel ler o arquivo de Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Esta nota de Saber usa un formato de ficheiro antigo (.sbn). Ábraa nunha versión actual de Saber e expórtea de novo."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "O arquivo non contén ningunha nota de Saber"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "A nota de Saber está danada: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "A nota de Saber creouse cunha versión máis recente de Saber. Pode faltar contido."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "A nota de Saber fai referencia a unha imaxe ou un PDF que falta."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "O padrón de fondo de Saber (tablatura ou notas Cornell) non ten equivalente e substituíuse por liñas."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Padrón de fondo de Saber descoñecido «{1}»"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Non foi posíbel ler un PDF da nota de Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "A nota de Saber fai referencia a unha páxina PDF que non existe."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "A nota de Saber contén máis dun PDF. As páxinas dos PDF adicionais importáronse como imaxes."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Non foi posíbel ler unha imaxe da nota de Saber."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Non foi posíbel ler un PDF da nota de Saber."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Os trazos de lapis importáronse como trazos de bolígrafo (a textura do lapis non está dispoñíbel)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "O formato (negra, títulos, listas…) do texto escrito non se importou."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Erro ao abrir a nota de Saber «{1}».\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Importouse a nota de Saber. Parte do contido non se puido converter exactamente:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "A nota exportouse para Saber. Parte do contido non se puido converter exactamente:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Notas de Saber"

@@ -4808,3 +4808,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Dựa trên Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Không thể tạo \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Không thể ghi \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Không có trang nào để xuất."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber dùng cùng một nền cho mọi trang. Đã dùng nền của trang đầu tiên."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Các nền đẳng cự đã được thay bằng lưới ô vuông hoặc chấm."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Các hình được tô đã được xuất dưới dạng ảnh."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Các hộp văn bản đã được xuất dưới dạng ảnh tại vị trí của chúng, vì văn bản gõ trong Saber luôn bắt đầu ở bên trái trang."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "Các công thức LaTeX đã được xuất dưới dạng ảnh."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Các lớp của một trang đã được gộp thành một."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Các đường gạch và chấm đã được xuất thành đường liền."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Các ảnh xoay đã được xuất dưới dạng ảnh của hình chữ nhật bao quanh."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Một phần tử quá lớn để xuất."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Không thể xuất nền PDF."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Không thể xuất một nền ảnh."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Các hộp văn bản đã được chuyển thành văn bản gõ của Saber. Vị trí của chúng đã được căn theo các dòng của trang."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Tệp \"{1}\" không tồn tại"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Không thể đọc tệp \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Tệp không phải là kho lưu trữ Saber (không phải tệp zip)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Không thể đọc kho lưu trữ Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Ghi chú Saber này dùng định dạng tệp cũ (.sbn). Hãy mở nó trong phiên bản Saber hiện tại và xuất lại."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Kho lưu trữ không chứa ghi chú Saber"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Ghi chú Saber bị hỏng: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Ghi chú Saber được tạo bằng phiên bản Saber mới hơn. Một số nội dung có thể bị thiếu."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Ghi chú Saber tham chiếu đến một ảnh hoặc PDF bị thiếu."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Mẫu nền của Saber (tab đàn hoặc ghi chú Cornell) không có tương đương và đã được thay bằng các dòng kẻ."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Mẫu nền Saber không xác định \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Không thể đọc một PDF trong ghi chú Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Ghi chú Saber tham chiếu đến một trang PDF không tồn tại."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Ghi chú Saber chứa nhiều hơn một PDF. Các trang của những PDF bổ sung đã được nhập dưới dạng ảnh."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Không thể đọc một ảnh trong ghi chú Saber."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Không thể đọc một PDF trong ghi chú Saber."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Các nét bút chì đã được nhập thành nét bút (không có kết cấu bút chì)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Định dạng (đậm, tiêu đề, danh sách...) của văn bản gõ không được nhập."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Lỗi khi mở ghi chú Saber \"{1}\".\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Đã nhập ghi chú Saber. Một số nội dung không thể chuyển đổi chính xác:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Đã xuất ghi chú cho Saber. Một số nội dung không thể chuyển đổi chính xác:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Ghi chú Saber"

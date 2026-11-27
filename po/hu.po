@@ -4905,3 +4905,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ alapján"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Nem sikerült létrehozni: „{1}”: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Nem sikerült írni: „{1}”: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Nincsenek exportálható oldalak."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "A Saber minden oldalhoz ugyanazt a hátteret használja. Az első oldal háttere lett felhasználva."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Az izometrikus hátterek négyzetrácsra vagy pontokra lettek cserélve."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "A kitöltött alakzatok képként lettek exportálva."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "A szövegdobozok képként lettek exportálva a helyükön, mert a Saberben a begépelt szöveg mindig az oldal bal szélén kezdődik."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "A LaTeX-képletek képként lettek exportálva."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Egy oldal rétegei egyetlen rétegbe lettek egyesítve."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "A szaggatott és pontozott vonalak folytonos vonalként lettek exportálva."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Az elforgatott képek a befoglaló téglalapjuk képeként lettek exportálva."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Egy elem túl nagy volt az exportáláshoz."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "A PDF-hátteret nem sikerült exportálni."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Egy képhátteret nem sikerült exportálni."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "A szövegdobozok a Saber begépelt szövegévé lettek alakítva. A helyzetük az oldal soraihoz lett igazítva."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "A(z) „{1}” fájl nem létezik"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "A(z) „{1}” fájlt nem sikerült beolvasni"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "A fájl nem Saber-archívum (nem zip-fájl)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Nem sikerült beolvasni a Saber-archívumot: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Ez a Saber-jegyzet régi fájlformátumot használ (.sbn). Nyissa meg a Saber egy aktuális verziójában, és exportálja újra."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Az archívum nem tartalmaz Saber-jegyzetet"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "A Saber-jegyzet sérült: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "A Saber-jegyzet a Saber egy újabb verziójával készült. Lehet, hogy néhány tartalom hiányzik."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "A Saber-jegyzet egy hiányzó képre vagy PDF-re hivatkozik."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "A Saber háttérmintájának (tabulatúra vagy Cornell-jegyzetek) nincs megfelelője, ezért vonalakra lett cserélve."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Ismeretlen Saber-háttérminta: „{1}”"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Nem sikerült beolvasni egy PDF-et a Saber-jegyzetben: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "A Saber-jegyzet egy nem létező PDF-oldalra hivatkozik."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "A Saber-jegyzet több PDF-et tartalmaz. A további PDF-ek oldalai képként lettek importálva."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Nem sikerült beolvasni egy képet a Saber-jegyzetben."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Nem sikerült beolvasni egy PDF-et a Saber-jegyzetben."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "A ceruzavonások tollvonásként lettek importálva (a ceruza textúrája nem érhető el)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "A begépelt szöveg formázása (félkövér, címsorok, listák…) nem lett importálva."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Hiba a(z) „{1}” Saber-jegyzet megnyitásakor.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "A Saber-jegyzet importálva. Néhány tartalmat nem sikerült pontosan átalakítani:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "A jegyzet exportálva a Saber számára. Néhány tartalmat nem sikerült pontosan átalakítani:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber-jegyzetek"

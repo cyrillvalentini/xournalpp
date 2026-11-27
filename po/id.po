@@ -4807,3 +4807,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Berdasarkan Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Tidak dapat membuat \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Tidak dapat menulis \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Tidak ada halaman untuk diekspor."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber menggunakan latar belakang yang sama untuk semua halaman. Latar belakang halaman pertama digunakan."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Latar belakang isometrik diganti dengan kisi persegi atau titik."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Bentuk berisi diekspor sebagai gambar."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Kotak teks diekspor sebagai gambar di posisinya, karena teks ketikan Saber selalu dimulai di sisi kiri halaman."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "Rumus LaTeX diekspor sebagai gambar."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Lapisan sebuah halaman digabung menjadi satu."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Garis putus-putus dan bertitik diekspor sebagai garis utuh."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Gambar yang diputar diekspor sebagai gambar kotak pembatasnya."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Sebuah elemen terlalu besar untuk diekspor."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Latar belakang PDF tidak dapat diekspor."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Latar belakang gambar tidak dapat diekspor."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Kotak teks diubah menjadi teks ketikan Saber. Posisinya disesuaikan dengan garis halaman."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Berkas \"{1}\" tidak ada"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Berkas \"{1}\" tidak dapat dibaca"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Berkas bukan arsip Saber (bukan berkas zip)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Tidak dapat membaca arsip Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Catatan Saber ini menggunakan format berkas lama (.sbn). Buka di versi Saber terbaru lalu ekspor lagi."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Arsip tidak berisi catatan Saber"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Catatan Saber rusak: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Catatan Saber dibuat dengan versi Saber yang lebih baru. Beberapa konten mungkin hilang."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Catatan Saber merujuk ke gambar atau PDF yang hilang."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Pola latar belakang Saber (tablatur atau catatan Cornell) tidak memiliki padanan dan diganti dengan garis."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Pola latar belakang Saber tidak dikenal \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Tidak dapat membaca PDF di catatan Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Catatan Saber merujuk ke halaman PDF yang tidak ada."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Catatan Saber berisi lebih dari satu PDF. Halaman PDF tambahan diimpor sebagai gambar."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Tidak dapat membaca gambar di catatan Saber."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Tidak dapat membaca PDF di catatan Saber."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Goresan pensil diimpor sebagai goresan pena (tekstur pensil tidak tersedia)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Format (tebal, judul, daftar...) teks ketikan tidak diimpor."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Galat saat membuka catatan Saber \"{1}\".\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Catatan Saber telah diimpor. Beberapa konten tidak dapat dikonversi dengan tepat:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Catatan telah diekspor untuk Saber. Beberapa konten tidak dapat dikonversi dengan tepat:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Catatan Saber"

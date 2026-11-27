@@ -4844,3 +4844,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Засновано на Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Не вдалося створити «{1}»: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Не вдалося записати «{1}»: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Немає сторінок для експорту."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber використовує однаковий фон для всіх сторінок. Використано фон першої сторінки."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Ізометричні фони замінено квадратною сіткою або крапками."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Заповнені фігури експортовано як зображення."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Текстові поля експортовано як зображення на їхніх місцях, оскільки набраний текст у Saber завжди починається з лівого краю сторінки."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "Формули LaTeX експортовано як зображення."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Шари сторінки об'єднано в один."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Штрихові та пунктирні лінії експортовано як суцільні."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Повернуті зображення експортовано як зображення їхнього обмежувального прямокутника."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Елемент завеликий для експорту."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Не вдалося експортувати фон PDF."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Не вдалося експортувати фонове зображення."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Текстові поля перетворено на набраний текст Saber. Їхнє розташування підігнано під лінії сторінки."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Файл «{1}» не існує"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Не вдалося прочитати файл «{1}»"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Файл не є архівом Saber (не zip-файл)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Не вдалося прочитати архів Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Ця нотатка Saber використовує старий формат файлу (.sbn). Відкрийте її в актуальній версії Saber і експортуйте знову."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Архів не містить нотатки Saber"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Нотатку Saber пошкоджено: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Нотатку Saber створено новішою версією Saber. Частина вмісту може бути відсутня."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Нотатка Saber посилається на відсутнє зображення або PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Фоновий візерунок Saber (табулатура або нотатки Корнелла) не має відповідника і його замінено лініями."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Невідомий фоновий візерунок Saber «{1}»"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Не вдалося прочитати PDF у нотатці Saber: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Нотатка Saber посилається на сторінку PDF, якої не існує."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Нотатка Saber містить більше одного PDF. Сторінки додаткових PDF імпортовано як зображення."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Не вдалося прочитати зображення в нотатці Saber."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Не вдалося прочитати PDF у нотатці Saber."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Штрихи олівця імпортовано як штрихи пера (текстура олівця недоступна)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Форматування (жирний шрифт, заголовки, списки…) набраного тексту не імпортовано."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Помилка під час відкриття нотатки Saber «{1}».\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Нотатку Saber імпортовано. Частину вмісту не вдалося перетворити точно:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Нотатку експортовано для Saber. Частину вмісту не вдалося перетворити точно:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Нотатки Saber"

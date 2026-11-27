@@ -4821,3 +4821,151 @@ msgstr "100 %"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Založeno na Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Nelze vytvořit „{1}“: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Nelze zapsat „{1}“: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Nejsou žádné stránky k exportu."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber používá pro všechny stránky stejné pozadí. Bylo použito pozadí první stránky."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Izometrická pozadí byla nahrazena čtvercovou mřížkou nebo body."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Vyplněné tvary byly exportovány jako obrázky."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Textová pole byla exportována jako obrázky na svém místě, protože psaný text v Saberu vždy začíná na levé straně stránky."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "Vzorce LaTeX byly exportovány jako obrázky."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Vrstvy stránky byly sloučeny do jedné."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Čárkované a tečkované čáry byly exportovány jako plné čáry."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Otočené obrázky byly exportovány jako obrázky svého ohraničujícího obdélníku."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Prvek byl příliš velký pro export."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "Pozadí PDF nelze exportovat."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "Obrázkové pozadí nelze exportovat."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Textová pole byla převedena na psaný text Saberu. Jejich pozice byly přizpůsobeny řádkům stránky."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Soubor „{1}“ neexistuje"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Soubor „{1}“ nelze přečíst"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Soubor není archiv Saberu (není to soubor zip)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Archiv Saberu nelze přečíst: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Tato poznámka Saberu používá starý formát souboru (.sbn). Otevřete ji v aktuální verzi Saberu a znovu ji exportujte."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Archiv neobsahuje poznámku Saberu"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Poznámka Saberu je poškozená: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Poznámka Saberu byla vytvořena novější verzí Saberu. Část obsahu může chybět."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Poznámka Saberu odkazuje na chybějící obrázek nebo PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Vzor pozadí Saberu (tabulatura nebo Cornellovy poznámky) nemá obdobu a byl nahrazen linkami."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Neznámý vzor pozadí Saberu „{1}“"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "PDF v poznámce Saberu nelze přečíst: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Poznámka Saberu odkazuje na stránku PDF, která neexistuje."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Poznámka Saberu obsahuje více než jedno PDF. Stránky dalších PDF byly importovány jako obrázky."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Obrázek v poznámce Saberu nelze přečíst."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "PDF v poznámce Saberu nelze přečíst."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Tahy tužkou byly importovány jako tahy perem (textura tužky není k dispozici)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Formátování (tučné písmo, nadpisy, seznamy…) psaného textu nebylo importováno."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Chyba při otevírání poznámky Saberu „{1}“.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Poznámka Saberu byla importována. Část obsahu nebylo možné převést přesně:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Poznámka byla exportována pro Saber. Část obsahu nebylo možné převést přesně:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Poznámky Saberu"

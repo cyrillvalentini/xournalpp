@@ -4785,3 +4785,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++ මත පදනම් වූ"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "\"{1}\" සෑදිය නොහැකි විය: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "\"{1}\" වෙත ලිවිය නොහැකි විය: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "අපනයනය කිරීමට පිටු නොමැත."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber සියලු පිටු සඳහා එකම පසුබිම භාවිත කරයි. පළමු පිටුවේ පසුබිම භාවිත කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "සමමිතික පසුබිම් හතරැස් ජාලයකින් හෝ තිත් වලින් ප්‍රතිස්ථාපනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "පුරවන ලද හැඩතල පින්තූර ලෙස අපනයනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Saber හි ටයිප් කළ පෙළ සැමවිටම පිටුවේ වම් පසින් ආරම්භ වන බැවින්, පෙළ කොටු ඒවායේ ස්ථානයේ පින්තූර ලෙස අපනයනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX සූත්‍ර පින්තූර ලෙස අපනයනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "පිටුවක ස්තර එකක් ලෙස ඒකාබද්ධ කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "ඉරි සහ තිත් රේඛා ඝන රේඛා ලෙස අපනයනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "කරකවන ලද රූප ඒවායේ මායිම් සෘජුකෝණාස්‍රයේ පින්තූර ලෙස අපනයනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "අංගයක් අපනයනය කිරීමට තරම් විශාල විය."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF පසුබිම අපනයනය කළ නොහැකි විය."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "රූප පසුබිමක් අපනයනය කළ නොහැකි විය."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "පෙළ කොටු Saber හි ටයිප් කළ පෙළ බවට පරිවර්තනය කරන ලදී. ඒවායේ ස්ථාන පිටුවේ පේළිවලට ගැළපෙන සේ සකස් කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "\"{1}\" ගොනුව නොපවතී"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "\"{1}\" ගොනුව කියවිය නොහැකි විය"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "ගොනුව Saber සංරක්ෂණයක් නොවේ (zip ගොනුවක් නොවේ)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber සංරක්ෂණය කියවිය නොහැකි විය: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "මෙම Saber සටහන පැරණි ගොනු ආකෘතියක් (.sbn) භාවිත කරයි. එය Saber හි වත්මන් අනුවාදයකින් විවෘත කර නැවත අපනයනය කරන්න."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "සංරක්ෂණයේ Saber සටහනක් නොමැත"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber සටහන හානි වී ඇත: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "මෙම Saber සටහන Saber හි නවතම අනුවාදයකින් සාදා ඇත. සමහර අන්තර්ගතය අතුරුදහන් විය හැක."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber සටහන අතුරුදහන් වූ රූපයකට හෝ PDF එකකට යොමු කරයි."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber පසුබිම් රටාවට (ටැබ්ලේචර් හෝ කෝනල් සටහන්) සමාන එකක් නොමැති බැවින් රේඛා වලින් ප්‍රතිස්ථාපනය කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "නොදන්නා Saber පසුබිම් රටාව \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber සටහනේ PDF එකක් කියවිය නොහැකි විය: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber සටහන නොපවතින PDF පිටුවකට යොමු කරයි."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber සටහනේ PDF එකකට වඩා ඇත. අමතර PDF වල පිටු පින්තූර ලෙස ආයාත කරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber සටහනේ රූපයක් කියවිය නොහැකි විය."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber සටහනේ PDF එකක් කියවිය නොහැකි විය."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "පැන්සල් ඉරි පෑන් ඉරි ලෙස ආයාත කරන ලදී (පැන්සල් වයනය ලබා ගත නොහැක)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "ටයිප් කළ පෙළෙහි හැඩතල ගැන්වීම (තද, ශීර්ෂ, ලැයිස්තු...) ආයාත නොකරන ලදී."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Saber සටහන \"{1}\" විවෘත කිරීමේ දෝෂයකි.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber සටහන ආයාත කරන ලදී. සමහර අන්තර්ගතය නිවැරදිව පරිවර්තනය කළ නොහැකි විය:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "සටහන Saber සඳහා අපනයනය කරන ලදී. සමහර අන්තර්ගතය නිවැරදිව පරිවර්තනය කළ නොහැකි විය:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber සටහන්"

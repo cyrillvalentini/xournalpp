@@ -4829,3 +4829,151 @@ msgstr "100 %"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Baserat på Xournal++"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "Kunde inte skapa \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "Kunde inte skriva \"{1}\": {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "Det finns inga sidor att exportera."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber använder samma bakgrund för alla sidor. Bakgrunden från den första sidan användes."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "Isometriska bakgrunder ersattes med ett kvadratiskt rutnät eller punkter."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "Fyllda former exporterades som bilder."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "Textrutor exporterades som bilder på sin position, eftersom inskriven text i Saber alltid börjar till vänster på sidan."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX-formler exporterades som bilder."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "Lagren på en sida slogs samman till ett."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "Streckade och prickade linjer exporterades som heldragna linjer."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "Roterade bilder exporterades som bilder av sin omgivande rektangel."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "Ett element var för stort för att exporteras."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF-bakgrunden kunde inte exporteras."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "En bildbakgrund kunde inte exporteras."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "Textrutor konverterades till inskriven text i Saber. Deras positioner anpassades till sidans linjer."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "Filen \"{1}\" finns inte"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "Filen \"{1}\" kunde inte läsas"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "Filen är inte ett Saber-arkiv (inte en zip-fil)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Kunde inte läsa Saber-arkivet: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Den här Saber-anteckningen använder ett gammalt filformat (.sbn). Öppna den i en aktuell version av Saber och exportera den igen."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "Arkivet innehåller ingen Saber-anteckning"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber-anteckningen är skadad: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Saber-anteckningen skapades med en nyare version av Saber. En del innehåll kan saknas."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber-anteckningen hänvisar till en saknad bild eller PDF."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber-bakgrundsmönstret (tabulatur eller Cornell-anteckningar) har ingen motsvarighet och ersattes med linjer."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Okänt Saber-bakgrundsmönster \"{1}\""
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Kunde inte läsa en PDF i Saber-anteckningen: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber-anteckningen hänvisar till en PDF-sida som inte finns."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber-anteckningen innehåller mer än en PDF. Sidorna i de extra PDF-filerna importerades som bilder."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Kunde inte läsa en bild i Saber-anteckningen."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Kunde inte läsa en PDF i Saber-anteckningen."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "Blyertsstreck importerades som pennstreck (blyertstexturen är inte tillgänglig)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "Formateringen (fetstil, rubriker, listor …) av inskriven text importerades inte."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "Fel när Saber-anteckningen \"{1}\" skulle öppnas.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber-anteckningen importerades. En del innehåll kunde inte konverteras exakt:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "Anteckningen exporterades för Saber. En del innehåll kunde inte konverteras exakt:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber-anteckningar"

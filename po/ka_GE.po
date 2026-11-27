@@ -4790,3 +4790,151 @@ msgstr "100%"
 #. Xournal#
 msgid "Based on Xournal++"
 msgstr "Xournal++-ზე დაფუძნებული"
+
+#. Xournal# (Saber notes)
+msgid "Could not create \"{1}\": {2}"
+msgstr "„{1}“-ის შექმნა ვერ მოხერხდა: {2}"
+
+#. Xournal# (Saber notes)
+msgid "Could not write \"{1}\": {2}"
+msgstr "„{1}“-ში ჩაწერა ვერ მოხერხდა: {2}"
+
+#. Xournal# (Saber notes)
+msgid "There are no pages to export."
+msgstr "გასატანი გვერდები არ არის."
+
+#. Xournal# (Saber notes)
+msgid "Saber uses the same background for all pages. The background of the first page was used."
+msgstr "Saber ყველა გვერდისთვის ერთსა და იმავე ფონს იყენებს. გამოყენებულია პირველი გვერდის ფონი."
+
+#. Xournal# (Saber notes)
+msgid "Isometric backgrounds were replaced by a square grid or dots."
+msgstr "იზომეტრიული ფონები შეიცვალა კვადრატული ბადით ან წერტილებით."
+
+#. Xournal# (Saber notes)
+msgid "Filled shapes were exported as pictures."
+msgstr "შევსებული ფიგურები გატანილია სურათებად."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were exported as pictures at their position, as Saber's typed text always starts at the left of the page."
+msgstr "ტექსტის ველები გატანილია სურათებად თავის ადგილზე, რადგან Saber-ში აკრეფილი ტექსტი ყოველთვის გვერდის მარცხნიდან იწყება."
+
+#. Xournal# (Saber notes)
+msgid "LaTeX formulas were exported as pictures."
+msgstr "LaTeX-ის ფორმულები გატანილია სურათებად."
+
+#. Xournal# (Saber notes)
+msgid "The layers of a page were merged into one."
+msgstr "გვერდის ფენები გაერთიანდა ერთში."
+
+#. Xournal# (Saber notes)
+msgid "Dashed and dotted lines were exported as solid lines."
+msgstr "წყვეტილი და წერტილოვანი ხაზები გატანილია უწყვეტ ხაზებად."
+
+#. Xournal# (Saber notes)
+msgid "Rotated images were exported as pictures of their bounding box."
+msgstr "შემობრუნებული სურათები გატანილია მათი შემომსაზღვრელი მართკუთხედის სურათებად."
+
+#. Xournal# (Saber notes)
+msgid "An element was too large to be exported."
+msgstr "ელემენტი ზედმეტად დიდი იყო გასატანად."
+
+#. Xournal# (Saber notes)
+msgid "The PDF background could not be exported."
+msgstr "PDF ფონის გატანა ვერ მოხერხდა."
+
+#. Xournal# (Saber notes)
+msgid "An image background could not be exported."
+msgstr "სურათის ფონის გატანა ვერ მოხერხდა."
+
+#. Xournal# (Saber notes)
+msgid "Text boxes were converted to Saber's typed text. Their positions were adjusted to the lines of the page."
+msgstr "ტექსტის ველები გადაკეთდა Saber-ის აკრეფილ ტექსტად. მათი მდებარეობა მორგებულია გვერდის ხაზებს."
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" does not exist"
+msgstr "ფაილი „{1}“ არ არსებობს"
+
+#. Xournal# (Saber notes)
+msgid "The file \"{1}\" could not be read"
+msgstr "ფაილის „{1}“ წაკითხვა ვერ მოხერხდა"
+
+#. Xournal# (Saber notes)
+msgid "The file is not a Saber archive (not a zip file)"
+msgstr "ფაილი არ არის Saber-ის არქივი (არ არის zip ფაილი)"
+
+#. Xournal# (Saber notes)
+msgid "Could not read the Saber archive: {1}"
+msgstr "Saber-ის არქივის წაკითხვა ვერ მოხერხდა: {1}"
+
+#. Xournal# (Saber notes)
+msgid "This Saber note uses an old file format (.sbn). Open it in a current version of Saber and export it again."
+msgstr "Saber-ის ეს ჩანაწერი ძველ ფაილის ფორმატს (.sbn) იყენებს. გახსენით ის Saber-ის მიმდინარე ვერსიაში და ხელახლა გაიტანეთ."
+
+#. Xournal# (Saber notes)
+msgid "The archive does not contain a Saber note"
+msgstr "არქივი არ შეიცავს Saber-ის ჩანაწერს"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note is damaged: {1}"
+msgstr "Saber-ის ჩანაწერი დაზიანებულია: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was made by a newer version of Saber. Some content may be missing."
+msgstr "Saber-ის ჩანაწერი შექმნილია Saber-ის უფრო ახალი ვერსიით. ზოგიერთი შიგთავსი შეიძლება აკლდეს."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a missing image or PDF."
+msgstr "Saber-ის ჩანაწერი მიუთითებს დაკარგულ სურათზე ან PDF-ზე."
+
+#. Xournal# (Saber notes)
+msgid "The Saber background pattern (tablature or Cornell notes) has no counterpart and was replaced by lines."
+msgstr "Saber-ის ფონის ნიმუშს (ტაბულატურა ან კორნელის ჩანაწერები) შესატყვისი არ აქვს და შეიცვალა ხაზებით."
+
+#. Xournal# (Saber notes)
+msgid "Unknown Saber background pattern \"{1}\""
+msgstr "Saber-ის უცნობი ფონის ნიმუში „{1}“"
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note: {1}"
+msgstr "Saber-ის ჩანაწერში PDF-ის წაკითხვა ვერ მოხერხდა: {1}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note references a PDF page that does not exist."
+msgstr "Saber-ის ჩანაწერი მიუთითებს PDF გვერდზე, რომელიც არ არსებობს."
+
+#. Xournal# (Saber notes)
+msgid "The Saber note contains more than one PDF. The pages of the additional PDFs were imported as pictures."
+msgstr "Saber-ის ჩანაწერი ერთზე მეტ PDF-ს შეიცავს. დამატებითი PDF-ების გვერდები შემოტანილია სურათებად."
+
+#. Xournal# (Saber notes)
+msgid "Could not read an image in the Saber note."
+msgstr "Saber-ის ჩანაწერში სურათის წაკითხვა ვერ მოხერხდა."
+
+#. Xournal# (Saber notes)
+msgid "Could not read a PDF in the Saber note."
+msgstr "Saber-ის ჩანაწერში PDF-ის წაკითხვა ვერ მოხერხდა."
+
+#. Xournal# (Saber notes)
+msgid "Pencil strokes were imported as pen strokes (the pencil texture is not available)."
+msgstr "ფანქრის შტრიხები შემოტანილია კალმის შტრიხებად (ფანქრის ტექსტურა მიუწვდომელია)."
+
+#. Xournal# (Saber notes)
+msgid "Text formatting (bold, headings, lists...) of typed text was not imported."
+msgstr "აკრეფილი ტექსტის ფორმატირება (მუქი, სათაურები, სიები...) არ შემოტანილა."
+
+#. Xournal# (Saber notes)
+msgid "Error opening Saber note \"{1}\".\n\n{2}"
+msgstr "შეცდომა Saber-ის ჩანაწერის „{1}“ გახსნისას.\n\n{2}"
+
+#. Xournal# (Saber notes)
+msgid "The Saber note was imported. Some content could not be converted exactly:\n\n{1}"
+msgstr "Saber-ის ჩანაწერი შემოტანილია. ზოგიერთი შიგთავსის ზუსტად გარდაქმნა ვერ მოხერხდა:\n\n{1}"
+
+#. Xournal# (Saber notes)
+msgid "The note was exported for Saber. Some content could not be converted exactly:"
+msgstr "ჩანაწერი გატანილია Saber-ისთვის. ზოგიერთი შიგთავსის ზუსტად გარდაქმნა ვერ მოხერხდა:"
+
+#. Xournal# (Saber notes)
+msgid "Saber notes"
+msgstr "Saber-ის ჩანაწერები"
