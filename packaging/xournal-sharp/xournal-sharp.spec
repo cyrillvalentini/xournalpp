@@ -14,8 +14,8 @@
 
 Name:           xournal-sharp
 # "~gtk4" sorts after 1.3.8 (so it updates the GTK 3 Xournal#) and before a final 1.4.0
-Version:        1.4.0~gtk4
-Release:        3.modernui%{?dist}
+Version:        1.4.1~gtk4
+Release:        1.modernui%{?dist}
 Summary:        Xournal# - handwritten notes and PDF annotation with a GNOME look
 
 License:        GPL-2.0-or-later
@@ -90,6 +90,11 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{app_id}.desktop
 %{_datadir}/icons/hicolor/symbolic/apps/%{app_id}-symbolic.svg
 
 %changelog
+* Sat Nov 28 2026 Cyrill Valentini - 1.4.1~gtk4-1.modernui
+- Open Saber notes (.sba) and export to Saber: strokes with pressure, highlighter, images, PDF
+  backgrounds, background patterns and typed text
+- Save files as format version 4 when possible, so that Xournal++ 1.3 opens them without warning
+
 * Fri Nov 27 2026 Cyrill Valentini - 1.4.0~gtk4-3.modernui
 - First release from the main branch: upstream Xournal++ changes up to 2026-11-25 (undo stack refactor,
   highlighter operator by page colour, fixes); fix PDF export of links with non-ASCII URLs
