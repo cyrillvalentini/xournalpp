@@ -1,5 +1,7 @@
 #include "FlyingClickableIcon.h"
 
+#include <algorithm>  // for clamp, max
+
 #include <gdk/gdk.h>      // for GdkRectangle
 #include <glib-object.h>  // for G_CALLBACK, g_signal_con...
 
@@ -97,9 +99,21 @@ auto FlyingClickableIcon::getOverlayPosition(GtkOverlay* overlay, GtkWidget* wid
     allocation->x = self->position.x - (self->anchor.x * allocation->width) / 2;  // Center the icon as best we can
     allocation->y = self->position.y - (self->anchor.y * allocation->height) / 2;
 
-    // Then translate into Overlay coordinates
+    // The overlay spans the whole window (toolbars included): keep the icon within the visible canvas area.
     GtkWidget* scrolledWindow =
             gtk_widget_get_ancestor(self->mainWindow->getXournal()->getWidget(), GTK_TYPE_SCROLLED_WINDOW);
+    const int areaWidth = gtk_widget_get_width(scrolledWindow);
+    const int areaHeight = gtk_widget_get_height(scrolledWindow);
+    if (self->position.x < 0 || self->position.y < 0 || self->position.x > areaWidth ||
+        self->position.y > areaHeight) {
+        // What the icon belongs to has been scrolled out of view: don't show the icon either
+        allocation->width = allocation->height = 0;
+    } else {
+        allocation->x = std::clamp(allocation->x, 0, std::max(0, areaWidth - allocation->width));
+        allocation->y = std::clamp(allocation->y, 0, std::max(0, areaHeight - allocation->height));
+    }
+
+    // Then translate into Overlay coordinates
     double x, y;
     xoj::util::gtk::translateCoordinates(scrolledWindow, GTK_WIDGET(overlay), allocation->x, allocation->y, &x, &y);
     allocation->x = round_cast<int>(x);
