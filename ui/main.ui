@@ -119,7 +119,6 @@
                     <property name="start-child">
                       <object class="GtkBox" id="sidebar">
                         <property name="name">sidebar</property>
-                        <property name="can-focus">0</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkBox">
@@ -256,7 +255,6 @@
               <object class="GtkBox" id="statusbar">
                 <property name="name">statusbar</property>
                 <property name="visible">0</property>
-                <property name="can-focus">0</property>
                 <child>
                   <object class="GtkLabel" id="lbState">
                     <property name="name">lbState</property>
