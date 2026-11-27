@@ -69,7 +69,6 @@ class ZoomControl;
 class ToolMenuHandler;
 class XojFont;
 class XojPdfRectangle;
-class Callback;
 class ActionDatabase;
 class NavigationHistory;
 
@@ -167,6 +166,7 @@ public:
     void toolSizeChanged() override;
     void toolFillChanged() override;
     void toolLineStyleChanged() override;
+    void eraserTypeChanged() override;
 
     void selectTool(ToolType type);
     void selectDefaultTool();
@@ -303,7 +303,6 @@ public:
     void addChangedDocumentListener(DocumentListener* dl);
     void removeChangedDocumentListener(DocumentListener* dl);
 
-    MetadataManager* getMetadataManager() const;
     Settings* getSettings() const;
     ToolHandler* getToolHandler() const;
     ZoomControl* getZoomControl() const;
@@ -338,12 +337,6 @@ public:
     void help();
 
     void selectAlpha(OpacityFeature feature);
-
-    /**
-     * @brief Initialize the all button tools based on the respective ButtonConfigs
-     *
-     */
-    void initButtonTool();
 
 
 public:

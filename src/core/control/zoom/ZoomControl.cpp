@@ -38,7 +38,7 @@ void ZoomControl::zoomOneStep(ZoomDirection direction, xoj::util::Point<double> 
     }
     this->setZoomFitMode(false);
 
-    double newZoom = this->withZoomStep(direction, this->zoomStep);
+    double newZoom = this->withZoomStep(direction, this->control->getSettings()->getZoomStep() / 100.);
 
     startZoomSequence(zoomCenter);
     this->zoomSequenceChange(newZoom, false);
@@ -229,11 +229,12 @@ void ZoomControl::initZoomHandler(GtkScrolledWindow* scrolledWindow, XournalView
                              static constexpr double SCROLL_PX_FACTOR = 0.1;
                              // Depending on the source of the scroll event, the unit of dy is either 1 mouse wheel
                              // click or 1 pixel
+                             const double zoomStepScroll = self->control->getSettings()->getZoomStepScroll() / 100.;
                              double step = gtk_event_controller_scroll_get_unit(ctrl) == GDK_SCROLL_UNIT_WHEEL ?
-                                                   dy * self->zoomStepScroll :
-                                                   dy * self->zoomStepScroll * SCROLL_PX_FACTOR;
+                                                   dy * zoomStepScroll :
+                                                   dy * zoomStepScroll * SCROLL_PX_FACTOR;
 #else
-                             double step = self->zoomStepScroll;
+                             double step = self->control->getSettings()->getZoomStepScroll() / 100.;
 #endif
                              self->zoomScroll(step, self->pointerWidgetPosition);
                              return true;
@@ -414,10 +415,6 @@ void ZoomControl::setZoomPresentationMode(bool isZoomPresentationMode) {
 }
 
 auto ZoomControl::isZoomPresentationMode() const -> bool { return this->zoomPresentationMode; }
-
-void ZoomControl::setZoomStep(double zoomStep) { this->zoomStep = zoomStep; }
-
-void ZoomControl::setZoomStepScroll(double zoomStep) { this->zoomStepScroll = zoomStep; }
 
 void ZoomControl::pageSizeChanged(size_t page) {
     updateZoomPresentationValue(page);

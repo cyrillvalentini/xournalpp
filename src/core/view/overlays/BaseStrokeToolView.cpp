@@ -14,8 +14,9 @@ using namespace xoj::view;
 
 BaseStrokeToolView::BaseStrokeToolView(Repaintable* parent, const Stroke& stroke):
         ToolView(parent),
-        // Live previews always use OVER, even for the highlighter (whose finished strokes use MULTIPLY): GTK4's GPU
-        // renderers drop MULTIPLY content of the canvas' cairo node on screen, so the highlighter preview stayed
+        // Live previews always use OVER, even for the highlighter (whose finished strokes use MULTIPLY or SCREEN,
+        // depending on the page colour, see Repaintable::getHighlighterOperator): GTK4's GPU
+        // renderers drop such content of the canvas' cairo node on screen, so the highlighter preview stayed
         // invisible until the stroke was finished. On paper colours the difference is barely visible, and the
         // finished stroke is rendered into the page buffer (an image surface) with the exact operator.
         cairoOp(CAIRO_OPERATOR_OVER),

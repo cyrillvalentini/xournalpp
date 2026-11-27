@@ -159,12 +159,10 @@ Control::Control(GApplication* gtkApp, GladeSearchpath* gladeSearchPath): gtkApp
 
 
     this->zoom = new ZoomControl();
-    this->zoom->setZoomStep(this->settings->getZoomStep() / 100.0);
-    this->zoom->setZoomStepScroll(this->settings->getZoomStepScroll() / 100.0);
 
-    this->toolHandler = new ToolHandler(this, this->actionDB.get(), this->settings);
-    this->toolHandler->loadSettings();
-    this->initButtonTool();
+    this->toolHandler = new ToolHandler(this, this->settings);
+    this->toolHandler->loadState();
+    this->toolHandler->loadButtonSettings();
 
     /**
      * This is needed to update the previews
@@ -276,7 +274,7 @@ auto Control::checkChangedDocument(Control* control) -> bool {
 }
 
 void Control::saveSettings() {
-    this->toolHandler->saveSettings();
+    this->toolHandler->saveState();
 
     int width = 0;
     int height = 0;
@@ -296,7 +294,7 @@ void Control::initWindow(MainWindow* win, bool disableAudio) {
 #ifdef ENABLE_AUDIO
     if (!(disableAudio || this->settings->isAudioDisabled())) {
         try {
-            this->audioController = std::make_unique<AudioController>(this->settings, this);
+            this->audioController = std::make_unique<AudioController>(*this->settings, *this);
         } catch (const std::exception& e) {
             XojMsgBox::showErrorToUser(
                     GTK_WINDOW(win->getWindow()),
@@ -380,16 +378,7 @@ void Control::updatePageNumbers(size_t page, size_t pdfPage) {
         this->updateWindowTitle();
     }
 
-    auto current = getCurrentPageNo();
-    auto count = this->doc->getPageCount();
-
-    this->actionDB->enableAction(Action::GOTO_FIRST, current != 0);
-    this->actionDB->enableAction(Action::GOTO_PREVIOUS, current != 0);
-    this->actionDB->enableAction(Action::GOTO_PREVIOUS_ANNOTATED_PAGE, current != 0);
-    this->actionDB->enableAction(Action::GOTO_PAGE, count > 1);
-    this->actionDB->enableAction(Action::GOTO_NEXT, current < count - 1);
-    this->actionDB->enableAction(Action::GOTO_LAST, current < count - 1);
-    this->actionDB->enableAction(Action::GOTO_NEXT_ANNOTATED_PAGE, current < count - 1);
+    updatePageActions();
 
     if (navHistory) {
         navHistory->prune();
@@ -715,10 +704,18 @@ void Control::addDefaultPage(const std::optional<PageTemplateSettings>& pageTemp
 
 void Control::updatePageActions() {
     auto currentPage = getCurrentPageNo();
-    auto nbPages = this->doc->getPageCount();
-    this->actionDB->enableAction(Action::DELETE_PAGE, nbPages > 1);
+    auto pageCount = this->doc->getPageCount();
+    this->actionDB->enableAction(Action::DELETE_PAGE, pageCount > 1);
     this->actionDB->enableAction(Action::MOVE_PAGE_TOWARDS_BEGINNING, currentPage != 0);
-    this->actionDB->enableAction(Action::MOVE_PAGE_TOWARDS_END, currentPage < nbPages - 1);
+    this->actionDB->enableAction(Action::MOVE_PAGE_TOWARDS_END, currentPage < pageCount - 1);
+
+    this->actionDB->enableAction(Action::GOTO_FIRST, currentPage != 0);
+    this->actionDB->enableAction(Action::GOTO_PREVIOUS, currentPage != 0);
+    this->actionDB->enableAction(Action::GOTO_PREVIOUS_ANNOTATED_PAGE, currentPage != 0);
+    this->actionDB->enableAction(Action::GOTO_PAGE, pageCount > 1);
+    this->actionDB->enableAction(Action::GOTO_NEXT, currentPage < pageCount - 1);
+    this->actionDB->enableAction(Action::GOTO_LAST, currentPage < pageCount - 1);
+    this->actionDB->enableAction(Action::GOTO_NEXT_ANNOTATED_PAGE, currentPage < pageCount - 1);
 }
 
 void Control::deletePage() {
@@ -1308,6 +1305,10 @@ void Control::toolLineStyleChanged() {
     this->actionDB->setActionState(Action::TOOL_PEN_LINE_STYLE, style ? style->c_str() : "none");
 }
 
+void Control::eraserTypeChanged() {
+    this->actionDB->setActionState(Action::TOOL_ERASER_TYPE, this->toolHandler->getEraserType());
+}
+
 auto Control::getLineStyleToSelect() -> std::optional<string> const {
     std::optional<std::string> style;
     if (auto* tool = toolHandler->getActiveTool(); tool->getToolType() == TOOL_PEN) {
@@ -1489,8 +1490,6 @@ void Control::showSettings() {
 
                 ctrl->enableAutosave(settings->isAutosaveEnabled());
 
-                ctrl->zoom->setZoomStep(settings->getZoomStep() / 100.0);
-                ctrl->zoom->setZoomStepScroll(settings->getZoomStepScroll() / 100.0);
                 ctrl->win->setDPI();
 
                 if (settingsBeforeDialog.sidebarStyle != settings->getSidebarNumberingStyle()) {
@@ -2328,17 +2327,6 @@ void Control::closeDocument() {
     this->undoRedoChanged();
 }
 
-void Control::initButtonTool() {
-    std::vector<Button> buttons{Button::BUTTON_ERASER,     Button::BUTTON_STYLUS_ONE,   Button::BUTTON_STYLUS_TWO,
-                                Button::BUTTON_MOUSE_LEFT, Button::BUTTON_MOUSE_MIDDLE, Button::BUTTON_MOUSE_RIGHT,
-                                Button::BUTTON_MOUSE_4,    Button::BUTTON_MOUSE_5,      Button::BUTTON_TOUCH};
-    ButtonConfig* cfg;
-    for (auto b: buttons) {
-        cfg = settings->getButtonConfig(b);
-        cfg->initButton(this->toolHandler, b);
-    }
-}
-
 void Control::showAbout() {
     auto popup = xoj::popup::PopupWindowWrapper<xoj::popup::AboutDialog>(this->gladeSearchPath);
     popup.show(GTK_WINDOW(this->win->getWindow()));
@@ -2678,9 +2666,9 @@ void Control::setToolSize(ToolSize size) {
     }
 
     if (sel) {
-        undoRedo->addUndoAction(UndoActionPtr(sel->setSize(size, toolHandler->getToolThickness(TOOL_PEN),
-                                                           toolHandler->getToolThickness(TOOL_HIGHLIGHTER),
-                                                           toolHandler->getToolThickness(TOOL_ERASER))));
+        undoRedo->addUndoAction(UndoActionPtr(sel->setSize(toolHandler->getToolThickness(TOOL_PEN)[size],
+                                                           toolHandler->getToolThickness(TOOL_HIGHLIGHTER)[size],
+                                                           toolHandler->getToolThickness(TOOL_ERASER)[size])));
     }
     this->toolHandler->setSize(size);
 }
@@ -2741,8 +2729,6 @@ auto Control::getGladeSearchPath() const -> GladeSearchpath* { return this->glad
 auto Control::getSettings() const -> Settings* { return settings; }
 
 auto Control::getScrollHandler() const -> ScrollHandler* { return this->scrollHandler; }
-
-auto Control::getMetadataManager() const -> MetadataManager* { return this->metadata; }
 
 auto Control::getSidebar() const -> Sidebar* { return this->sidebar; }
 
