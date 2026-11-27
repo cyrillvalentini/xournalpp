@@ -53,8 +53,12 @@ private:
      */
     void searchPrevious();
 
-    void search(const char* text);
-    bool searchTextOnCurrentPage(const char* text, size_t index, size_t* occurrences, XojPdfRectangle* matchRect);
+    /**
+     * Find as you type: show the first match on the anchor page or any page after it (wrapping around).
+     * The anchor is the page where the search started, so refining the text ("tes" -> "test") does not skip matches.
+     */
+    void searchFromAnchor(const char* text);
+    void setSearchState(bool found);
 
 private:
     Control* control;
@@ -62,5 +66,7 @@ private:
     size_t page = 0;
     size_t indexInPage = 0;
     size_t occurrences = 0;
+    size_t anchorPage = 0;
+    bool anchorValid = false;
     bool searchActive = false;
 };

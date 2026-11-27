@@ -48,12 +48,16 @@ SearchBar::SearchBar(Control* control): control(control) {
                      this);
 
     GtkEventController* ctrl = gtk_shortcut_controller_new();
-    gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
-                                         gtk_shortcut_new(gtk_keyval_trigger_new(GDK_KEY_Return, GdkModifierType(0)),
-                                                          gtk_signal_action_new("next-match")));
-    gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
-                                         gtk_shortcut_new(gtk_keyval_trigger_new(GDK_KEY_Return, GDK_SHIFT_MASK),
-                                                          gtk_signal_action_new("previous-match")));
+    for (guint key: {GDK_KEY_Return, GDK_KEY_KP_Enter, GDK_KEY_ISO_Enter}) {
+        gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
+                                             gtk_shortcut_new(gtk_keyval_trigger_new(key, GdkModifierType(0)),
+                                                              gtk_signal_action_new("next-match")));
+        gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(ctrl),
+                                             gtk_shortcut_new(gtk_keyval_trigger_new(key, GDK_SHIFT_MASK),
+                                                              gtk_signal_action_new("previous-match")));
+    }
+    // The entry's inner text field consumes Return (as "activate"), so catch it before it gets there
+    gtk_event_controller_set_propagation_phase(ctrl, GTK_PHASE_CAPTURE);
     gtk_widget_add_controller(searchTextField, ctrl);
 
     this->searchTextField = searchTextField;
@@ -61,39 +65,7 @@ SearchBar::SearchBar(Control* control): control(control) {
 
 SearchBar::~SearchBar() { this->control = nullptr; }
 
-auto SearchBar::searchTextOnCurrentPage(const char* text, size_t index, size_t* occurrences, XojPdfRectangle* matchRect)
-        -> bool {
-    size_t p = control->getCurrentPageNo();
-    this->page = p;
-
-    return control->searchTextOnPage(text, p, index, occurrences, matchRect);
-}
-
-void SearchBar::search(const char* text) {
-    MainWindow* win = control->getWindow();
-    GtkWidget* lbSearchState = win->get("lbSearchState");
-
-    bool found = true;
-    this->indexInPage = 0;
-
-    if (*text != 0) {
-        found = searchTextOnCurrentPage(text, 1, &this->occurrences, nullptr);
-        if (found) {
-            if (occurrences == 1) {
-                gtk_label_set_text(GTK_LABEL(lbSearchState), _("Text found once on this page"));
-            } else {
-                char* msg = g_strdup_printf(_("Text found %zu times on this page"), occurrences);
-                gtk_label_set_text(GTK_LABEL(lbSearchState), msg);
-                g_free(msg);
-            }
-        } else {
-            gtk_label_set_text(GTK_LABEL(lbSearchState), _("Text not found"));
-        }
-    } else {
-        searchTextOnCurrentPage("", 1, nullptr, nullptr);
-        gtk_label_set_text(GTK_LABEL(lbSearchState), "");
-    }
-
+void SearchBar::setSearchState(bool found) {
     // The theme's "error" style shows the text in red
     if (found) {
         gtk_widget_remove_css_class(this->searchTextField, "error");
@@ -102,10 +74,61 @@ void SearchBar::search(const char* text) {
     }
 }
 
+void SearchBar::searchFromAnchor(const char* text) {
+    GtkWidget* lbSearchState = control->getWindow()->get("lbSearchState");
+    const size_t pageCount = control->getDocument()->getPageCount();
+    if (pageCount == 0) {
+        return;
+    }
+    if (!anchorValid || anchorPage >= pageCount) {
+        anchorPage = control->getCurrentPageNo();
+        anchorValid = true;
+    }
+
+    // Remove the highlights of the previous text
+    if (page < pageCount) {
+        control->searchTextOnPage("", page, 0, nullptr, nullptr);
+    }
+    page = anchorPage;
+    indexInPage = 0;
+    occurrences = 0;
+
+    if (*text == 0) {
+        gtk_label_set_text(GTK_LABEL(lbSearchState), "");
+        setSearchState(true);
+        return;
+    }
+
+    for (size_t i = 0; i < pageCount; i++) {
+        const size_t p = (anchorPage + i) % pageCount;
+        XojPdfRectangle matchRect = XojPdfRectangle();
+        size_t found = 0;
+        if (control->searchTextOnPage(text, p, 1, &found, &matchRect) && found > 0) {
+            page = p;
+            indexInPage = 1;
+            occurrences = found;
+            if (!searchActive) {
+                control->getNavigationHistory()->recordNavPoint();
+                searchActive = true;
+            }
+            control->getScrollHandler()->scrollToPage(page, matchRect);
+            gtk_label_set_text(GTK_LABEL(lbSearchState),
+                               (occurrences == 1 ? FC(_F("Text found once on page {1}") % (page + 1)) :
+                                                   FC(_F("Text found {1} times on page {2} ({3} of {1})") %
+                                                      occurrences % (page + 1) % indexInPage)));
+            setSearchState(true);
+            return;
+        }
+    }
+
+    gtk_label_set_text(GTK_LABEL(lbSearchState), _("Text not found"));
+    setSearchState(false);
+}
+
 void SearchBar::searchTextChangedCallback(GtkSearchEntry* entry, SearchBar* searchBar) {
-    searchBar->searchActive = false;
-    const char* text = gtk_editable_get_text(GTK_EDITABLE(entry));
-    searchBar->search(text);
+    searchBar->searchFromAnchor(gtk_editable_get_text(GTK_EDITABLE(entry)));
+    // Grab focus again since scrolling to another page may take it away
+    gtk_widget_grab_focus(GTK_WIDGET(entry));
 }
 
 void SearchBar::buttonCloseSearchClicked(GtkButton* button, SearchBar* searchBar) { searchBar->showSearchBar(false); }
@@ -134,6 +157,10 @@ void SearchBar::search(Fun next) {
                 searchActive = true;
             }
             control->getScrollHandler()->scrollToPage(page, matchRect);
+            setSearchState(true);
+            // Refining the text from here on continues from this match
+            anchorPage = page;
+            anchorValid = true;
             gtk_label_set_text(GTK_LABEL(lbSearchState),
                                (occurrences == 1 ? FC(_F("Text found once on page {1}") % (page + 1)) :
                                                    FC(_F("Text found {1} times on page {2} ({3} of {1})") %
@@ -142,6 +169,7 @@ void SearchBar::search(Fun next) {
         }
         if (page == originalPage) {
             gtk_label_set_text(GTK_LABEL(lbSearchState), _("Text not found, searched on all pages"));
+            setSearchState(false);
             return;
         }
     }
@@ -187,6 +215,8 @@ void SearchBar::showSearchBar(bool show) {
         gtk_widget_set_visible(searchBar, true);
         gtk_widget_grab_focus(searchTextField);
         this->indexInPage = 0;
+        this->anchorValid = false;  // Start searching from the current page
+        this->searchActive = false;
     } else {
         searchActive = false;
         gtk_widget_set_visible(searchBar, false);
