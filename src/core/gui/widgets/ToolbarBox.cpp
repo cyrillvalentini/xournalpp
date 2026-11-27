@@ -458,7 +458,7 @@ void ToolbarBox::startEditing(ToolMenuHandler* handler) {
                 auto [item, proxy] = data.handler->createItem(xoj::dnd::g_value_get_tool_item_string(&val), side);
                 data.tempItem = item;
 
-                g_message("Drop::enter: Created %s at %p", xoj::dnd::g_value_get_tool_item_string(&val), item.get());
+                g_debug("Drop::enter: Created %s at %p", xoj::dnd::g_value_get_tool_item_string(&val), item.get());
 
                 gtk_widget_add_css_class(item.get(), "phantom");
                 gtk_widget_set_can_target(item.get(), false);  // Disable pointer interactions while editing
@@ -524,7 +524,8 @@ void ToolbarBox::startEditing(ToolMenuHandler* handler) {
                 auto& data = *(toolbar->editingData);
 
                 if (!data.tempItem) {
-                    g_warning("Drop::leave but no DragItem");
+                    // GTK also emits "leave" after a successful "drop", which has already placed the item
+                    g_debug("Drop::leave but no DragItem (after a drop)");
                     return;
                 }
 
