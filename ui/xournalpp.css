@@ -295,3 +295,13 @@ image.flying-icon.TR {
 #XournalIcon {
   -gtk-icon-size: 120px;
 }
+
+/*
+ * Preferences dialog: the layout was made for the roomier GTK 3 themes. border-spacing adds to the
+ * spacing of every box and grid, so buttons and fields in a row no longer touch (linked button groups
+ * stay joined).
+ */
+window.preferences-dialog box:not(.linked),
+window.preferences-dialog grid {
+	border-spacing: 6px;
+}

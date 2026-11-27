@@ -241,6 +241,9 @@
     <property name="page-increment">10</property>
   </object>
   <object class="GtkWindow" id="settingsDialog">
+    <style>
+      <class name="preferences-dialog"/>
+    </style>
     <property name="width-request">1024</property>
     <property name="height-request">740</property>
     <property name="title" translatable="1">Xournal++ Preferences</property>
@@ -248,11 +251,12 @@
     <property name="destroy-with-parent">1</property>
     <property name="child">
       <object class="GtkBox" id="dialog-main-box">
-        <property name="margin-start">10</property>
-        <property name="margin-end">10</property>
-        <property name="margin-top">10</property>
-        <property name="margin-bottom">10</property>
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+        <property name="margin-top">12</property>
+        <property name="margin-bottom">18</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkNotebook" id="notebook1">
             <property name="vexpand">1</property>
@@ -266,10 +270,13 @@
                 <property name="child">
                   <object class="GtkBox" id="saveLoadTabBox">
                     <property name="name">saveLoadTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid01">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">900</property>
@@ -605,10 +612,13 @@ Illegal characters are replaced with &quot;_&quot;</property>
                 <property name="child">
                   <object class="GtkBox" id="inputTabBox">
                     <property name="name">inputTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="swInputTab">
+                <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -1023,10 +1033,13 @@ Illegal characters are replaced with &quot;_&quot;</property>
                 <property name="child">
                   <object class="GtkBox" id="mouseTabBox">
                     <property name="name">mouseTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid17">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="child">
@@ -1188,10 +1201,13 @@ Illegal characters are replaced with &quot;_&quot;</property>
                 <property name="child">
                   <object class="GtkBox" id="stylusTabBox">
                     <property name="name">stylusTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid30">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -1531,10 +1547,13 @@ Illegal characters are replaced with &quot;_&quot;</property>
                 <property name="child">
                   <object class="GtkBox" id="touchTabBox">
                     <property name="name">touchTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid52">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -1988,10 +2007,13 @@ This setting can make it easier to draw with touch.</property>
                 <property name="child">
                   <object class="GtkBox" id="viewTabBox">
                     <property name="name">viewTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid95">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -2949,10 +2971,13 @@ This setting can make it easier to draw with touch.</property>
                 <property name="child">
                   <object class="GtkBox" id="zoomTabBox">
                     <property name="name">zoomTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid120">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -3173,10 +3198,13 @@ This setting can make it easier to draw with touch.</property>
                 <property name="child">
                   <object class="GtkBox" id="drawingAreaTabBox">
                     <property name="name">drawingAreaTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid134">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -3866,10 +3894,13 @@ Set this to 0% to always re-render on zoom.</property>
                 <property name="child">
                   <object class="GtkBox" id="toolsTabBox">
                     <property name="name">toolsTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid160">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -4005,10 +4036,13 @@ Set this to 0% to always re-render on zoom.</property>
                 <property name="child">
                   <object class="GtkBox" id="audioRecordingTabBox">
                     <property name="name">audioRecordingTabBox</property>
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid166">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="min-content-width">500</property>
@@ -4304,7 +4338,9 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                 <property name="position">10</property>
                 <property name="child">
                   <object class="GtkBox" id="latexTabBox">
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
@@ -4323,10 +4359,13 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                 <property name="position">11</property>
                 <property name="child">
                   <object class="GtkBox" id="languageTabBox">
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkScrolledWindow" id="sid189">
+                        <property name="hscrollbar-policy">never</property>
                         <property name="vexpand">1</property>
                         <property name="focusable">1</property>
                         <property name="child">
@@ -4403,7 +4442,9 @@ If available select &lt;small&gt;&lt;tt&gt;pulse&lt;/tt&gt;&lt;/small&gt; as inp
                 <property name="position">12</property>
                 <property name="child">
                   <object class="GtkBox" id="paletteTabBox">
-                    <property name="margin-start">5</property>
+                    <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">6</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
