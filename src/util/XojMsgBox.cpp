@@ -1,3 +1,4 @@
+#include "util/AppName.h"  // for appName, withAppName
 #include "util/XojMsgBox.h"
 
 #include <cstdlib>  // for strtoul
@@ -159,7 +160,7 @@ void XojMsgBox::showErrorAndQuit(std::string& msg, int exitCode) {
 }
 
 void XojMsgBox::showPluginMessage(const std::string& pluginName, const std::string& msg, bool error) {
-    auto header = std::string("Xournal++ Plugin «") + pluginName + "»";
+    auto header = xoj::util::withAppName("Xournal++ Plugin «") + pluginName + "»";
     auto escapedHeader = xoj::util::OwnedCString::assumeOwnership(g_markup_escape_text(header.c_str(), -1));
     header = (error ? std::string("<b>Error in </b>") : "") + escapedHeader.get();
 

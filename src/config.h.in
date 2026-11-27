@@ -44,6 +44,17 @@ constexpr auto XOPP_APP_ID = "@XOURNALPP_APP_ID@";
 constexpr auto XOPP_CONFIG_FOLDER_NAME = "@XOURNALPP_CONFIG_FOLDER@";
 
 /**
+ * Application name shown to the user (window title, dialogs, About). "Xournal++" unless this is a rebranded build
+ * such as Xournal#; file format names ("Xournal++ files") keep the original name.
+ */
+constexpr auto XOPP_APP_NAME = "@XOURNALPP_APP_NAME@";
+
+/**
+ * Source code / bug tracker link shown in the About dialog
+ */
+constexpr auto XOPP_SOURCE_URL = "@XOURNALPP_SOURCE_URL@";
+
+/**
  * Project URL
  */
 constexpr auto PROJECT_HOMEPAGE_URL = "@PROJECT_HOMEPAGE_URL@";

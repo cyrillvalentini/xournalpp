@@ -3,7 +3,9 @@
 #include <gtk/gtk.h>
 
 #include "gui/Builder.h"
+#include "util/AppName.h"        // for appName, isRebranded
 #include "util/PlaceholderString.h"  // for PlaceholderString
+#include "util/raii/CStringWrapper.h"  // for OwnedCString
 #include "util/i18n.h"               // for _
 
 #include "config-git.h"  // for GIT_COMMIT_ID
@@ -13,7 +15,6 @@ class GladeSearchpath;
 
 constexpr auto UI_FILE = "about.ui";
 constexpr auto UI_DIALOG_NAME = "aboutDialog";
-constexpr auto GIT_REPO = "https://github.com/xournalpp/xournalpp";
 constexpr auto WEBSITE = "https://xournalpp.github.io";
 constexpr auto AUTHORS_LINK = "https://raw.githubusercontent.com/xournalpp/xournalpp/master/AUTHORS";
 constexpr auto LICENCE_LINK = "https://raw.githubusercontent.com/xournalpp/xournalpp/master/LICENSE";
@@ -54,7 +55,17 @@ static GtkWindow* constructWindow(GladeSearchpath* gladeSearchPath) {
         insertPropertyValue(infoGrid, gitCommitId.c_str(), 3);
     }
 
-    gtk_box_append(GTK_BOX(builder.get("vboxRepo")), gtk_link_button_new(GIT_REPO));
+    // A rebranded build (e.g. Xournal#) shows its own name, icon and repository; the credits stay those of Xournal++
+    if (xoj::util::isRebranded()) {
+        gtk_image_set_from_icon_name(GTK_IMAGE(builder.get("XournalIcon")), XOPP_APP_ID);
+        auto title = xoj::util::OwnedCString::assumeOwnership(
+                g_markup_printf_escaped("<span size=\"xx-large\" weight=\"bold\">%s</span>\n<i>%s</i>",
+                                        xoj::util::appName(), _("Based on Xournal++")));
+        gtk_label_set_markup(GTK_LABEL(builder.get("lbTitle")), title.get());
+        gtk_window_set_icon_name(window, XOPP_APP_ID);
+    }
+
+    gtk_box_append(GTK_BOX(builder.get("vboxRepo")), gtk_link_button_new(XOPP_SOURCE_URL));
     gtk_box_append(GTK_BOX(builder.get("vboxWebsite")), gtk_link_button_new(WEBSITE));
     gtk_box_append(GTK_BOX(builder.get("vboxCommunity")),
                    gtk_link_button_new_with_label(AUTHORS_LINK, _("See the full list of contributors")));

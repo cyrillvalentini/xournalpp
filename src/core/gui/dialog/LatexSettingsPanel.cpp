@@ -19,6 +19,7 @@
 #include "gui/Builder.h"
 #include "gui/dialog/XojOpenDlg.h"
 #include "model/Font.h"              // for XojFont
+#include "util/AppName.h"  // for appName, withAppName
 #include "util/Color.h"              // for Color
 #include "util/PathUtil.h"           // for fromGFile, getTmpDir...
 #include "util/PlaceholderString.h"  // for PlaceholderString
@@ -66,8 +67,9 @@ LatexSettingsPanel::LatexSettingsPanel(GladeSearchpath* gladeSearchPath):
     this->sourceViewThemeSelector = nullptr;
 
     gtk_label_set_text(GTK_LABEL(builder.get("lbSourceviewSettingsDescription")),
-                       _("GtkSourceView was disabled when building Xournal++! "
-                         "Some options will not be available."));
+                       xoj::util::withAppName(_("GtkSourceView was disabled when building Xournal++! "
+                                                "Some options will not be available."))
+                               .c_str());
 #endif
 }
 

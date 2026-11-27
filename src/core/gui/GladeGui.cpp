@@ -5,6 +5,7 @@
 #include <glib-object.h>  // for g_object_unref
 #include <glib.h>         // for g_error_free, GError, g_warning
 
+#include "util/AppName.h"  // for applyAppName
 #include "util/PlaceholderString.h"  // for PlaceholderString
 #include "util/StringUtils.h"        // for char_cast
 #include "util/XojMsgBox.h"          // for XojMsgBox
@@ -33,6 +34,7 @@ GladeGui::GladeGui(GladeSearchpath* gladeSearchPath, const std::string& glade, c
         XojMsgBox::showErrorAndQuit(msg, -1);
     }
 
+    xoj::util::applyAppName(builder.get());
     this->window = get(mainWnd);
 }
 

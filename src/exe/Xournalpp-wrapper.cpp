@@ -24,6 +24,7 @@
 // clang-format on
 #endif
 
+#include "util/AppName.h"
 #include "util/PathUtil.h"
 #include "util/VersionInfo.h"
 #include "util/XojMsgBox.h"
@@ -77,6 +78,7 @@ static std::string makeCrashReportURL() {
 
 static void activate(GtkApplication* app, std::string* str) {
     xoj::util::GObjectSPtr<GtkBuilder> builder(gtk_builder_new_from_resource(UI_RESOURCE), xoj::util::adopt);
+    xoj::util::applyAppName(builder.get());
     auto* window = GTK_WIDGET(gtk_builder_get_object(builder.get(), "crashDialog"));
     gtk_application_add_window(app, GTK_WINDOW(window));
     auto* view = GTK_TEXT_VIEW(gtk_builder_get_object(builder.get(), "textViewLog"));
@@ -232,7 +234,7 @@ auto main(int argc, char* argv[]) -> int {
 #endif
     }
 
-    GtkApplication* app = gtk_application_new("com.github.xournalpp.xournalpp", G_APPLICATION_FLAGS_NONE);
+    GtkApplication* app = gtk_application_new(XOPP_APP_ID, G_APPLICATION_FLAGS_NONE);
     g_signal_connect_data(app, "activate", xoj::util::wrap_for_g_callback_v<activate>, new std::string(errorlog.str()),
                           xoj::util::closure_notify_cb<std::string>, GConnectFlags(0));
 

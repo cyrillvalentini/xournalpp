@@ -96,6 +96,7 @@
 #include "undo/PageSizeChangeUndoAction.h"                       // for PageSizeChangeUndoAction
 #include "undo/SwapUndoAction.h"                                 // for SwapUndoAction
 #include "undo/UndoAction.h"                                     // for Undo...
+#include "util/AppName.h"  // for appName, withAppName
 #include "util/Assert.h"                                         // for xoj_assert
 #include "util/Color.h"                                          // for oper...
 #include "util/GtkUtil.h"
@@ -2107,7 +2108,8 @@ void Control::updateWindowTitle() {
     }
     this->doc->unlock_shared();
 
-    title += " - Xournal++";
+    title += " - ";
+    title += xoj::util::appName();
 
     gtk_window_set_title(getGtkWindow(), title.c_str());
 }

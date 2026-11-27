@@ -14,6 +14,7 @@
 #include "model/PageType.h"       // for PageType
 #include "model/XojPage.h"        // for XojPage
 #include "pdf/base/XojPdfPage.h"  // for XojPdfPageSPtr, XojPdfPage
+#include "util/AppName.h"  // for appName, withAppName
 #include "util/Assert.h"          // for xoj_assert
 #include "util/PathUtil.h"        // for getConfigFile
 #include "util/StringUtils.h"     // for char_cast
@@ -104,7 +105,7 @@ void PrintHandler::print(Document* doc, size_t currentPage, GtkWindow* parent) {
     gtk_print_operation_set_print_settings(op, settings);
     gtk_print_operation_set_n_pages(op, strict_cast<int>(doc->getPageCount()));
     gtk_print_operation_set_current_page(op, strict_cast<int>(currentPage));
-    gtk_print_operation_set_job_name(op, "Xournal++");
+    gtk_print_operation_set_job_name(op, xoj::util::appName());
     gtk_print_operation_set_unit(op, GTK_UNIT_POINTS);
     gtk_print_operation_set_use_full_page(op, true);
     g_signal_connect(op, "draw_page", G_CALLBACK(drawPage), doc);

@@ -59,6 +59,7 @@
 #include "model/XojPage.h"  // IWYU pragma: keep for XojPage
 #include "plugin/Plugin.h"
 #include "undo/InsertUndoAction.h"
+#include "util/AppName.h"  // for appName, withAppName
 #include "util/GVariantTemplate.h"    // for makeGVariant
 #include "util/PathUtil.h"            // for clea...
 #include "util/PopupWindowWrapper.h"  // for PopupWindowWrapper
@@ -337,7 +338,7 @@ static int applib_openDialog(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
     const std::string& pluginName = plugin->getName();
-    auto header = (error ? std::string("<b>Error in </b>") : "") + std::string("Xournal++ Plugin «") + pluginName + "»";
+    auto header = (error ? std::string("<b>Error in </b>") : "") + xoj::util::withAppName("Xournal++ Plugin «") + pluginName + "»";
 
     XojMsgBox::askQuestionWithMarkup(nullptr, header, msg, buttons, [cb, plugin](int response) {
         if (cb != "" && response >= 1) {

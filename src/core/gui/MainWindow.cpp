@@ -29,6 +29,7 @@
 #include "gui/widgets/SpinPageAdapter.h"                // for SpinPageAdapter
 #include "gui/widgets/ToolbarBox.h"                     // for ToolbarBox
 #include "gui/widgets/XournalWidget.h"                  // for gtk_xournal_get_l...
+#include "util/AppName.h"  // for isRebranded
 #include "util/GListView.h"                             // for GListView, GListV...
 #include "util/GtkUtil.h"                               // for getWidgetDPI
 #include "util/PathUtil.h"                              // for getConfigFile
@@ -43,6 +44,7 @@
 #include "ToolbarDefinitions.h"  // for TOOLBAR_DEFINITIO...
 #include "XournalView.h"         // for XournalView
 #include "config-dev.h"          // for TOOLBAR_CONFIG
+#include "config.h"       // for XOPP_APP_ID
 #include "filesystem.h"          // for path, exists
 
 using std::string;
@@ -71,6 +73,11 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control, GtkAp
         panedContainerWidget(get("panedMainContents"), xoj::util::ref),
         sidebarWidget(get("sidebar"), xoj::util::ref) {
     gtk_window_set_application(GTK_WINDOW(getWindow()), parent);
+    if (xoj::util::isRebranded()) {
+        // Own app icon (installed under the application ID) for this window and all dialogs
+        gtk_window_set_default_icon_name(XOPP_APP_ID);
+        gtk_window_set_icon_name(GTK_WINDOW(getWindow()), XOPP_APP_ID);
+    }
 
     loadCSS(gtk_widget_get_display(this->window), gladeSearchPath, CSS_FILENAME);
 

@@ -329,6 +329,10 @@ set(DEV_ERRORLOG_DIR "errorlogs" CACHE STRING "Directory where errorlogfiles wil
 set(XOURNALPP_APP_ID "com.github.xournalpp.xournalpp" CACHE STRING
     "Application ID (D-Bus name and Wayland app ID; must match the installed .desktop file name)")
 set(XOURNALPP_CONFIG_FOLDER "xournalpp" CACHE STRING "Name of the settings folder in the user's config directory")
+# The name shown in the window title, dialogs and About (e.g. "Xournal#"); file format names stay "Xournal++ files"
+set(XOURNALPP_APP_NAME "Xournal++" CACHE STRING "Application name shown to the user")
+set(XOURNALPP_SOURCE_URL "https://github.com/xournalpp/xournalpp" CACHE STRING
+    "Source code / bug tracker link in the About dialog")
 set(DEV_FILE_FORMAT_VERSION 5 CACHE STRING "File format version" FORCE)
 
 option(DEV_ENABLE_GCOV "Build with gcov support" OFF) # Enabel gcov support – expanded in src/
