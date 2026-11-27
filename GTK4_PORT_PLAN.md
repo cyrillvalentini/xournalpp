@@ -289,6 +289,18 @@ Next: phase 4.
 
 Exit: GTK4 Xournal# looks at least as native as the GTK3 `modern-ui` build.
 
+Progress (branch `xournal-sharp-gtk4`, based on `gtk4-port` / tag `gtk4-phase3`):
+- [x] 1. libadwaita >= 1.6, `AdwApplication`, theme setting -> `AdwStyleManager` (dark mode, accent colour).
+- [x] 2. Symbolic icon set (with `gpa:` attributes for GTK >= 4.20), accent colour for page border and selections,
+  canvas colour follows dark mode; app ID / settings folder as build options.
+- [x] 3. `AdwApplicationWindow` + `AdwToolbarView`: header bar, menu bar as its own row (user's choice), rest unchanged.
+- [x] 4. `XojMsgBox` on `AdwAlertDialog` (styled buttons, wide layout); GNOME-style "Save Changes?" dialog.
+- [x] Extra (from testing): Preferences spacing, changeable accent colours, sidebar like GNOME's document viewer,
+  zoom bar (round slider with 100 % tick, outlined zoom icons, "100%" button), text box icons kept in the canvas,
+  translations of all new strings into the 42 languages.
+- [ ] 5./6. Colour palette swatch widget, remaining CSS (floating toolbox card).
+- [ ] 7. Optional: Preferences as `AdwPreferencesDialog`.
+
 ### Phase 5 — Compatibility (2–3 days)
 1. Lua plugins: run the bundled plugins; list API changes (sync `msgbox` removed, new dialog/action API) in release notes.
 2. Settings: Xournal# GTK4 reads the existing `~/.config/xournal-sharp`; device config migration (GTK4 stores device config separately — devices need re-assigning once).
