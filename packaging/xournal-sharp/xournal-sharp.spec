@@ -15,7 +15,7 @@
 Name:           xournal-sharp
 # "~gtk4" sorts after 1.3.8 (so it updates the GTK 3 Xournal#) and before a final 1.4.0
 Version:        1.4.0~gtk4
-Release:        2.modernui%{?dist}
+Release:        3.modernui%{?dist}
 Summary:        Xournal# - handwritten notes and PDF annotation with a GNOME look
 
 License:        GPL-2.0-or-later
@@ -90,6 +90,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{app_id}.desktop
 %{_datadir}/icons/hicolor/symbolic/apps/%{app_id}-symbolic.svg
 
 %changelog
+* Fri Nov 27 2026 Cyrill Valentini - 1.4.0~gtk4-3.modernui
+- First release from the main branch: upstream Xournal++ changes up to 2026-11-25 (undo stack refactor,
+  highlighter operator by page colour, fixes); fix PDF export of links with non-ASCII URLs
+
 * Fri Nov 27 2026 Cyrill Valentini - 1.4.0~gtk4-2.modernui
 - Shown as "Xournal#" (window title, dialogs, About with own icon and repository; Xournal++ credits kept)
 

@@ -1,0 +1,43 @@
+#!/usr/bin/make -f
+# Xournal#: installs to /opt/xournal-sharp next to a regular Xournal++, with its own application ID,
+# settings folder, name and desktop integration (same settings as the RPM, see ../xournal-sharp.spec)
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+APP_ID := io.github.cyrillvalentini.XournalSharp
+OPTDIR := /opt/xournal-sharp
+PKGDIR := packaging/xournal-sharp
+DESTDIR := $(CURDIR)/debian/xournal-sharp
+
+%:
+	dh $@ --buildsystem=cmake+ninja
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=$(OPTDIR) \
+		-DENABLE_CPPTRACE=OFF \
+		-DXOURNALPP_APP_ID=$(APP_ID) \
+		-DXOURNALPP_CONFIG_FOLDER=xournal-sharp \
+		-DXOURNALPP_APP_NAME="Xournal#" \
+		-DXOURNALPP_SOURCE_URL=https://github.com/cyrillvalentini/xournalpp
+
+override_dh_auto_install:
+	dh_auto_install
+	# The build's desktop integration would duplicate the regular package's: ship our own instead
+	rm -rf $(DESTDIR)$(OPTDIR)/share/applications $(DESTDIR)$(OPTDIR)/share/mime \
+	       $(DESTDIR)$(OPTDIR)/share/metainfo $(DESTDIR)$(OPTDIR)/share/thumbnailers
+	rm -f $(DESTDIR)$(OPTDIR)/bin/xournalpp-thumbnailer
+	install -d $(DESTDIR)/usr/bin
+	ln -s $(OPTDIR)/bin/xournalpp $(DESTDIR)/usr/bin/xournal-sharp
+	install -Dm644 $(PKGDIR)/$(APP_ID).svg $(DESTDIR)/usr/share/icons/hicolor/scalable/apps/$(APP_ID).svg
+	install -Dm644 $(PKGDIR)/$(APP_ID)-symbolic.svg \
+		$(DESTDIR)/usr/share/icons/hicolor/symbolic/apps/$(APP_ID)-symbolic.svg
+	install -Dm644 $(PKGDIR)/$(APP_ID).desktop $(DESTDIR)/usr/share/applications/$(APP_ID).desktop
+	desktop-file-validate $(DESTDIR)/usr/share/applications/$(APP_ID).desktop
+
+override_dh_dwz:
+	dh_dwz --no-dwz-multifile
+
+# No unit tests in the release build
+override_dh_auto_test:

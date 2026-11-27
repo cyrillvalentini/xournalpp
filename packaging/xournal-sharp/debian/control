@@ -1,0 +1,24 @@
+Source: xournal-sharp
+Maintainer: Cyrill Valentini <noreply@users.noreply.github.com>
+Section: misc
+Priority: optional
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Build-Depends: debhelper-compat (= 13), cmake, ninja-build, help2man, gettext, desktop-file-utils,
+ libgtk-4-dev (>= 4.14), libadwaita-1-dev (>= 1.6), libgtksourceview-5-dev,
+ libpoppler-glib-dev, libxml2-dev, portaudio19-dev, libsndfile1-dev, liblua5.4-dev,
+ libzip-dev, librsvg2-dev, libqpdf-dev (>= 10.6), zlib1g-dev
+Homepage: https://github.com/cyrillvalentini/xournalpp
+
+Package: xournal-sharp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: texlive-base, texlive-latex-extra
+Description: Xournal# - handwritten notes and PDF annotation with a GNOME look
+ Xournal# is a build of Xournal++ on GTK 4 and libadwaita with a GNOME look:
+ Adwaita style, symbolic icons, the desktop's accent colour and automatic
+ light/dark switching, a sidebar like GNOME's document viewer and GNOME-style
+ dialogs.
+ .
+ It installs alongside the regular Xournal++ (in /opt/xournal-sharp, started
+ with xournal-sharp) and keeps its own settings.

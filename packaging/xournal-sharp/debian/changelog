@@ -1,0 +1,10 @@
+xournal-sharp (1.4.0~gtk4-1) trixie; urgency=medium
+
+  * First release of Xournal# on GTK 4 and libadwaita (based on the Xournal++
+    GTK 4 port by Benjamin Hennion).
+  * libadwaita window, header bar and alert dialogs; accent colour for the page
+    border and selections; sidebar, zoom bar and colour palette in GNOME style.
+  * Own name, icon and settings; installs alongside the regular Xournal++.
+  * Fix PDF export of links with non-ASCII URLs.
+
+ -- Cyrill Valentini <noreply@users.noreply.github.com>  Fri, 27 Nov 2026 18:30:00 +0100

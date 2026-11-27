@@ -1,0 +1,16 @@
+# Build environment for the Xournal# .deb: Debian 13 "trixie" (GTK 4.18, libadwaita 1.7).
+# Packages built here also install on newer Debian/Ubuntu releases with GTK >= 4.14 and libadwaita >= 1.6
+# (Ubuntu 24.04 LTS is too old: libadwaita 1.5).
+# Used by make-deb.sh; the build dependencies come from debian/control.
+FROM docker.io/library/debian:trixie
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends build-essential devscripts equivs fakeroot git \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY debian/control /tmp/xournal-sharp-control
+RUN apt-get update \
+ && mk-build-deps --install --remove \
+        --tool "apt-get -y --no-install-recommends" /tmp/xournal-sharp-control \
+ && rm -rf /var/lib/apt/lists/* /tmp/xournal-sharp-control
