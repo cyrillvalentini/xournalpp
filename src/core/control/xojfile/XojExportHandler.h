@@ -33,6 +33,7 @@ protected:
      */
     void visitStrokeExtended(XmlPointNode* stroke, const Stroke* s) override;
     void writeHeader() override;
+    void writeFileVersion() override {}  ///< The .xoj version is set in writeHeader()
     void writeSolidBackground(XmlNode* background, ConstPageRef p) override;
     void writeAudio(XmlNode* node, const AudioContent& audio) override;
     void writeBackgroundName(XmlNode* background, ConstPageRef p) override;

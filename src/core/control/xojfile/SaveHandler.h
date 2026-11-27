@@ -65,6 +65,8 @@ protected:
     virtual void visitStrokeExtended(XmlPointNode* stroke, const Stroke* s);
 
     virtual void writeHeader();
+    /// Sets the file format version once all pages are written, see usesCurrentFormatFeatures
+    virtual void writeFileVersion();
     virtual void writeSolidBackground(XmlNode* background, ConstPageRef p);
     virtual void writeAudio(XmlNode* node, const AudioContent& audio);
     virtual void writeBackgroundName(XmlNode* background, ConstPageRef p);
@@ -72,6 +74,12 @@ protected:
 protected:
     std::unique_ptr<XmlNode> root{};
     bool firstPdfPageVisited;
+
+    /**
+     * Whether the document uses something that only file format version 5 can store (rotated images/text, links, text
+     * wrapping and alignment). Otherwise the file is saved as version 4, which Xournal++ 1.3 opens without warning.
+     */
+    bool usesCurrentFormatFeatures = false;
     int attachBgId;
 
     std::string errorMessage;
