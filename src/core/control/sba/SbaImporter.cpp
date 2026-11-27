@@ -711,6 +711,10 @@ void SbaImporter::readText(const bs::Array& ops, Layer* layer, double scale, dou
         pango_layout_set_text(layout.get(), line.c_str(), static_cast<int>(line.size()));
         const int wrappedLines = std::max(1, pango_layout_get_line_count(layout.get()));
         const double baseline = pango_layout_get_baseline(layout.get()) / static_cast<double>(PANGO_SCALE);
+        if (wrappedLines == 1) {
+            // Keep the wrap width only where it matters: text boxes without one can be stored in file format version 4
+            text->setWrap(Text::NO_WRAP);
+        }
 
         // Saber's line k (starting at TEXT_TOP) has its ruling line at FIRST_RULING_LINE + k
         const double ruling = (FIRST_RULING_LINE * lineHeight) * scale + static_cast<double>(visualLine) * lh;
