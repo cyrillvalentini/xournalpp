@@ -28,9 +28,6 @@ private:
     static void buttonCloseSearchClicked(GtkButton* button, SearchBar* searchBar);
     static void searchTextChangedCallback(GtkSearchEntry* entry, SearchBar* searchBar);
 
-    static void buttonNextSearchClicked(GtkButton* button, SearchBar* searchBar);
-    static void buttonPreviousSearchClicked(GtkButton* button, SearchBar* searchBar);
-
     /**
      * @brief Searches the entire document until a match is found, starting from `page = next(currentPage)` and
      * iterating through the pages via page = next(page). The search stops after the first page with at least one match.

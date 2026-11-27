@@ -15,7 +15,7 @@
 #include <functional>
 #include <memory>
 
-#include <gtk/gtk.h>  // for GtkComboBox, GtkWindow
+#include <gtk/gtk.h>  // for GtkDropDown, GtkWindow
 
 #include "gui/Builder.h"
 #include "util/raii/GtkWindowUPtr.h"

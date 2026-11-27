@@ -15,7 +15,7 @@
 #include <string>  // for string
 #include <vector>  // for vector
 
-#include <gtk/gtk.h>  // for GtkWidget, GtkComboBox, GtkWindow
+#include <gtk/gtk.h>  // for GtkWidget, GtkDropDown, GtkWindow
 
 #include "control/DeviceListHelper.h"  // for InputDevice
 #include "control/ToolEnums.h"         // for ToolSize

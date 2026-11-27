@@ -15,7 +15,7 @@
 #include <memory>  // for unique_ptr
 #include <vector>  // for vector
 
-#include <gtk/gtk.h>  // for gtk_paper_size_free, GtkComboBox, GtkToggl...
+#include <gtk/gtk.h>  // for gtk_paper_size_free, GtkDropDown, GtkToggl...
 
 #include "gui/Builder.h"
 #include "gui/PaperFormatUtils.h"  // for PaperFormatMenuOptionVector
