@@ -5,7 +5,6 @@
     <property name="title" translatable="1">About Xournal++</property>
     <property name="resizable">0</property>
     <property name="modal">1</property>
-    <property name="focus-widget">closebutton</property>
     <property name="destroy-with-parent">1</property>
     <property name="icon-name">dialog-information</property>
     <property name="child">
@@ -223,27 +222,6 @@ Henry Heino</property>
                   <property name="column">0</property>
                   <property name="row">3</property>
                 </layout>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="closebutton">
-            <property name="valign">center</property>
-            <property name="label" translatable="1">Close</property>
-            <property name="focusable">1</property>
-            <property name="receives-default">1</property>
-            <property name="halign">center</property>
-            <property name="margin-top">5</property>
-            <child>
-              <object class='GtkShortcutController'>
-                <property name='scope'>managed</property>
-                <child>
-                  <object class='GtkShortcut'>
-                    <property name='trigger'>Escape</property>
-                    <property name='action'>activate</property>
-                  </object>
-                </child>
               </object>
             </child>
           </object>

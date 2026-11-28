@@ -72,7 +72,12 @@ static GtkWindow* constructWindow(GladeSearchpath* gladeSearchPath) {
     gtk_box_append(GTK_BOX(builder.get("vboxLicense")),
                    gtk_link_button_new_with_label(LICENCE_LINK, _("GNU GPLv2 or later")));
 
-    g_signal_connect_swapped(GTK_BUTTON(builder.get("closebutton")), "clicked", G_CALLBACK(gtk_window_close), window);
+    // No close button (the title bar has one): Escape closes the dialog
+    GtkEventController* shortcuts = gtk_shortcut_controller_new();
+    gtk_shortcut_controller_add_shortcut(GTK_SHORTCUT_CONTROLLER(shortcuts),
+                                         gtk_shortcut_new(gtk_keyval_trigger_new(GDK_KEY_Escape, GdkModifierType(0)),
+                                                          gtk_named_action_new("window.close")));
+    gtk_widget_add_controller(GTK_WIDGET(window), shortcuts);
 
     return window;
 }
