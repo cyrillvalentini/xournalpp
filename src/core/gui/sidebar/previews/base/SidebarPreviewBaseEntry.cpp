@@ -95,8 +95,12 @@ void SidebarPreviewBaseEntry::ensureRendered() {
 
 auto SidebarPreviewBaseEntry::getWidget() const -> GtkWidget* { return this->button.get(); }
 
-void SidebarPreviewBaseEntry::setMiniature(xoj::util::WidgetSPtr child) {
+void SidebarPreviewBaseEntry::setMiniature(xoj::util::GObjectSPtr<GdkTexture> texture) {
     // This is called from the PreviewJob thread. Only call gtk functions from the main thread!
-    Util::execInUiThread(
-            [w = this->button, child = std::move(child)]() { gtk_button_set_child(GTK_BUTTON(w.get()), child.get()); });
+    Util::execInUiThread([w = this->button, texture = std::move(texture), width = this->imageWidth,
+                          height = this->imageHeight]() {
+        GtkWidget* pic = gtk_picture_new_for_paintable(GDK_PAINTABLE(texture.get()));
+        gtk_widget_set_size_request(pic, width, height);
+        gtk_button_set_child(GTK_BUTTON(w.get()), pic);
+    });
 }
