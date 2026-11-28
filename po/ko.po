@@ -4978,3 +4978,7 @@ msgstr "<i>열려 있는 모든 문서의 저장되지 않은 변경 내용은 �
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "초"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "이 문서에 저장되지 않은 변경 내용이 있습니다."

@@ -4985,3 +4985,7 @@ msgstr "<i>Neuložené změny každého otevřeného dokumentu se uchovávají j
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekund"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Tento dokument obsahuje neuložené změny."

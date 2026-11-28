@@ -4966,3 +4966,7 @@ msgstr "<i>每份開啟中文件的未儲存變更都會保留為草稿。程式
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "秒"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "此文件有未儲存的變更。"

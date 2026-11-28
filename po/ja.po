@@ -4978,3 +4978,7 @@ msgstr "<i>開いているすべてのドキュメントの未保存の変更は
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "秒"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "このドキュメントには未保存の変更があります。"

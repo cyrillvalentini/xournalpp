@@ -5067,3 +5067,7 @@ msgstr "<i>Irekitako dokumentu bakoitzaren gorde gabeko aldaketak zirriborro gis
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "segundo"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dokumentu honek gorde gabeko aldaketak ditu."

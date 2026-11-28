@@ -5075,3 +5075,7 @@ msgstr "<i>Les modifications non enregistrées de chaque document ouvert sont co
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "secondes"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ce document contient des modifications non enregistrées."

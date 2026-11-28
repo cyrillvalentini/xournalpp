@@ -4967,3 +4967,7 @@ msgstr "<i>Ikke-gemte ændringer i hvert åbent dokument gemmes som en kladde. E
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekunder"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dette dokument har ikke-gemte ændringer."

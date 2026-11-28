@@ -5008,3 +5008,7 @@ msgstr "<i>Niezapisane zmiany każdego otwartego dokumentu są przechowywane jak
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekund"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ten dokument zawiera niezapisane zmiany."

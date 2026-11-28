@@ -5069,3 +5069,7 @@ msgstr "<i>Minden megnyitott dokumentum mentetlen módosításai piszkozatként 
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "másodpercenként"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ez a dokumentum mentetlen módosításokat tartalmaz."

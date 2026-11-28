@@ -4953,3 +4953,7 @@ msgstr "<i>การเปลี่ยนแปลงที่ยังไม่
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "วินาที"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "เอกสารนี้มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก"

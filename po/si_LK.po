@@ -4949,3 +4949,7 @@ msgstr "<i>විවෘත සෑම ලේඛනයකම නොසුරකි
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "තත්පර"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "මෙම ලේඛනයේ නොසුරකින ලද වෙනස්කම් ඇත."

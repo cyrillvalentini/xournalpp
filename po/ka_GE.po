@@ -4954,3 +4954,7 @@ msgstr "<i>ყველა გახსნილი დოკუმენტი�
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "წამში"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "ამ დოკუმენტს აქვს შეუნახავი ცვლილებები."

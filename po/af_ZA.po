@@ -4964,3 +4964,7 @@ msgstr "<i>Ongestoorde veranderinge van elke oop dokument word as 'n konsep bewa
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekondes"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Hierdie dokument het ongestoorde veranderinge."

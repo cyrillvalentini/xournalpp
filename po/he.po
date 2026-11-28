@@ -4987,3 +4987,7 @@ msgstr "<i>שינויים שלא נשמרו בכל מסמך פתוח נשמרי�
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "שניות"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "במסמך זה יש שינויים שלא נשמרו."

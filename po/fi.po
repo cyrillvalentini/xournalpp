@@ -4951,3 +4951,7 @@ msgstr "<i>Jokaisen avoimen asiakirjan tallentamattomat muutokset säilytetään
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekunnin välein"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Tässä asiakirjassa on tallentamattomia muutoksia."

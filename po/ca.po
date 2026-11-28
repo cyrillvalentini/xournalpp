@@ -5070,3 +5070,7 @@ msgstr "<i>Els canvis no desats de cada document obert es conserven com a esborr
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "segons"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Aquest document té canvis sense desar."

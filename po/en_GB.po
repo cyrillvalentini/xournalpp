@@ -4949,3 +4949,7 @@ msgstr "<i>Unsaved changes of every open document are kept as a draft. After a c
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "seconds"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "This document has unsaved changes."

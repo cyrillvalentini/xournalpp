@@ -4993,3 +4993,7 @@ msgstr "<i>Osparade ändringar i varje öppet dokument sparas som ett utkast. Ef
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekunder"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Det här dokumentet har osparade ändringar."

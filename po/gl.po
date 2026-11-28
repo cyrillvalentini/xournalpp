@@ -4980,3 +4980,7 @@ msgstr "<i>Os cambios sen gardar de cada documento aberto consérvanse como borr
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "segundos"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Este documento ten cambios sen gardar."

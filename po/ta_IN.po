@@ -4949,3 +4949,7 @@ msgstr "<i>திறந்திருக்கும் ஒவ்வொரு �
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "விநாடிகள்"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "இந்த ஆவணத்தில் சேமிக்கப்படாத மாற்றங்கள் உள்ளன."

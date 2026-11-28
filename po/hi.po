@@ -4964,3 +4964,7 @@ msgstr "<i>हर खुले दस्तावेज़ के बिना �
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "सेकंड"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "इस दस्तावेज़ में बिना सहेजे गए बदलाव हैं।"

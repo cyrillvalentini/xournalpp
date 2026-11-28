@@ -4952,3 +4952,7 @@ msgstr "<i>Ulagrede endringer i hvert åpne dokument tas vare på som et utkast.
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekunder"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dette dokumentet har ulagrede endringer."

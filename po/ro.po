@@ -5071,3 +5071,7 @@ msgstr "<i>Modificările nesalvate ale fiecărui document deschis sunt păstrate
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "secunde"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Acest document are modificări nesalvate."

@@ -5015,3 +5015,7 @@ msgstr "<i>Neshranjene spremembe vsakega odprtega dokumenta se hranijo kot osnut
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekund"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ta dokument ima neshranjene spremembe."

@@ -5008,3 +5008,7 @@ msgstr "<i>Незбережені зміни кожного відкритого
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "секунд"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Цей документ містить незбережені зміни."

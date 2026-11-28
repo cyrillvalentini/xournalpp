@@ -4972,3 +4972,7 @@ msgstr "<i>Các thay đổi chưa lưu của mọi tài liệu đang mở đư�
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "giây"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Tài liệu này có thay đổi chưa được lưu."

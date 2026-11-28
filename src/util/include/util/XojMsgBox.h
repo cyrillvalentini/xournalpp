@@ -36,8 +36,10 @@ public:
      */
     static void setDefaultWindow(GtkWindow* win);
 
+    /// @param extraChild shown below the text (e.g. the file a question is about); the dialog takes ownership
     static void askQuestion(GtkWindow* win, const std::string& maintext, const std::string& secondarytext,
-                            const std::vector<Button>& buttons, xoj::util::move_only_function<void(int)> callback);
+                            const std::vector<Button>& buttons, xoj::util::move_only_function<void(int)> callback,
+                            GtkWidget* extraChild = nullptr);
     /**
      * @brief same as askQuestion() but the string maintext is not escaped for Pango markups
      */

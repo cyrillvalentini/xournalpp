@@ -4973,3 +4973,7 @@ msgstr "<i>Niet-opgeslagen wijzigingen van elk geopend document worden als conce
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "seconden"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dit document heeft niet-opgeslagen wijzigingen."

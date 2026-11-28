@@ -5031,3 +5031,7 @@ msgstr "<i>Açık her belgenin kaydedilmemiş değişiklikleri taslak olarak sak
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "saniye"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Bu belgede kaydedilmemiş değişiklikler var."

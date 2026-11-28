@@ -4979,3 +4979,7 @@ msgstr "<i>Nekonservitaj ŝanĝoj de ĉiu malfermita dokumento estas konservataj
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "sekundoj"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ĉi tiu dokumento havas nekonservitajn ŝanĝojn."

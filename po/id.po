@@ -4971,3 +4971,7 @@ msgstr "<i>Perubahan yang belum disimpan pada setiap dokumen yang terbuka disimp
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "detik"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dokumen ini memiliki perubahan yang belum disimpan."

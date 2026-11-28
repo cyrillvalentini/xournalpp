@@ -2361,8 +2361,10 @@ void Control::close(std::function<void(bool)> callback, const bool allowDestroy,
     if (!safeToClose) {
         fs::path path = doc->getFilepath();
         const bool fileRemoved = !path.empty() && !fs::exists(path);
-        const auto message = fileRemoved ? _("Document file was removed.") : _("This document is not saved yet.");
         const bool saveAs = fileRemoved || path.empty();
+        const auto message = fileRemoved      ? _("Document file was removed.") :
+                             path.empty()     ? _("This document is not saved yet.") :
+                                                _("This document has unsaved changes.");
         const auto saveLabel = saveAs ? _("Save As...") : _("Save");
 
         // Like GNOME's "Save Changes?" dialogs: a heading, the reason below it, and the buttons ordered
@@ -2374,6 +2376,31 @@ void Control::close(std::function<void(bool)> callback, const bool allowDestroy,
         }
         buttons.emplace_back(_("Discard"), DISCARD, XojMsgBox::Button::DESTRUCTIVE);
         buttons.emplace_back(saveLabel, SAVE, XojMsgBox::Button::SUGGESTED);
+        // Which document this is about, like GNOME Text Editor: its name as in the tab (its file, the PDF or Saber
+        // note it was opened from, or "Unsaved Document"), and the folder below it if it has a saved file of its own
+        GtkWidget* fileBox = gtk_list_box_new();
+        gtk_list_box_set_selection_mode(GTK_LIST_BOX(fileBox), GTK_SELECTION_NONE);
+        gtk_widget_add_css_class(fileBox, "boxed-list");
+        GtkWidget* row = adw_action_row_new();
+        adw_preferences_row_set_use_markup(ADW_PREFERENCES_ROW(row), false);
+        const fs::path shown = tabs ? tabs->getActiveDisplayPath() : path;
+        const std::string name =
+                shown.empty() ? std::string(_("Unsaved Document")) : std::string(char_cast(shown.filename().u8string()));
+        adw_preferences_row_set_title(ADW_PREFERENCES_ROW(row), name.c_str());
+        if (!saveAs) {
+            // The folder, with ~ for the home folder
+            std::string folder = char_cast(path.parent_path().u8string().c_str());
+            const std::string home = g_get_home_dir();
+            if (!home.empty() && folder.compare(0, home.size(), home) == 0 &&
+                (folder.size() == home.size() || folder[home.size()] == '/')) {
+                folder = "~" + folder.substr(home.size());
+            }
+            adw_action_row_set_subtitle(ADW_ACTION_ROW(row), folder.c_str());
+        }
+        // One line each, shortened with "…" if too long
+        adw_action_row_set_title_lines(ADW_ACTION_ROW(row), 1);
+        adw_action_row_set_subtitle_lines(ADW_ACTION_ROW(row), 1);
+        gtk_list_box_append(GTK_LIST_BOX(fileBox), row);
         XojMsgBox::askQuestion(getGtkWindow(), _("Save Changes?"), message, std::move(buttons),
                                [ctrl = this, saveAs, allowDestroy, callback = std::move(callback)](int response) {
                                    auto execAfter = [allowDestroy, ctrl, cb = std::move(callback)](bool saved) {
@@ -2388,7 +2415,8 @@ void Control::close(std::function<void(bool)> callback, const bool allowDestroy,
                                    }
                                    bool safeToClose = response == DISCARD;
                                    execAfter(safeToClose);
-                               });
+                               },
+                               fileBox);
     } else {
         if (allowDestroy) {
             this->closeDocument();

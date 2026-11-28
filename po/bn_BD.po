@@ -4949,3 +4949,7 @@ msgstr "<i>প্রতিটি খোলা নথির অসংরক্ষ
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "সেকেন্ড"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "এই নথিতে অসংরক্ষিত পরিবর্তন আছে।"

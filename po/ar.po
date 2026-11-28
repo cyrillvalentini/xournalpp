@@ -5022,3 +5022,7 @@ msgstr "<i>تُحفظ التغييرات غير المحفوظة لكل مستن
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "ثانية"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "يحتوي هذا المستند على تغييرات غير محفوظة."

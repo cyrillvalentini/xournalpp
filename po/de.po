@@ -5077,3 +5077,7 @@ msgstr "<i>Ungespeicherte Änderungen jedes geöffneten Dokuments werden als Ent
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "Sekunden"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dieses Dokument enthält ungespeicherte Änderungen."

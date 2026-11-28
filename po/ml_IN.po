@@ -4964,3 +4964,7 @@ msgstr "<i>തുറന്നിരിക്കുന്ന ഓരോ പ്ര�
 #. Xournal# (autosave)
 msgid "seconds"
 msgstr "സെക്കൻഡ്"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "ഈ പ്രമാണത്തിൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്."
