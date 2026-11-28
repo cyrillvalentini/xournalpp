@@ -5054,3 +5054,11 @@ msgstr "La nota s'ha exportat per a Saber. Part del contingut no s'ha pogut conv
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Notes de Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Document nou"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tanca la pestanya"

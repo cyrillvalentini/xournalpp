@@ -4937,3 +4937,11 @@ msgstr "ส่งออกโน้ตสำหรับ Saber แล้ว เ�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "โน้ต Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "เอกสารใหม่"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "ปิดแท็บ"

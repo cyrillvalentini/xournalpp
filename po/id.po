@@ -4955,3 +4955,11 @@ msgstr "Catatan telah diekspor untuk Saber. Beberapa konten tidak dapat dikonver
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Catatan Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Dokumen Baru"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tutup Tab"

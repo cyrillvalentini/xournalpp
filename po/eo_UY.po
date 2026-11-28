@@ -4963,3 +4963,11 @@ msgstr "La noto estis eksportita por Saber. Iu enhavo ne povis esti konvertita p
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-notoj"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nova dokumento"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Fermi langeton"

@@ -4962,3 +4962,11 @@ msgstr "ノートを Saber 用にエクスポートしました。一部の内�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber ノート"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "新規ドキュメント"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "タブを閉じる"

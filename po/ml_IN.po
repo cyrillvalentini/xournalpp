@@ -4948,3 +4948,11 @@ msgstr "കുറിപ്പ് Saber-നായി എക്സ്പോർട�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber കുറിപ്പുകൾ"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "പുതിയ പ്രമാണം"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "ടാബ് അടയ്ക്കുക"

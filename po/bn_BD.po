@@ -4933,3 +4933,11 @@ msgstr "নোটটি Saber-এর জন্য রপ্তানি কর�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber নোট"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "নতুন নথি"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "ট্যাব বন্ধ করুন"

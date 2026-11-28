@@ -4935,3 +4935,11 @@ msgstr "Muistiinpano vietiin Saberia varten. Osaa sisällöstä ei voitu muuntaa
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-muistiinpanot"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Uusi asiakirja"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Sulje välilehti"

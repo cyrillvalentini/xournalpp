@@ -4950,3 +4950,11 @@ msgstr "筆記已匯出為 Saber 格式。部分內容無法精確轉換："
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber 筆記"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "新增文件"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "關閉分頁"

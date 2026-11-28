@@ -4933,3 +4933,11 @@ msgstr "The note was exported for Saber. Some content could not be converted exa
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber notes"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "New Document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Close Tab"

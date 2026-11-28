@@ -4948,3 +4948,11 @@ msgstr "Die nota is vir Saber uitgevoer. Sommige inhoud kon nie presies omgeskak
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-notas"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nuwe dokument"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Sluit oortjie"

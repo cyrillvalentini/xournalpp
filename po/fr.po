@@ -5059,3 +5059,11 @@ msgstr "La note a été exportée pour Saber. Certains contenus n'ont pas pu êt
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Notes Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nouveau document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Fermer l'onglet"

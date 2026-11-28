@@ -4933,3 +4933,11 @@ msgstr "සටහන Saber සඳහා අපනයනය කරන ලදී. 
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber සටහන්"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "නව ලේඛනය"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "පටිත්ත වසන්න"

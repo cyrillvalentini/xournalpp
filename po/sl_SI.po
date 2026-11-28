@@ -4999,3 +4999,11 @@ msgstr "Zapisek je bil izvožen za Saber. Nekaj vsebine ni bilo mogoče natančn
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Zapiski Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nov dokument"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Zapri zavihek"

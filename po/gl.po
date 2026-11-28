@@ -4964,3 +4964,11 @@ msgstr "A nota exportouse para Saber. Parte do contido non se puido converter ex
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Notas de Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Documento novo"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Pechar a lapela"

@@ -4971,3 +4971,11 @@ msgstr "הפתק יוצא עבור Saber. לא ניתן היה להמיר חלק
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "פתקי Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "מסמך חדש"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "סגירת לשונית"

@@ -4933,3 +4933,11 @@ msgstr "குறிப்பு Saber க்காக ஏற்றுமதி 
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber குறிப்புகள்"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "புதிய ஆவணம்"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "தாவலை மூடு"

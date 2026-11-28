@@ -4957,3 +4957,11 @@ msgstr "De notitie is voor Saber geëxporteerd. Sommige inhoud kon niet exact wo
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-notities"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nieuw document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tabblad sluiten"

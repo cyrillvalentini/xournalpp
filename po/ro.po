@@ -5055,3 +5055,11 @@ msgstr "Nota a fost exportată pentru Saber. O parte din conținut nu a putut fi
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Note Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Document nou"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Închide fila"

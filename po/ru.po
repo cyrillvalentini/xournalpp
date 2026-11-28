@@ -5056,3 +5056,11 @@ msgstr "Заметка экспортирована для Saber. Часть с�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Заметки Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Новый документ"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Закрыть вкладку"

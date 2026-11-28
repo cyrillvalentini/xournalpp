@@ -4956,3 +4956,11 @@ msgstr "Đã xuất ghi chú cho Saber. Một số nội dung không thể chuy�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Ghi chú Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Tài liệu mới"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Đóng thẻ"

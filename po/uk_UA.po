@@ -4992,3 +4992,11 @@ msgstr "Нотатку експортовано для Saber. Частину в�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Нотатки Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Новий документ"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Закрити вкладку"

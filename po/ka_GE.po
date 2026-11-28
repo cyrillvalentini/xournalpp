@@ -4938,3 +4938,11 @@ msgstr "ჩანაწერი გატანილია Saber-ისთვ�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-ის ჩანაწერები"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "ახალი დოკუმენტი"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "ჩანართის დახურვა"

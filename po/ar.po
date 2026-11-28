@@ -5006,3 +5006,11 @@ msgstr "صُدّرت الملاحظة إلى Saber. تعذّر تحويل بعض
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "ملاحظات Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "مستند جديد"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "إغلاق اللسان"

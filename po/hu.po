@@ -5053,3 +5053,11 @@ msgstr "A jegyzet exportálva a Saber számára. Néhány tartalmat nem sikerül
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-jegyzetek"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Új dokumentum"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Lap bezárása"

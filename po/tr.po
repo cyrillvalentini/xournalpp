@@ -5015,3 +5015,11 @@ msgstr "Not Saber için dışa aktarıldı. Bazı içerikler tam olarak dönüş
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber notları"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Yeni Belge"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Sekmeyi Kapat"

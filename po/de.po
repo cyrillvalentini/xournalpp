@@ -5061,3 +5061,11 @@ msgstr "Die Notiz wurde für Saber exportiert. Einige Inhalte konnten nicht gena
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-Notizen"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Neues Dokument"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tab schließen"

@@ -4948,3 +4948,11 @@ msgstr "नोट Saber के लिए निर्यात किया ग�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber नोट्स"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "नया दस्तावेज़"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "टैब बंद करें"

@@ -5051,3 +5051,11 @@ msgstr "Oharra Saber-erako esportatu da. Eduki batzuk ezin izan dira zehazki bih
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber oharrak"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Dokumentu berria"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Itxi fitxa"

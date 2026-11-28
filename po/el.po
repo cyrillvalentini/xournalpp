@@ -4962,3 +4962,11 @@ msgstr "Η σημείωση εξήχθη για το Saber. Ορισμένο π�
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Σημειώσεις Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Νέο έγγραφο"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Κλείσιμο καρτέλας"
