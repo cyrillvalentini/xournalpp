@@ -4959,3 +4959,11 @@ msgstr "Nyt dokument"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "Luk faneblad"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Ikke-gemte ændringer i hvert åbent dokument gemmes som en kladde. Efter et nedbrud åbnes dokumenterne igen med deres ændringer.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "sekunder"

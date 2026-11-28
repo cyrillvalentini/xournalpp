@@ -39,14 +39,11 @@ struct DocumentTabs::Tab {
     fs::path source;
     bool changed = false;
 
-    /// For a document without a file of its own (new, or imported): the draft that keeps it safe in a crash, and the
-    /// undo revision it was last written at (see saveActiveDraft)
+    /// While the document has unsaved changes: the draft that keeps them safe in a crash, and the undo revision it was
+    /// last written at (see saveActiveDraft)
     fs::path draft;
     uint64_t draftRevision = 0;
 };
-
-/// Seconds between the checks whether the active document's draft needs writing
-constexpr guint DRAFT_INTERVAL = 5;
 
 static fs::path draftFolder() { return Util::getDataSubfolder("drafts"); }
 
@@ -84,14 +81,23 @@ void DocumentTabs::attach(AdwTabBar* bar, AdwTabView* view) {
     appendTab(std::move(tab), nullptr);
     active = tabs.front().get();
     updateActiveTab();
+}
 
-    draftTimer = g_timeout_add_seconds(
-            DRAFT_INTERVAL,
-            +[](gpointer self) -> gboolean {
-                static_cast<DocumentTabs*>(self)->saveActiveDraft();
-                return G_SOURCE_CONTINUE;
-            },
-            this);
+void DocumentTabs::configureDrafts(bool enabled, int seconds) {
+    if (draftTimer) {
+        g_source_remove(draftTimer);
+        draftTimer = 0;
+    }
+    draftsEnabled = enabled;
+    if (enabled) {
+        draftTimer = g_timeout_add_seconds(
+                static_cast<guint>(std::max(1, seconds)),
+                +[](gpointer self) -> gboolean {
+                    static_cast<DocumentTabs*>(self)->saveActiveDraft();
+                    return G_SOURCE_CONTINUE;
+                },
+                this);
+    }
 }
 
 void DocumentTabs::deleteDraft(Tab* tab) {
@@ -110,17 +116,14 @@ void DocumentTabs::deleteDraft(Tab* tab) {
 
 void DocumentTabs::saveActiveDraft() {
     Tab* tab = active;
-    if (!tab || tab->stashed || sessionFrozen || restoring) {
+    if (!tab || tab->stashed || sessionFrozen || restoring || !draftsEnabled) {
         return;
     }
     Document* doc = control->doc;
-    doc->lock_shared();
-    const bool ownFile = !doc->getFilepath().empty();
-    doc->unlock_shared();
     UndoRedoHandler* undo = control->undoRedo;
 
-    if (ownFile || !undo->isChanged()) {
-        // Saved under its own name, or back to the opened state: no draft needed
+    if (!undo->isChanged()) {
+        // Saved, or back to the opened state: no draft needed
         if (!tab->draft.empty()) {
             deleteDraft(tab);
             saveSession();
@@ -389,8 +392,9 @@ void DocumentTabs::updateTab(Tab* tab, const Document& doc, bool changed) {
     adw_tab_page_set_tooltip(tab->page, tooltip.c_str());
 
     if (fileChanged) {
-        // Opened, or saved under a new name: a draft is not needed anymore
-        if (!tab->filepath.empty()) {
+        // Saved under a new name: the draft is not needed anymore (a restored draft that gets its own file back keeps
+        // its draft, as it still has unsaved changes)
+        if (!tab->filepath.empty() && !changed) {
             deleteDraft(tab);
         }
         saveSession();
@@ -555,7 +559,8 @@ void DocumentTabs::saveSession() {
     }
     updateActiveTab();
     std::vector<std::string> files;
-    std::vector<std::string> sources;  ///< for drafts: the file they were opened from (names the tab)
+    std::vector<std::string> sources;    ///< for drafts: the file they were opened from (names the tab)
+    std::vector<std::string> originals;  ///< for drafts: the document's own file, if it has one
     std::vector<gboolean> drafts;
     std::vector<gint> pages;
     gint activeIndex = 0;
@@ -565,9 +570,9 @@ void DocumentTabs::saveSession() {
         if (!t) {
             continue;
         }
-        // Its own file; else its draft (unsaved changes); else the file it was opened from (a PDF, a Saber note...)
-        const bool isDraft = t->filepath.empty() && !t->draft.empty();
-        const fs::path& file = !t->filepath.empty() ? t->filepath : isDraft ? t->draft : t->source;
+        // Its draft (unsaved changes); else its own file; else the file it was opened from (a PDF, a Saber note...)
+        const bool isDraft = !t->draft.empty();
+        const fs::path& file = isDraft ? t->draft : !t->filepath.empty() ? t->filepath : t->source;
         if (file.empty()) {
             continue;  // a new document, never changed
         }
@@ -576,6 +581,7 @@ void DocumentTabs::saveSession() {
         }
         files.emplace_back(char_cast(file.u8string()));
         sources.emplace_back(isDraft ? char_cast(t->source.u8string()) : "");
+        originals.emplace_back(isDraft ? char_cast(t->filepath.u8string()) : "");
         drafts.push_back(isDraft);
         pages.push_back(static_cast<gint>(t == active ? control->getCurrentPageNo() : t->pageNo));
     }
@@ -591,6 +597,11 @@ void DocumentTabs::saveSession() {
         sourceList.push_back(s.c_str());
     }
     g_key_file_set_string_list(kf, SESSION_GROUP, "sources", sourceList.data(), sourceList.size());
+    std::vector<const gchar*> originalList;
+    for (const auto& s: originals) {
+        originalList.push_back(s.c_str());
+    }
+    g_key_file_set_string_list(kf, SESSION_GROUP, "originals", originalList.data(), originalList.size());
     g_key_file_set_boolean_list(kf, SESSION_GROUP, "drafts", drafts.data(), drafts.size());
     g_key_file_set_integer_list(kf, SESSION_GROUP, "pages", pages.data(), pages.size());
     g_key_file_set_integer(kf, SESSION_GROUP, "active", activeIndex);
@@ -633,7 +644,7 @@ void DocumentTabs::restoreSession(Session session, std::function<void()> done) {
                 entry.file,
                 [step, self, entry](bool ok) {
                     if (ok && entry.draft) {
-                        self->adoptRestoredDraft(entry.file, entry.source);
+                        self->adoptRestoredDraft(entry.file, entry.source, entry.original);
                     }
                     // After the idle callbacks of the loading (e.g. scrolling to the page)
                     Util::execWhenIdle([step]() {
@@ -649,11 +660,12 @@ void DocumentTabs::restoreSession(Session session, std::function<void()> done) {
 
 void DocumentTabs::freezeSession() { sessionFrozen = true; }
 
-void DocumentTabs::adoptRestoredDraft(const fs::path& draft, const fs::path& source) {
-    // The draft was opened like a normal file: make it the unsaved document it was before the crash again
+void DocumentTabs::adoptRestoredDraft(const fs::path& draft, const fs::path& source, const fs::path& original) {
+    // The draft was opened like a normal file: make it the document with unsaved changes it was before the crash
+    // again (with its own file, if it had one, so that saving writes there)
     Document* doc = control->doc;
     doc->lock();
-    doc->setFilepath("");
+    doc->setFilepath(original);
     doc->unlock();
     RecentManager::removeRecentFileFilename(draft);
     active->source = source;
@@ -678,6 +690,8 @@ auto DocumentTabs::loadSession() -> Session {
     const gint active = g_key_file_get_integer(kf, SESSION_GROUP, "active", nullptr);
     gsize nSources = 0;
     gchar** sources = g_key_file_get_string_list(kf, SESSION_GROUP, "sources", &nSources, nullptr);
+    gsize nOriginals = 0;
+    gchar** originals = g_key_file_get_string_list(kf, SESSION_GROUP, "originals", &nOriginals, nullptr);
     gsize nDrafts = 0;
     gboolean* drafts = g_key_file_get_boolean_list(kf, SESSION_GROUP, "drafts", &nDrafts, nullptr);
 
@@ -696,9 +710,13 @@ auto DocumentTabs::loadSession() -> Session {
         if (e.draft && sources && i < nSources && sources[i][0]) {
             e.source = fs::path(std::u8string(reinterpret_cast<const char8_t*>(sources[i])));
         }
+        if (e.draft && originals && i < nOriginals && originals[i][0]) {
+            e.original = fs::path(std::u8string(reinterpret_cast<const char8_t*>(originals[i])));
+        }
         session.entries.push_back(std::move(e));
     }
     g_strfreev(sources);
+    g_strfreev(originals);
     g_free(drafts);
     if (session.active >= session.entries.size()) {
         session.active = session.entries.empty() ? 0 : session.entries.size() - 1;

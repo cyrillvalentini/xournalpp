@@ -4943,3 +4943,11 @@ msgstr "Uusi asiakirja"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "Sulje välilehti"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Jokaisen avoimen asiakirjan tallentamattomat muutokset säilytetään luonnoksena. Kaatumisen jälkeen asiakirjat avautuvat uudelleen muutoksineen.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "sekunnin välein"

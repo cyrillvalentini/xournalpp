@@ -88,6 +88,7 @@ public:
             size_t page = 0;
             bool draft = false;  ///< file is the draft of a document that was never saved (after a crash)
             fs::path source;     ///< for a draft: the file the document was opened from, if any
+            fs::path original;   ///< for a draft: the document's own file, if it had one
         };
         std::vector<Entry> entries;
         size_t active = 0;  ///< index in entries
@@ -105,6 +106,9 @@ public:
 
     /// Deletes the drafts of all tabs (when the window closes, after every document was saved or discarded)
     void discardAllDrafts();
+
+    /// Drafts on or off, and how often (in seconds) the active document's draft is written: the autosave setting
+    void configureDrafts(bool enabled, int seconds);
     /// The session saved last time, without the files that do not exist anymore
     static Session loadSession();
     /**
@@ -132,14 +136,14 @@ private:
     void updateTab(Tab* tab, const Document& doc, bool changed);
 
     /**
-     * Drafts: a document without a file of its own (new, or imported from a PDF or Saber note) is written to a draft
-     * in the data folder while it has unsaved changes, so that it survives a crash. The draft is deleted when the
-     * document is saved under its own name, or closed.
+     * Drafts (the autosave): while a document has unsaved changes, they are written to a draft in the data folder, so
+     * that they survive a crash; after a crash, the documents open again with their changes. The draft is deleted
+     * when the document is saved, or closed.
      */
     void saveActiveDraft();
     void deleteDraft(Tab* tab);
     /// After a crash: turns the opened draft back into the unsaved document it was
-    void adoptRestoredDraft(const fs::path& draft, const fs::path& source);
+    void adoptRestoredDraft(const fs::path& draft, const fs::path& source, const fs::path& original);
     void updateBarVisibility();
 
     static void onSelectedPageChanged(AdwTabView* view, GParamSpec*, DocumentTabs* self);
@@ -163,4 +167,5 @@ private:
     /// See freezeSession(); also set while a closing tab's document is cleared
     bool sessionFrozen = false;
     guint draftTimer = 0;
+    bool draftsEnabled = true;
 };

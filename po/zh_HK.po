@@ -4958,3 +4958,11 @@ msgstr "新增文件"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "關閉分頁"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>每份開啟中文件的未儲存變更都會保留為草稿。程式當機後，文件會連同其變更重新開啟。</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "秒"

@@ -191,10 +191,10 @@
   </object>
   <object class="GtkAdjustment" id="adjustmentTimeout">
     <property name="lower">1</property>
-    <property name="upper">100</property>
-    <property name="value">1</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
+    <property name="upper">3600</property>
+    <property name="value">10</property>
+    <property name="step-increment">5</property>
+    <property name="page-increment">60</property>
   </object>
   <object class="GtkAdjustment" id="adjustmentTouchTImeout">
     <property name="lower">0.5</property>
@@ -297,8 +297,7 @@
                                         <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkLabel" id="label28">
-                                            <property name="label" translatable="1">&lt;i&gt;If the document already was saved you can find it in the same folder with the extension .autosave.xopp
-If the file was not yet saved you can find it in ~/.cache/xournalpp/autosaves&lt;/i&gt;</property>
+                                            <property name="label" translatable="1">&lt;i&gt;Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.&lt;/i&gt;</property>
                                             <property name="use-markup">1</property>
                                             <property name="wrap">1</property>
                                             <property name="max-width-chars">85</property>
@@ -333,7 +332,7 @@ If the file was not yet saved you can find it in ~/.cache/xournalpp/autosaves&lt
                                                 <child>
                                                   <object class="GtkLabel" id="lbAutosaveTimeout2">
                                                     <property name="name">lbAutosaveTimeout2</property>
-                                                    <property name="label" translatable="1">minutes</property>
+                                                    <property name="label" translatable="1">seconds</property>
                                                   </object>
                                                 </child>
                                               </object>

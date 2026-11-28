@@ -4970,3 +4970,11 @@ msgstr "새 문서"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "탭 닫기"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>열려 있는 모든 문서의 저장되지 않은 변경 내용은 임시 저장본으로 보관됩니다. 충돌 후에는 문서가 변경 내용과 함께 다시 열립니다.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "초"

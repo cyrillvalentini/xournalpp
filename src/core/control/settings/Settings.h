@@ -291,6 +291,7 @@ public:
     bool isAttachBackgroundFiles() const;
     void setAttachBackgroundFiles(bool attach);
 
+    /// The interval of the autosave (drafts of the documents with unsaved changes), in seconds
     int getAutosaveTimeout() const;
     void setAutosaveTimeout(int autosave);
     bool isAutosaveEnabled() const;
@@ -944,7 +945,8 @@ private:
     /**
      * Automatically save documents for crash recovery each x minutes
      */
-    int autosaveTimeout{};
+    int autosaveTimeout{};  ///< seconds
+    bool autosaveTimeoutInSeconds = false;  ///< set when the setting was read in seconds (not the old minutes)
 
     /**
      *  Enable automatic save

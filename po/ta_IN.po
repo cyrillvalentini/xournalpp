@@ -4941,3 +4941,11 @@ msgstr "புதிய ஆவணம்"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "தாவலை மூடு"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>திறந்திருக்கும் ஒவ்வொரு ஆவணத்தின் சேமிக்கப்படாத மாற்றங்களும் வரைவாக வைக்கப்படுகின்றன. செயலிழப்புக்குப் பிறகு ஆவணங்கள் அவற்றின் மாற்றங்களுடன் மீண்டும் திறக்கும்.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "விநாடிகள்"

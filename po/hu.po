@@ -5061,3 +5061,11 @@ msgstr "Új dokumentum"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "Lap bezárása"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Minden megnyitott dokumentum mentetlen módosításai piszkozatként megmaradnak. Összeomlás után a dokumentumok a módosításaikkal együtt újra megnyílnak.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "másodpercenként"

@@ -364,8 +364,14 @@ void Control::enableAutosave(bool enable) {
         this->autosaveTimeout = 0;
     }
 
+    if (tabs) {
+        // With tabs, the drafts are the autosave: they cover every tab, not only the active document, and open again
+        // by themselves after a crash
+        tabs->configureDrafts(enable, settings->getAutosaveTimeout());
+        return;
+    }
     if (enable) {
-        auto timeout = guint(settings->getAutosaveTimeout()) * 60U;
+        auto timeout = guint(std::max(1, settings->getAutosaveTimeout()));
         this->autosaveTimeout = g_timeout_add_seconds(timeout, xoj::util::wrap_v<autosaveCallback>, this);
     }
 }

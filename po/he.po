@@ -4979,3 +4979,11 @@ msgstr "מסמך חדש"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "סגירת לשונית"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>שינויים שלא נשמרו בכל מסמך פתוח נשמרים כטיוטה. לאחר קריסה, המסמכים נפתחים שוב עם השינויים שלהם.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "שניות"

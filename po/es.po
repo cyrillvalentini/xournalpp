@@ -5060,3 +5060,11 @@ msgstr "Documento nuevo"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "Cerrar pestaña"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Los cambios sin guardar de cada documento abierto se conservan como borrador. Tras un fallo, los documentos se vuelven a abrir con sus cambios.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "segundos"

@@ -4941,3 +4941,11 @@ msgstr "নতুন নথি"
 #. Xournal# (tabs)
 msgid "Close Tab"
 msgstr "ট্যাব বন্ধ করুন"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>প্রতিটি খোলা নথির অসংরক্ষিত পরিবর্তন খসড়া হিসেবে রাখা হয়। ক্র্যাশের পরে নথিগুলো তাদের পরিবর্তনসহ আবার খোলে।</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "সেকেন্ড"
