@@ -4951,3 +4951,23 @@ msgstr "Noten blev eksporteret til Saber. Noget indhold kunne ikke konverteres p
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-noter"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nyt dokument"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Luk faneblad"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Ikke-gemte ændringer i hvert åbent dokument gemmes som en kladde. Efter et nedbrud åbnes dokumenterne igen med deres ændringer.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "sekunder"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dette dokument har ikke-gemte ændringer."

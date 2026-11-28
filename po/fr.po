@@ -5059,3 +5059,23 @@ msgstr "La note a été exportée pour Saber. Certains contenus n'ont pas pu êt
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Notes Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nouveau document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Fermer l'onglet"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Les modifications non enregistrées de chaque document ouvert sont conservées comme brouillon. Après un plantage, les documents se rouvrent avec leurs modifications.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "secondes"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ce document contient des modifications non enregistrées."

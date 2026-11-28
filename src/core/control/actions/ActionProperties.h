@@ -15,6 +15,7 @@
 #include "control/ToolEnums.h"
 #include "control/UndoRedoController.h"
 #include "control/layer/LayerController.h"
+#include "control/tabs/DocumentTabs.h"
 #include "control/settings/Settings.h"
 #include "control/zoom/ZoomControl.h"
 #include "enums/Action.enum.h"
@@ -119,6 +120,25 @@ struct ActionProperties<Action::EXPORT_AS> {
 template <>
 struct ActionProperties<Action::PRINT> {
     static void callback(GSimpleAction*, GVariant*, Control* ctrl) { ctrl->print(); }
+};
+template <>
+struct ActionProperties<Action::CLOSE_TAB> {
+#ifdef __APPLE__
+    static constexpr const char* accelerators[] = {"<Meta>W", nullptr};
+#else
+    static constexpr const char* accelerators[] = {"<Ctrl>W", nullptr};
+#endif
+    static void callback(GSimpleAction*, GVariant*, Control* ctrl) { ctrl->getTabs()->closeActiveTab(); }
+};
+template <>
+struct ActionProperties<Action::NEXT_TAB> {
+    static constexpr const char* accelerators[] = {"<Ctrl>Tab", nullptr};
+    static void callback(GSimpleAction*, GVariant*, Control* ctrl) { ctrl->getTabs()->selectNextTab(); }
+};
+template <>
+struct ActionProperties<Action::PREVIOUS_TAB> {
+    static constexpr const char* accelerators[] = {"<Ctrl><Shift>Tab", "<Ctrl><Shift>ISO_Left_Tab", "<Ctrl>ISO_Left_Tab", nullptr};
+    static void callback(GSimpleAction*, GVariant*, Control* ctrl) { ctrl->getTabs()->selectPreviousTab(); }
 };
 template <>
 struct ActionProperties<Action::QUIT> {

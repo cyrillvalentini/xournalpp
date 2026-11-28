@@ -5006,3 +5006,23 @@ msgstr "صُدّرت الملاحظة إلى Saber. تعذّر تحويل بعض
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "ملاحظات Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "مستند جديد"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "إغلاق اللسان"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>تُحفظ التغييرات غير المحفوظة لكل مستند مفتوح كمسودة. بعد حدوث انهيار، تُفتح المستندات مرة أخرى مع تغييراتها.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "ثانية"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "يحتوي هذا المستند على تغييرات غير محفوظة."

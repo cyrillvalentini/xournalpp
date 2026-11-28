@@ -244,7 +244,9 @@ void MainWindow::initXournalWidget() {
 
     setGtkTouchscreenScrollingForDeviceMapping();
 
-    gtk_paned_set_end_child(GTK_PANED(this->panedContainerWidget.get()), this->winXournal);
+    // At the top of the document column (above its search bar and bottom toolbars), next to the sidebar
+    gtk_widget_set_vexpand(this->winXournal, true);
+    gtk_box_prepend(GTK_BOX(get("documentColumn")), this->winXournal);
 
     scrollHandling = std::make_unique<ScrollHandling>(GTK_SCROLLED_WINDOW(winXournal));
 

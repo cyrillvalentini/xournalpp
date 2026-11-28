@@ -5057,3 +5057,23 @@ msgstr "筆記已匯出為 Saber 格式。部分內容無法精確轉換："
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber 筆記"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "新增文件"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "關閉分頁"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>每份開啟中文件的未儲存變更都會保留為草稿。程式當機後，文件會連同其變更重新開啟。</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "秒"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "此文件有未儲存的變更。"

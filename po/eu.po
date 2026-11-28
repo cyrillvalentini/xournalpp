@@ -5051,3 +5051,23 @@ msgstr "Oharra Saber-erako esportatu da. Eduki batzuk ezin izan dira zehazki bih
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber oharrak"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Dokumentu berria"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Itxi fitxa"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Irekitako dokumentu bakoitzaren gorde gabeko aldaketak zirriborro gisa gordetzen dira. Huts egin ondoren, dokumentuak berriro irekitzen dira beren aldaketekin.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "segundo"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dokumentu honek gorde gabeko aldaketak ditu."

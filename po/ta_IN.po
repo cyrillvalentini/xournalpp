@@ -4933,3 +4933,23 @@ msgstr "குறிப்பு Saber க்காக ஏற்றுமதி 
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber குறிப்புகள்"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "புதிய ஆவணம்"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "தாவலை மூடு"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>திறந்திருக்கும் ஒவ்வொரு ஆவணத்தின் சேமிக்கப்படாத மாற்றங்களும் வரைவாக வைக்கப்படுகின்றன. செயலிழப்புக்குப் பிறகு ஆவணங்கள் அவற்றின் மாற்றங்களுடன் மீண்டும் திறக்கும்.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "விநாடிகள்"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "இந்த ஆவணத்தில் சேமிக்கப்படாத மாற்றங்கள் உள்ளன."

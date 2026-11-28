@@ -135,7 +135,7 @@ void Settings::loadDefault() {
     this->disableAudio = false;
 
     // Set this for autosave frequency in minutes.
-    this->autosaveTimeout = 3;
+    this->autosaveTimeout = 10;  // seconds
     this->autosaveEnabled = true;
 
     this->addHorizontalSpace = false;
@@ -545,8 +545,20 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
         this->audioFolder = fs::path(xoj::util::utf8(value));
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("autosaveEnabled")) == 0) {
         this->autosaveEnabled = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
+    } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("autosaveTimeoutSeconds")) == 0) {
+        this->autosaveTimeout = std::max(1, static_cast<int>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10)));
+        this->autosaveTimeoutInSeconds = true;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("autosaveTimeout")) == 0) {
-        this->autosaveTimeout = g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10);
+        // Minutes: the setting of Xournal++ (and of Xournal# before the interval was in seconds)
+        if (!this->autosaveTimeoutInSeconds) {
+            const int minutes =
+                    std::max(1, static_cast<int>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10)));
+            // 3 minutes was the default: probably never changed, so take the new default instead
+            constexpr int OLD_DEFAULT_MINUTES = 3;
+            if (minutes != OLD_DEFAULT_MINUTES) {
+                this->autosaveTimeout = minutes * 60;
+            }
+        }
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("defaultViewModeAttributes")) == 0) {
         this->viewModes.at(PresetViewModeIds::VIEW_MODE_DEFAULT) =
                 settingsStringToViewMode(reinterpret_cast<const char*>(value));
@@ -1135,7 +1147,9 @@ void Settings::save() {
                  root);
 
     SAVE_BOOL_PROP(autosaveEnabled);
-    SAVE_INT_PROP(autosaveTimeout);
+    xmlNode = saveProperty("autosaveTimeoutSeconds", autosaveTimeout, root);
+    // Also in minutes, for Xournal++ reading the same settings
+    xmlNode = saveProperty("autosaveTimeout", std::max(1, autosaveTimeout / 60), root);
 
     SAVE_BOOL_PROP(addHorizontalSpace);
     SAVE_INT_PROP(addHorizontalSpaceAmountRight);

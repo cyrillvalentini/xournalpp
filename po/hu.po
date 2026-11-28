@@ -5053,3 +5053,23 @@ msgstr "A jegyzet exportálva a Saber számára. Néhány tartalmat nem sikerül
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-jegyzetek"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Új dokumentum"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Lap bezárása"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Minden megnyitott dokumentum mentetlen módosításai piszkozatként megmaradnak. Összeomlás után a dokumentumok a módosításaikkal együtt újra megnyílnak.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "másodpercenként"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ez a dokumentum mentetlen módosításokat tartalmaz."

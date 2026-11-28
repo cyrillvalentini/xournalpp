@@ -208,6 +208,7 @@ void ToolMenuHandler::load(const ToolbarData* d, ToolbarBox& toolbar) {
         }
     }
 
+    toolbar.alignArrowColumns();
     gtk_widget_set_visible(toolbar.getWidget(), count != 0);
 }
 

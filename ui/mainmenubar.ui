@@ -51,6 +51,11 @@
      <attribute name="accel">&lt;Ctrl&gt;p</attribute>
     </item>
     <item>
+     <attribute name="label" translatable="yes">Close Tab</attribute>
+     <attribute name="action">win.close-tab</attribute>
+     <attribute name="accel">&lt;Ctrl&gt;w</attribute>
+    </item>
+    <item>
      <attribute name="label" translatable="yes">Quit</attribute>
      <attribute name="action">app.quit</attribute>
      <attribute name="hidden-when">macos-menubar</attribute>

@@ -4955,3 +4955,23 @@ msgstr "Catatan telah diekspor untuk Saber. Beberapa konten tidak dapat dikonver
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Catatan Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Dokumen Baru"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tutup Tab"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Perubahan yang belum disimpan pada setiap dokumen yang terbuka disimpan sebagai draf. Setelah crash, dokumen dibuka kembali beserta perubahannya.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "detik"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dokumen ini memiliki perubahan yang belum disimpan."

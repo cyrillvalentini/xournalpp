@@ -43,10 +43,32 @@ auto ToolButton::createItem(ToolbarSide side) -> Widgetry {
         setMenuButtonDirection(menubutton, side);
         gtk_menu_button_set_always_show_arrow(menubutton, true);
 
-        GtkBox* box = GTK_BOX(gtk_box_new(to_Orientation(side), 0));
+        // The arrow next to the icon, also in vertical toolbars: they are wide enough (the color button sets their
+        // width), and below the icon it doubles the height of the item
+        GtkBox* box = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
+        gtk_widget_add_css_class(GTK_WIDGET(box), "with-arrow");  // see ToolbarBox::alignArrowColumns()
         gtk_box_append(box, btn);
         gtk_box_append(box, GTK_WIDGET(menubutton));
 
+        item.reset(GTK_WIDGET(box), xoj::util::adopt);
+    } else if (to_Orientation(side) == GTK_ORIENTATION_VERTICAL) {
+        // In a vertical toolbar, an invisible stand-in of the arrow's width can keep the icon in the same column as the
+        // icons with an arrow next to them. It is shown only in groups that have such icons (see
+        // ToolbarBox::alignArrowColumns()), otherwise the icon stays centred.
+        GtkWidget* standIn = gtk_menu_button_new();
+        gtk_menu_button_set_always_show_arrow(GTK_MENU_BUTTON(standIn), true);
+        setMenuButtonDirection(GTK_MENU_BUTTON(standIn), side);
+        gtk_widget_set_opacity(standIn, 0);
+        gtk_widget_set_can_target(standIn, false);
+        gtk_widget_set_focusable(standIn, false);
+        gtk_accessible_update_state(GTK_ACCESSIBLE(standIn), GTK_ACCESSIBLE_STATE_HIDDEN, true, -1);
+        gtk_widget_set_visible(standIn, false);
+        gtk_widget_add_css_class(standIn, "arrow-stand-in");
+
+        GtkBox* box = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
+        gtk_widget_set_halign(GTK_WIDGET(box), GTK_ALIGN_CENTER);
+        gtk_box_append(box, btn);
+        gtk_box_append(box, standIn);
         item.reset(GTK_WIDGET(box), xoj::util::adopt);
     } else {
         item.reset(btn, xoj::util::adopt);

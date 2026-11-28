@@ -4999,3 +4999,23 @@ msgstr "Zapisek je bil izvožen za Saber. Nekaj vsebine ni bilo mogoče natančn
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Zapiski Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nov dokument"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Zapri zavihek"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Neshranjene spremembe vsakega odprtega dokumenta se hranijo kot osnutek. Po sesutju se dokumenti znova odprejo s svojimi spremembami.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "sekund"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ta dokument ima neshranjene spremembe."

@@ -49,6 +49,7 @@ class XournalppCursor;
 class ToolbarDragDropHandler;
 class MetadataEntry;
 class MetadataCallbackData;
+class DocumentTabs;
 class PageBackgroundChangeController;
 class PageTemplateSettings;
 class PageTypeHandler;
@@ -308,6 +309,7 @@ public:
     ZoomControl* getZoomControl() const;
     Document* getDocument() const;
     UndoRedoHandler* getUndoRedoHandler() const;
+    DocumentTabs* getTabs() const;
     MainWindow* getWindow() const;
     GtkWindow* getGtkWindow() const;
     ScrollHandler* getScrollHandler() const;
@@ -426,6 +428,8 @@ private:
      * "Closes" the document, preparing the editor for a new document.
      */
     void closeDocument();
+    /// Replaces the document of the view by a new, empty one (without asking to save)
+    void loadNewDocument();
 
     /**
      * Forcibly replaces the opened document.
@@ -558,6 +562,9 @@ private:
 
     std::unique_ptr<NavigationHistory> navHistory;
 
+    /// The open documents (tabs) of the window
+    std::unique_ptr<DocumentTabs> tabs;
+
     /**
      * Manage all Xournal++ plugins
      */
@@ -566,6 +573,7 @@ private:
     std::unique_ptr<ActionDatabase> actionDB;
     template <Action a>
     friend struct ActionProperties;
+    friend class DocumentTabs;
 
     // Keep after the ActionDatabase so it is destroyed first: ~AudioController refers to the ActionDatabase
     std::unique_ptr<AudioController> audioController;

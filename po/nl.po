@@ -4957,3 +4957,23 @@ msgstr "De notitie is voor Saber geëxporteerd. Sommige inhoud kon niet exact wo
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-notities"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nieuw document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Tabblad sluiten"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Niet-opgeslagen wijzigingen van elk geopend document worden als concept bewaard. Na een crash openen de documenten opnieuw met hun wijzigingen.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "seconden"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Dit document heeft niet-opgeslagen wijzigingen."

@@ -4933,3 +4933,23 @@ msgstr "The note was exported for Saber. Some content could not be converted exa
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber notes"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "New Document"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Close Tab"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "seconds"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "This document has unsaved changes."

@@ -107,6 +107,19 @@
               </object>
             </child>
             <child>
+              <object class="AdwTabBar" id="documentTabBar">
+                <property name="view">documentTabView</property>
+                <property name="autohide">false</property>
+                <property name="visible">false</property>
+              </object>
+            </child>
+            <child>
+              <!-- Holds the tabs for the tab bar only: the document view itself is shared by all tabs -->
+              <object class="AdwTabView" id="documentTabView">
+                <property name="visible">false</property>
+              </object>
+            </child>
+            <child>
               <object class="GtkBox" id="mainContainerBox">
                 <property name="name">mainContainerBox</property>
                 <child>
@@ -176,6 +189,112 @@
                         </child>
                       </object>
                     </property>
+                    <property name="end-child">
+                      <!-- The active document: the page view (inserted by MainWindow), its search bar and status bar. Like the
+                           sidebar, they belong to the tab, so they are next to the sidebar rather than spanning the window. -->
+                      <object class="GtkBox" id="documentColumn">
+                        <property name="name">documentColumn</property>
+                        <property name="orientation">vertical</property>
+                          <child>
+                            <object class="GtkBox" id="searchBar">
+                              <property name="name">searchBar</property>
+                              <property name="visible">0</property>
+                              <property name="orientation">vertical</property>
+                              <child>
+                                <object class="GtkSeparator" id="separator1">
+                                  <property name="name">separator1</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="GtkBox" id="box3">
+                                  <child>
+                                    <object class="GtkSearchEntry" id="searchTextField">
+                                      <property name="name">searchTextField</property>
+                                    </object>
+                                  </child>
+                                  <child>
+                                    <object class="GtkButton" id="btSearchBack">
+                                      <property name="name">btSearchBack</property>
+                                      <property name="receives-default">1</property>
+                                      <property name="tooltip-text" translatable="1">Find previous occurrence of the search string</property>
+                                      <property name="icon-name">go-up</property>
+                                    </object>
+                                  </child>
+                                  <child>
+                                    <object class="GtkButton" id="btSearchForward">
+                                      <property name="name">btSearchForward</property>
+                                      <property name="receives-default">1</property>
+                                      <property name="tooltip-text" translatable="1">Find next occurrence of the search string</property>
+                                      <property name="icon-name">go-down</property>
+                                    </object>
+                                  </child>
+                                  <child>
+                                    <object class="GtkLabel" id="lbSearchState">
+                                      <property name="name">lbSearchState</property>
+                                      <property name="hexpand">1</property>
+                                      <property name="ellipsize">end</property>
+                                      <property name="xalign">0</property>
+                                    </object>
+                                  </child>
+                                  <child>
+                                    <object class="GtkButton" id="buttonCloseSearch">
+                                      <property name="name">buttonCloseSearch</property>
+                                      <property name="icon-name">window-close</property>
+                                      <style>
+                                        <class name="raised"/>
+                                      </style>
+                                    </object>
+                                  </child>
+                                  <style>
+                                    <class name="linked"/>
+                                    <class name="raised"/>
+                                  </style>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkMenuButton" id="tbBottom1">
+                              <property name="direction">up</property>
+                              <property name="label">Placeholder for toolbar</property>
+                              <property name="hexpand">1</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkMenuButton" id="tbBottom2">
+                              <property name="direction">up</property>
+                              <property name="label">Placeholder for toolbar</property>
+                              <property name="hexpand">1</property>
+                            </object>
+                          </child>
+                          <child>
+                            <object class="GtkBox" id="statusbar">
+                              <property name="name">statusbar</property>
+                              <property name="visible">0</property>
+                              <child>
+                                <object class="GtkLabel" id="lbState">
+                                  <property name="name">lbState</property>
+                                  <property name="label">State PLACEHOLDER</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="GtkProgressBar" id="pgState">
+                                  <property name="name">pgState</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="GtkStatusbar" id="statusbar1">
+                                  <property name="name">statusbar1</property>
+                                  <property name="margin-start">10</property>
+                                  <property name="margin-end">10</property>
+                                  <property name="margin-top">6</property>
+                                  <property name="margin-bottom">6</property>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                      </object>
+                    </property>
                   </object>
                 </child>
                 <child>
@@ -190,104 +309,6 @@
                     <property name="direction">left</property>
                     <property name="label">Placeholder for toolbar</property>
                     <property name="vexpand">1</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="searchBar">
-                <property name="name">searchBar</property>
-                <property name="visible">0</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkSeparator" id="separator1">
-                    <property name="name">separator1</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox" id="box3">
-                    <child>
-                      <object class="GtkSearchEntry" id="searchTextField">
-                        <property name="name">searchTextField</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="btSearchBack">
-                        <property name="name">btSearchBack</property>
-                        <property name="receives-default">1</property>
-                        <property name="tooltip-text" translatable="1">Find previous occurrence of the search string</property>
-                        <property name="icon-name">go-up</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="btSearchForward">
-                        <property name="name">btSearchForward</property>
-                        <property name="receives-default">1</property>
-                        <property name="tooltip-text" translatable="1">Find next occurrence of the search string</property>
-                        <property name="icon-name">go-down</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="lbSearchState">
-                        <property name="name">lbSearchState</property>
-                        <property name="hexpand">1</property>
-                        <property name="ellipsize">end</property>
-                        <property name="xalign">0</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="buttonCloseSearch">
-                        <property name="name">buttonCloseSearch</property>
-                        <property name="icon-name">window-close</property>
-                        <style>
-                          <class name="raised"/>
-                        </style>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="linked"/>
-                      <class name="raised"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuButton" id="tbBottom1">
-                <property name="direction">up</property>
-                <property name="label">Placeholder for toolbar</property>
-                <property name="hexpand">1</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkMenuButton" id="tbBottom2">
-                <property name="direction">up</property>
-                <property name="label">Placeholder for toolbar</property>
-                <property name="hexpand">1</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox" id="statusbar">
-                <property name="name">statusbar</property>
-                <property name="visible">0</property>
-                <child>
-                  <object class="GtkLabel" id="lbState">
-                    <property name="name">lbState</property>
-                    <property name="label">State PLACEHOLDER</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkProgressBar" id="pgState">
-                    <property name="name">pgState</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkStatusbar" id="statusbar1">
-                    <property name="name">statusbar1</property>
-                    <property name="margin-start">10</property>
-                    <property name="margin-end">10</property>
-                    <property name="margin-top">6</property>
-                    <property name="margin-bottom">6</property>
                   </object>
                 </child>
               </object>

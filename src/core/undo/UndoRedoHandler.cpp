@@ -72,6 +72,49 @@ void UndoRedoHandler::printContents() {
 
 UndoRedoHandler::UndoRedoHandler(Control* control): control(control) {}
 
+class UndoRedoHandler::Snapshot {
+public:
+    UndoStack stack;
+    UndoAction* savedUndo = nullptr;
+    UndoAction* autosavedUndo = nullptr;
+};
+
+void UndoRedoHandler::SnapshotDeleter::operator()(Snapshot* s) const { delete s; }
+
+auto UndoRedoHandler::takeSnapshot() -> SnapshotPtr {
+    SnapshotPtr snapshot(new Snapshot());
+    // Moving a std::vector keeps its buffer, so the iterators of the stack stay valid (clearContents() relies on this
+    // as well)
+    snapshot->stack = std::move(this->stack);
+    snapshot->savedUndo = std::exchange(this->savedUndo, nullptr);
+    snapshot->autosavedUndo = std::exchange(this->autosavedUndo, nullptr);
+    this->stack = UndoStack();
+    return snapshot;
+}
+
+bool UndoRedoHandler::isChanged(Snapshot* snapshot) {
+    if (!snapshot) {
+        return false;
+    }
+    auto& s = snapshot->stack;
+    if (s.start == s.head) {
+        return snapshot->savedUndo;
+    }
+    return snapshot->savedUndo != s.prev(s.head)->get();
+}
+
+void UndoRedoHandler::restoreSnapshot(SnapshotPtr snapshot) {
+    if (!snapshot) {
+        clearContents();
+        return;
+    }
+    this->stack = std::move(snapshot->stack);
+    this->savedUndo = snapshot->savedUndo;
+    this->autosavedUndo = snapshot->autosavedUndo;
+    // The moved-from stack in the snapshot must not be used anymore
+    snapshot.reset();
+}
+
 UndoRedoHandler::~UndoRedoHandler() { clearContents(); }
 
 void UndoRedoHandler::clearContents() {
@@ -106,6 +149,7 @@ void UndoRedoHandler::undo() {
         g_warning("UndoRedoHandler::undo() but nothing to undo");
         return;
     }
+    revision++;
 
     stack.head = stack.prev(stack.head);
     xoj_assert(*stack.head);
@@ -130,6 +174,7 @@ void UndoRedoHandler::redo() {
         g_warning("UndoRedoHandler::redo() but nothing to redo");
         return;
     }
+    revision++;
 
     xoj_assert(*stack.head);
     auto& redoAction = *(*stack.head);
@@ -160,6 +205,7 @@ void UndoRedoHandler::addUndoAction(UndoActionPtr action) {
     if (!action) {
         return;
     }
+    revision++;
 
     clearRedo();
 

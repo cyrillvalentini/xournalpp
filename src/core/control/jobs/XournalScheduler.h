@@ -40,6 +40,9 @@ public:
      * Removes all PreviewJob%s / RenderJob%s scheduled to be run
      */
     void removeAllJobs();
+    /// Removes the queued render jobs of the page view, but not the preview jobs of the sidebar (which removes its own
+    /// jobs when its previews are deleted)
+    void removeAllRenderJobs();
 
     void addRepaintSidebar(SidebarPreviewBaseEntry* preview, std::optional<Recolor> recolor);
     void addRerenderPage(XojPageView* view);

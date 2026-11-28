@@ -40,12 +40,16 @@ std::string stripMarkup(std::string_view markup) {
  * GTK_RESPONSE_CANCEL (if any) is used for Escape; the suggested button (else the first one) is the default.
  */
 void showAlert(GtkWindow* parent, const std::string& message, const std::string& detail,
-               const std::vector<XojMsgBox::Button>& buttons, xoj::util::move_only_function<void(int)> callback) {
+               const std::vector<XojMsgBox::Button>& buttons, xoj::util::move_only_function<void(int)> callback,
+               GtkWidget* extraChild = nullptr) {
     if (parent == nullptr) {
         parent = defaultWindow;
     }
     AdwDialog* dialog = adw_alert_dialog_new(message.c_str(), detail.empty() ? nullptr : detail.c_str());
     AdwAlertDialog* alert = ADW_ALERT_DIALOG(dialog);
+    if (extraChild) {
+        adw_alert_dialog_set_extra_child(alert, extraChild);
+    }
 
     constexpr auto DISMISSED = "dismissed";
     adw_alert_dialog_set_close_response(alert, DISMISSED);
@@ -135,8 +139,9 @@ void XojMsgBox::showErrorToUser(GtkWindow* win, const std::string& msg) {
 }
 
 void XojMsgBox::askQuestion(GtkWindow* win, const std::string& maintext, const std::string& secondarytext,
-                            const std::vector<Button>& buttons, xoj::util::move_only_function<void(int)> callback) {
-    showAlert(win, maintext, secondarytext, buttons, std::move(callback));
+                            const std::vector<Button>& buttons, xoj::util::move_only_function<void(int)> callback,
+                            GtkWidget* extraChild) {
+    showAlert(win, maintext, secondarytext, buttons, std::move(callback), extraChild);
 }
 
 void XojMsgBox::askQuestionWithMarkup(GtkWindow* win, std::string_view maintext, const std::string& secondarytext,

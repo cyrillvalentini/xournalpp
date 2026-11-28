@@ -57,6 +57,13 @@ public:
     void append(xoj::util::WidgetSPtr widget, xoj::util::WidgetSPtr proxy);
 
     /**
+     * In a vertical toolbar: within each group of items (between separators) that has items with an arrow next to
+     * their icon, keeps the icons of the items without arrow in the same column (by showing their invisible stand-in
+     * for the arrow). Groups without arrows stay centred. Call after the toolbar is filled.
+     */
+    void alignArrowColumns();
+
+    /**
      * The toolbar becomes responsive to Drop events. Dropping any GString data containing an item ID (cf ToolbarData)
      * will add the corresponding widget. Items can also be dragged out.
      */

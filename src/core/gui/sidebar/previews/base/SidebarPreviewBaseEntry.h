@@ -70,7 +70,8 @@ private:
 protected:
     virtual void mouseButtonPressCallback() = 0;
 
-    void setMiniature(xoj::util::WidgetSPtr child);
+    /// Shows the rendered miniature (may be called from any thread)
+    void setMiniature(xoj::util::GObjectSPtr<GdkTexture> texture);
 
 protected:
     /**

@@ -5055,3 +5055,23 @@ msgstr "Nota a fost exportată pentru Saber. O parte din conținut nu a putut fi
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Note Saber"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Document nou"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Închide fila"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Modificările nesalvate ale fiecărui document deschis sunt păstrate ca ciornă. După o închidere neașteptată, documentele se redeschid cu modificările lor.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "secunde"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Acest document are modificări nesalvate."

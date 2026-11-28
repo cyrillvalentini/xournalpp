@@ -29,6 +29,11 @@ project(xournalpp
 # And https://gitlab.kitware.com/cmake/cmake/-/issues/16716 is still open:
 set(VERSION_SUFFIX "+dev")
 set(PROJECT_VERSION "${PROJECT_VERSION}${VERSION_SUFFIX}")
+# A build of a fork (e.g. Xournal#) can show its own version instead of the upstream one
+set(XOURNALPP_VERSION "" CACHE STRING "Version the application shows (default: the Xournal++ version above)")
+if (XOURNALPP_VERSION)
+    set(PROJECT_VERSION "${XOURNALPP_VERSION}")
+endif ()
 set(xournalpp_VERSION ${PROJECT_VERSION})
 set(CMAKE_PROJECT_VERSION ${PROJECT_VERSION})
 set(PROJECT_CONTACT "core.xournalpp@github.com")

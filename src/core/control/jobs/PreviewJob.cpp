@@ -55,9 +55,9 @@ void PreviewJob::finishPaint() {
     xoj::util::GObjectSPtr<GdkTexture> texture(xoj::util::gtk::textureFromCairoSurface(buffer.get()), xoj::util::adopt);
     buffer.reset();
 
-    xoj::util::WidgetSPtr pic(gtk_picture_new_for_paintable(GDK_PAINTABLE(texture.get())), xoj::util::adopt);
-    gtk_widget_set_size_request(pic.get(), this->sidebarPreview->imageWidth, this->sidebarPreview->imageHeight);
-    this->sidebarPreview->setMiniature(std::move(pic));
+    // Only the texture is made here: widgets must be created in the main thread (setMiniature does that). Creating
+    // the GtkPicture in this thread raced with the main thread's styling and could crash GTK.
+    this->sidebarPreview->setMiniature(std::move(texture));
 }
 
 void PreviewJob::drawPage() {

@@ -4933,3 +4933,23 @@ msgstr "සටහන Saber සඳහා අපනයනය කරන ලදී. 
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber සටහන්"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "නව ලේඛනය"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "පටිත්ත වසන්න"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>විවෘත සෑම ලේඛනයකම නොසුරකින ලද වෙනස්කම් කෙටුම්පතක් ලෙස තබා ගනී. බිඳ වැටීමකින් පසු ලේඛන ඒවායේ වෙනස්කම් සමඟ නැවත විවෘත වේ.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "තත්පර"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "මෙම ලේඛනයේ නොසුරකින ලද වෙනස්කම් ඇත."

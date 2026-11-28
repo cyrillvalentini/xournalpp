@@ -4963,3 +4963,23 @@ msgstr "La noto estis eksportita por Saber. Iu enhavo ne povis esti konvertita p
 #. Xournal# (Saber notes)
 msgid "Saber notes"
 msgstr "Saber-notoj"
+
+#. Xournal# (tabs)
+msgid "New Document"
+msgstr "Nova dokumento"
+
+#. Xournal# (tabs)
+msgid "Close Tab"
+msgstr "Fermi langeton"
+
+#. Xournal# (autosave)
+msgid "<i>Unsaved changes of every open document are kept as a draft. After a crash, the documents open again with their changes.</i>"
+msgstr "<i>Nekonservitaj ŝanĝoj de ĉiu malfermita dokumento estas konservataj kiel malneto. Post kraŝo, la dokumentoj denove malfermiĝas kun siaj ŝanĝoj.</i>"
+
+#. Xournal# (autosave)
+msgid "seconds"
+msgstr "sekundoj"
+
+#. Xournal# (save prompt)
+msgid "This document has unsaved changes."
+msgstr "Ĉi tiu dokumento havas nekonservitajn ŝanĝojn."
