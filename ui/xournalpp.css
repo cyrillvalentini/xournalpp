@@ -233,6 +233,15 @@ image.flying-icon.TR {
     border-radius: 50% 50% 50% 0%;
 }
 
+/* The bottom toolbars belong to the document (next to the sidebar): a fine line separates them from the pages, like
+   the line between the sidebar and the pages */
+#documentColumn > box.toolbar {
+  border-top: 1px solid alpha(currentColor, 0.15);
+  /* The shade of the sidebar, which it continues */
+  background-color: @sidebar_bg_color;
+  color: @sidebar_fg_color;
+}
+
 /** Sidebar miniature widgetry **/
 /*
  * Styled like GNOME's document viewer: the libadwaita sidebar colour, and every page (miniature + number)
@@ -250,9 +259,11 @@ image.flying-icon.TR {
   border-spacing: 6px;
 }
 
+/* Same height (34px) and corners as the page number field (an Adwaita spin button) in the bottom bar, which the
+   page actions sit next to */
 #sidebar .sidebar-actions {
   background-color: alpha(currentColor, 0.1);
-  border-radius: 9px;
+  border-radius: 6px;
   padding: 2px;
   border-spacing: 2px;
 }
@@ -265,8 +276,8 @@ image.flying-icon.TR {
   background: none;
   box-shadow: none;
   border: none;
-  border-radius: 7px;
-  min-height: 28px;
+  border-radius: 4px;
+  min-height: 30px;
   min-width: 32px;
   padding: 0 6px;
 }
