@@ -103,6 +103,9 @@ auto SidebarPreviewBase::getCache() -> PdfCache* { return this->cache.get(); }
 void SidebarPreviewBase::layout() {
     if (enabled) {
         SidebarLayout::layout(this);
+        // Request the miniatures now visible. Waiting for the scroll range to change is not enough: a new document may
+        // have the same range as the previous one (e.g. a single page), and its miniatures would never be requested.
+        ensureVisibleAreRendered();
     }
 }
 
@@ -112,6 +115,8 @@ auto SidebarPreviewBase::getWidget() -> GtkWidget* { return this->mainBox.get();
 
 void SidebarPreviewBase::documentChanged(DocumentChangeType type) {
     if (type == DOCUMENT_CHANGE_COMPLETE || type == DOCUMENT_CHANGE_CLEARED) {
+        // The previews first: deleting them removes their jobs and waits for a running one, which may use the cache
+        this->previews.clear();
         this->cache.reset();
 
         Document* doc = control->getDocument();

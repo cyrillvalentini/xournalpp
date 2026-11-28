@@ -734,7 +734,9 @@ void XournalView::documentChanged(DocumentChangeType type) {
 
     XournalScheduler* scheduler = this->control->getScheduler();
     scheduler->lock();
-    scheduler->removeAllJobs();
+    // Only the render jobs of this view: the sidebar may already have queued the previews of the new document. Removing
+    // those would leave its previews loading forever, as each preview is only requested once.
+    scheduler->removeAllRenderJobs();
 
     clearSelection();
 
