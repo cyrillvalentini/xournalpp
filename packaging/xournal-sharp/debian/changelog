@@ -1,3 +1,16 @@
+xournal-sharp (1.4.2~gtk4-1) trixie; urgency=medium
+
+  * Tabs: several documents in one window, each with its own undo history and
+    scroll position.
+  * The documents open last time open again at start; drafts of unsaved
+    documents survive a crash.
+  * Autosave interval in seconds (default 10 s); bottom bar across the full
+    width.
+  * Vertical toolbars: arrows next to the icons, all five pen thicknesses; fix
+    sidebar previews and a crash.
+
+ -- Cyrill Valentini <noreply@users.noreply.github.com>  Sat, 28 Nov 2026 18:00:00 +0100
+
 xournal-sharp (1.4.1~gtk4-1) trixie; urgency=medium
 
   * Open Saber notes (.sba) and export to Saber: strokes with pressure,
