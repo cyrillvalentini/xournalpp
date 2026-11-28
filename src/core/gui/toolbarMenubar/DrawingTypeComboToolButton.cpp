@@ -115,7 +115,10 @@ auto DrawingTypeComboToolButton::createItem(ToolbarSide side) -> Widgetry {
     setMenuButtonDirection(menubutton, side);
     gtk_menu_button_set_always_show_arrow(menubutton, true);
 
-    GtkBox* box = GTK_BOX(gtk_box_new(to_Orientation(side), 0));
+    // The arrow next to the icon, also in vertical toolbars: they are wide enough (the color button sets their
+    // width), and below the icon it doubles the height of the item
+    GtkBox* box = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0));
+    gtk_widget_add_css_class(GTK_WIDGET(box), "with-arrow");  // see ToolbarBox::alignArrowColumns()
     gtk_box_append(box, GTK_WIDGET(data->button));
     gtk_box_append(box, GTK_WIDGET(menubutton));
 

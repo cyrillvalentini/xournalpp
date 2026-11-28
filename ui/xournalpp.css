@@ -162,6 +162,12 @@ box.toolbar scale.vertical {
   padding:0;
 }
 
+/* Xournal#: a round handle, like a scale without marks. The zoom slider has a 100% mark on both sides of the bar;
+   for a vertical scale, libadwaita then points the handle to both sides (a leaf shape) */
+box.toolbar scale > trough > slider {
+  border-radius: 100%;
+}
+
 box.toolbar scale.model {
   margin-top:3px;
   margin-bottom:6px;

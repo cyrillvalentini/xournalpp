@@ -181,6 +181,37 @@ void ToolbarBox::append(xoj::util::WidgetSPtr w, xoj::util::WidgetSPtr proxy) {
     this->children.emplace_back(std::move(w), std::move(proxy));
 }
 
+void ToolbarBox::alignArrowColumns() {
+    auto findStandIn = [](GtkWidget* w) -> GtkWidget* {
+        for (GtkWidget* c = gtk_widget_get_first_child(w); c; c = gtk_widget_get_next_sibling(c)) {
+            if (gtk_widget_has_css_class(c, "arrow-stand-in")) {
+                return c;
+            }
+        }
+        return nullptr;
+    };
+    std::vector<GtkWidget*> standIns;
+    bool groupHasArrow = false;
+    auto finishGroup = [&]() {
+        for (GtkWidget* s: standIns) {
+            gtk_widget_set_visible(s, groupHasArrow);
+        }
+        standIns.clear();
+        groupHasArrow = false;
+    };
+    for (auto&& c: children) {
+        GtkWidget* w = c.widget.get();
+        if (GTK_IS_SEPARATOR(w)) {
+            finishGroup();
+        } else if (gtk_widget_has_css_class(w, "with-arrow")) {
+            groupHasArrow = true;
+        } else if (GtkWidget* s = findStandIn(w)) {
+            standIns.push_back(s);
+        }
+    }
+    finishGroup();
+}
+
 inline static void setIfNonNull(int* p, int value) {
     if (p) {
         *p = value;
