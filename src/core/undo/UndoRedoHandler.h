@@ -28,6 +28,9 @@ public:
     virtual ~UndoRedoListener() = default;
 };
 
+#include <cstdint>  // for uint64_t
+#include <memory>   // for unique_ptr
+
 class UndoRedoHandler {
 public:
     explicit UndoRedoHandler(Control* control);
@@ -54,9 +57,26 @@ public:
     void documentAutosaved();
     void documentSaved();
 
+    /// Increases with every change (new action, undo, redo), e.g. to know whether a draft needs saving again
+    uint64_t getRevision() const { return revision; }
+
+    /// The undo/redo history of one document, while another document is active (see DocumentTabs)
+    class Snapshot;
+    struct SnapshotDeleter {
+        void operator()(Snapshot* s) const;
+    };
+    using SnapshotPtr = std::unique_ptr<Snapshot, SnapshotDeleter>;
+    /// Moves the history out of the handler (which is empty afterwards)
+    SnapshotPtr takeSnapshot();
+    /// Replaces the history with a snapshot taken earlier (or clears it if null)
+    void restoreSnapshot(SnapshotPtr snapshot);
+    /// Like isChanged(), for a snapshot (null: unchanged)
+    static bool isChanged(Snapshot* snapshot);
+
 private:
     void clearRedo();
     void printContents();
+
 
 private:
     /// A circular buffer, with an extra head indicating undone operations
@@ -80,6 +100,7 @@ private:
     UndoStack stack;
 
     UndoAction* savedUndo = nullptr;
+    uint64_t revision = 0;
     UndoAction* autosavedUndo = nullptr;
 
     std::vector<UndoRedoListener*> listener;

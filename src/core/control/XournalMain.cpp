@@ -30,6 +30,7 @@
 #include "control/settings/Settings.h"       // for Settings
 #include "control/settings/SettingsEnums.h"  // for ICON_THEME_COLOR, ICON_T...
 #include "control/sba/SbaImporter.h"        // for SbaImporter
+#include "control/tabs/DocumentTabs.h"       // for DocumentTabs::Session
 #include "control/xojfile/LoadHandler.h"     // for LoadHandler
 #include "control/xojfile/SaveHandler.h"     // for SaveHandler
 #include "gui/GladeSearchpath.h"             // for GladeSearchpath
@@ -440,27 +441,24 @@ void on_open_files(GApplication* application, gpointer f, gint numFiles, gchar* 
         return;
     }
     auto* files = (GFile**)f;
-    if (numFiles != 1) {
-        const std::string msg = xoj::util::withAppName(_("Sorry, Xournal++ can only open one file at once.\n"
-                                                         "Others are ignored."));
-        XojMsgBox::showErrorToUser(GTK_WINDOW(app_data->win->getWindow()), msg);
-    }
+    // Every file opens in its own tab
+    for (gint i = 0; i < numFiles; i++) {
+        const fs::path p = Util::fromGFile(files[i]);
 
-    const fs::path p = Util::fromGFile(files[0]);
-
-    try {
-        if (fs::exists(p)) {
-            app_data->control->openFile(fs::absolute(p));
-        } else {
-            const std::string msg = FS(_F("File {1} does not exist.") % p.u8string());
+        try {
+            if (fs::exists(p)) {
+                app_data->control->openFile(fs::absolute(p));
+            } else {
+                const std::string msg = FS(_F("File {1} does not exist.") % p.u8string());
+                XojMsgBox::showErrorToUser(GTK_WINDOW(app_data->win->getWindow()), msg);
+            }
+        } catch (const fs::filesystem_error& e) {
+            const std::string msg = xoj::util::withAppName(FS(_F("Filesystem error: {1}\n"
+                                                                 "Sorry, Xournal++ cannot open the file: {2}\n"
+                                                                 "Consider copying the file to a local directory.") %
+                                                              e.what() % p.u8string()));
             XojMsgBox::showErrorToUser(GTK_WINDOW(app_data->win->getWindow()), msg);
         }
-    } catch (const fs::filesystem_error& e) {
-        const std::string msg = xoj::util::withAppName(FS(_F("Filesystem error: {1}\n"
-                                                             "Sorry, Xournal++ cannot open the file: {2}\n"
-                                                             "Consider copying the file to a local directory.") %
-                                                          e.what() % p.u8string()));
-        XojMsgBox::showErrorToUser(GTK_WINDOW(app_data->win->getWindow()), msg);
     }
     gtk_window_present(GTK_WINDOW(app_data->win->getWindow()));
 }
@@ -497,12 +495,18 @@ void on_startup(GApplication* application, XMPtr app_data) {
 
     app_data->win->show(nullptr);
 
+    // The documents that were open last time (read before anything opens, as opening updates the saved session)
+    const DocumentTabs::Session session = DocumentTabs::loadSession();
+
     fs::path p;
+    // Further files on the command line open in their own tabs, once the first one is loaded
+    std::vector<fs::path> moreFiles;
     if (app_data->optFilename) {
-        if (g_strv_length(app_data->optFilename) != 1) {
-            const std::string msg = xoj::util::withAppName(_("Sorry, Xournal++ can only open one file at once.\n"
-                                                             "Others are ignored."));
-            XojMsgBox::showErrorToUser(GTK_WINDOW(app_data->win->getWindow()), msg);
+        for (guint i = 1; i < g_strv_length(app_data->optFilename); i++) {
+            fs::path f = Util::fromGFilename(app_data->optFilename[i]);
+            std::error_code ec;
+            auto abs = fs::absolute(f, ec);
+            moreFiles.push_back(ec ? f : abs);
         }
         p = Util::fromGFilename(app_data->optFilename[0]);
         try {
@@ -510,6 +514,8 @@ void on_startup(GApplication* application, XMPtr app_data) {
         } catch (const fs::filesystem_error& e) {
             g_warning("Unable to convert path %s to absolute path: %s", app_data->optFilename[0], e.what());
         }
+    } else if (!session.entries.empty()) {
+        // Opened below, once the window is ready
     } else if (app_data->control->getSettings()->isAutoloadMostRecent()) {
         auto most_recent = RecentManager::getMostRecent();
         if (most_recent) {
@@ -531,8 +537,19 @@ void on_startup(GApplication* application, XMPtr app_data) {
 
     app_data->control->openFileWithoutSavingTheCurrentDocument(
             std::move(p), app_data->attachMode, app_data->openAtPageNumber - 1,
-            [ctrl = app_data->control.get(), app = GTK_APPLICATION(application)](bool) {
+            [ctrl = app_data->control.get(), app = GTK_APPLICATION(application), first = p,
+             moreFiles = std::move(moreFiles), session](bool) {
                 ctrl->getScheduler()->start();
+                // Reopen the documents of last time, each in its own tab, at the page it was on. Then the further files
+                // of the command line; a file given on the command line ends up in front.
+                ctrl->getTabs()->restoreSession(session, [ctrl, first, moreFiles]() {
+                    for (const auto& f: moreFiles) {
+                        ctrl->openFile(f);
+                    }
+                    if (!first.empty()) {
+                        ctrl->getTabs()->selectTabWithFile(first);
+                    }
+                });
 
                 checkForEmergencySave(ctrl);
 

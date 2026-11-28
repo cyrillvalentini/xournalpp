@@ -40,6 +40,9 @@ enum class Action : size_t {
     EXPORT_AS_PDF,
     EXPORT_AS,
     PRINT,
+    CLOSE_TAB,
+    NEXT_TAB,
+    PREVIOUS_TAB,
     QUIT,
 
     // Menu edit

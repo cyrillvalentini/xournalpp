@@ -107,6 +107,19 @@
               </object>
             </child>
             <child>
+              <object class="AdwTabBar" id="documentTabBar">
+                <property name="view">documentTabView</property>
+                <property name="autohide">false</property>
+                <property name="visible">false</property>
+              </object>
+            </child>
+            <child>
+              <!-- Holds the tabs for the tab bar only: the document view itself is shared by all tabs -->
+              <object class="AdwTabView" id="documentTabView">
+                <property name="visible">false</property>
+              </object>
+            </child>
+            <child>
               <object class="GtkBox" id="mainContainerBox">
                 <property name="name">mainContainerBox</property>
                 <child>

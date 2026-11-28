@@ -38,7 +38,8 @@
 #include "control/settings/SettingsEnums.h"                      // for Button
 #include "control/settings/ViewModes.h"                          // for ViewM..
 #include "control/tools/TextEditor.h"                            // for Text...
-#include "control/sba/SbaImporter.h"                             // for SbaImporter
+#include "control/sba/SbaImporter.h"
+#include "control/tabs/DocumentTabs.h"                             // for SbaImporter
 #include "control/xojfile/LoadHandler.h"                         // for Load...
 #include "control/zoom/ZoomControl.h"                            // for Zoom...
 #include "gui/FloatingToolbox.h"                                 // for Floa...
@@ -180,6 +181,8 @@ Control::Control(GApplication* gtkApp, GladeSearchpath* gladeSearchPath): gtkApp
 }
 
 Control::~Control() {
+    // First: the tabs hold documents and undo histories that refer to the objects deleted below
+    this->tabs.reset();
     g_source_remove(this->changeTimout);
     this->enableAutosave(false);
 
@@ -307,6 +310,8 @@ void Control::initWindow(MainWindow* win, bool disableAudio) {
 
     this->actionDB = std::make_unique<ActionDatabase>(this);
     this->navHistory = std::make_unique<NavigationHistory>(this);
+    this->tabs = std::make_unique<DocumentTabs>(this);
+    this->tabs->attach(ADW_TAB_BAR(win->get("documentTabBar")), ADW_TAB_VIEW(win->get("documentTabView")));
 
     selectTool(toolHandler->getToolType());
     this->sidebar = new Sidebar(win, this);
@@ -1517,14 +1522,14 @@ static std::unique_ptr<Document> createNewDocument(Control* ctrl, fs::path filep
 }
 
 void Control::newFile(fs::path filepath) {
-    this->close(
-            [ctrl = this, filepath = std::move(filepath)](bool closed) {
-                if (closed) {
-                    ctrl->replaceDocument(createNewDocument(ctrl, std::move(filepath), std::nullopt), -1);
-                }
-            },
-            true);
+    // Always a new tab: several new documents can be open at the same time
+    if (tabs) {
+        tabs->addTab();
+    }
+    replaceDocument(createNewDocument(this, std::move(filepath), std::nullopt), -1);
 }
+
+void Control::loadNewDocument() { replaceDocument(createNewDocument(this, fs::path(), std::nullopt), -1); }
 
 /**
  * Check if this is an autosave file, return false in this case and display a user instruction
@@ -1550,13 +1555,10 @@ void Control::askToOpenFile() {
      *         save or discard the current file
      * For now, this implements option 1.
      */
-    this->close([ctrl = this](bool closed) {
-        if (closed) {
-            xoj::OpenDlg::showOpenFileDialog(ctrl->getGtkWindow(), ctrl->settings, [ctrl](fs::path path) {
-                g_message("%s", (_F("file: {1}") % path.string()).c_str());
-                ctrl->openFileWithoutSavingTheCurrentDocument(std::move(path), false, -1, [](bool) {});
-            });
-        }
+    // The file opens in a new tab, so the current document stays open
+    xoj::OpenDlg::showOpenFileDialog(getGtkWindow(), settings, [ctrl = this](fs::path path) {
+        g_message("%s", (_F("file: {1}") % path.string()).c_str());
+        ctrl->openFile(std::move(path));
     });
 }
 
@@ -1793,6 +1795,9 @@ bool Control::openXoptFile(fs::path filepath) {
 
 void Control::openFileWithoutSavingTheCurrentDocument(fs::path filepath, bool attachToDocument, int scrollToPage,
                                                       std::function<void(bool)> callback) {
+    if (tabs) {
+        tabs->setActiveSource(filepath);
+    }
     if (filepath.empty()) {
         this->replaceDocument(createNewDocument(this, fs::path(), std::nullopt), -1);
         callback(true);
@@ -1851,14 +1856,33 @@ void Control::openFile(fs::path filepath, std::function<void(bool)> callback, in
         return;
     }
 
-    this->close(
-            [ctrl = this, filepath = std::move(filepath), cb = std::move(callback), scrollToPage](bool closed) mutable {
-                if (closed) {
-                    ctrl->openFileWithoutSavingTheCurrentDocument(std::move(filepath), false, scrollToPage,
-                                                                  std::move(cb));
-                }
-            },
-            false, true, forceOpen);
+    if (!tabs) {
+        openFileWithoutSavingTheCurrentDocument(std::move(filepath), false, scrollToPage, std::move(callback));
+        return;
+    }
+
+    // Already open: show its tab
+    if (tabs->selectTabWithFile(filepath)) {
+        if (scrollToPage >= 0) {
+            scrollHandler->scrollToPage(static_cast<size_t>(scrollToPage));
+        }
+        callback(true);
+        return;
+    }
+
+    // A new tab, unless the current one is still unused. The other documents stay open.
+    if (tabs->isActiveTabUnused()) {
+        openFileWithoutSavingTheCurrentDocument(std::move(filepath), false, scrollToPage, std::move(callback));
+        return;
+    }
+    tabs->addTab();
+    openFileWithoutSavingTheCurrentDocument(std::move(filepath), false, scrollToPage,
+                                            [ctrl = this, cb = std::move(callback)](bool success) {
+                                                if (!success) {
+                                                    ctrl->tabs->cancelNewTab();
+                                                }
+                                                cb(success);
+                                            });
 }
 
 void Control::fileLoaded(int scrollToPage) {
@@ -2117,8 +2141,9 @@ void Control::showColorChooserDialog() {
 void Control::updateWindowTitle() {
     std::string title{};  ///< Actually a UTF-8 string
 
+    const fs::path refPath = tabs ? tabs->getActiveDisplayPath()
+                                   : (doc->getFilepath().empty() ? doc->getPdfFilepath() : doc->getFilepath());
     this->doc->lock_shared();
-    const fs::path& refPath = doc->getFilepath().empty() ? doc->getPdfFilepath() : doc->getFilepath();
     if (refPath.empty()) {
         title = _("Unsaved Document");
     } else {
@@ -2140,6 +2165,10 @@ void Control::updateWindowTitle() {
     title += xoj::util::appName();
 
     gtk_window_set_title(getGtkWindow(), title.c_str());
+
+    if (tabs) {
+        tabs->updateActiveTab();
+    }
 }
 
 static fs::path createExportFilePath(Document* doc, const Settings* settings) {
@@ -2234,8 +2263,15 @@ void Control::saveImpl(bool saveAs, std::function<void(bool)> callback) {
         this->doc->lock_shared();
         this->doc->setCreateBackupOnSave(false);
         auto suggestedPath = this->doc->createSaveFoldername(this->settings->getLastSavePath());
+        const bool hasOwnFile = !this->doc->getFilepath().empty();
         suggestedPath /= this->doc->createSaveFilename(Document::XOPP, this->settings->getDefaultSaveName());
         this->doc->unlock_shared();
+        if (tabs && !hasOwnFile) {
+            // An imported file (Saber note, PDF...): suggest its name and folder
+            if (fs::path source = tabs->getActiveDisplayPath(); !source.empty()) {
+                suggestedPath = source.parent_path() / source.stem();
+            }
+        }
         xoj::SaveExportDialog::showSaveFileDialog(getGtkWindow(), settings, std::move(suggestedPath),
                                                   [doSave = std::move(doSave), ctrl = this](std::optional<fs::path> p) {
                                                       if (p && !p->empty()) {
@@ -2282,13 +2318,25 @@ void Control::quit(bool allowCancel) {
             this->scheduler->removeAllJobs();
             this->scheduler->unlock();
             this->scheduler->stop();  // Finish current task. Must be called to finish pending saves.
-            this->closeDocument();    // Must be done after all jobs has finished (Segfault on save/export)
+            if (tabs) {
+                // After the save prompts: files that were just saved under a new name are included
+                // Every document was saved or discarded: the drafts are not needed anymore
+                tabs->discardAllDrafts();
+                tabs->saveSession();
+                tabs->freezeSession();
+            }
+            this->closeDocument();  // Must be done after all jobs has finished (Segfault on save/export)
             settings->save();
             g_application_quit(G_APPLICATION(gtkApp));
         }
     };
 
-    this->close(std::move(afterClosed), true, allowCancel);
+    // Ask about the unsaved changes of every open document
+    if (tabs) {
+        tabs->confirmCloseAll(allowCancel, std::move(afterClosed));
+    } else {
+        this->close(std::move(afterClosed), true, allowCancel);
+    }
 }
 
 void Control::close(std::function<void(bool)> callback, const bool allowDestroy, const bool allowCancel,
@@ -2723,6 +2771,8 @@ void Control::fontChanged(const XojFont& font) {
  */
 
 auto Control::getUndoRedoHandler() const -> UndoRedoHandler* { return this->undoRedo; }
+
+auto Control::getTabs() const -> DocumentTabs* { return this->tabs.get(); }
 
 auto Control::getZoomControl() const -> ZoomControl* { return this->zoom; }
 
