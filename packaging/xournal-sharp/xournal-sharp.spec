@@ -57,6 +57,7 @@ cmake -S . -B redhat-build -G Ninja \
     -DXOURNALPP_APP_ID=%{app_id} \
     -DXOURNALPP_CONFIG_FOLDER=xournal-sharp \
     -DXOURNALPP_APP_NAME="Xournal#" \
+    -DXOURNALPP_VERSION=%(echo %{version} | tr '~' '-') \
     -DXOURNALPP_SOURCE_URL=%{url}
 cmake --build redhat-build
 

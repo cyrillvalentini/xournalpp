@@ -3,6 +3,8 @@
 # settings folder, name and desktop integration (same settings as the RPM, see ../xournal-sharp.spec)
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+# DEB_VERSION_UPSTREAM (the version from debian/changelog)
+include /usr/share/dpkg/pkg-info.mk
 
 APP_ID := io.github.cyrillvalentini.XournalSharp
 OPTDIR := /opt/xournal-sharp
@@ -20,6 +22,7 @@ override_dh_auto_configure:
 		-DXOURNALPP_APP_ID=$(APP_ID) \
 		-DXOURNALPP_CONFIG_FOLDER=xournal-sharp \
 		-DXOURNALPP_APP_NAME="Xournal#" \
+		-DXOURNALPP_VERSION=$(subst ~,-,$(DEB_VERSION_UPSTREAM)) \
 		-DXOURNALPP_SOURCE_URL=https://github.com/cyrillvalentini/xournalpp
 
 override_dh_auto_install:
