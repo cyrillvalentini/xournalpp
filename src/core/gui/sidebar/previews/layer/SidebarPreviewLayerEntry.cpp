@@ -1,5 +1,8 @@
 #include "SidebarPreviewLayerEntry.h"
 
+#include "control/Control.h"
+#include "control/jobs/XournalScheduler.h"
+
 #include <gdk/gdk.h>      // for GdkEvent, GDK_BUTTON_PRESS, GdkEve...
 #include <glib-object.h>  // for G_CALLBACK, g_signal_connect, g_si...
 
@@ -36,6 +39,10 @@ SidebarPreviewLayerEntry::SidebarPreviewLayerEntry(SidebarPreviewLayers* sidebar
 }
 
 SidebarPreviewLayerEntry::~SidebarPreviewLayerEntry() {
+    // Remove the preview jobs (waiting for a running one) while this object is still complete: the base class
+    // destructor would be too late, a running job could then call a virtual function of a half-destroyed object
+    this->sidebar->getControl()->getScheduler()->removeSidebar(this);
+
     GtkWidget* w = this->getWidget();
     gtk_fixed_remove(GTK_FIXED(gtk_widget_get_parent(w)), w);
 }

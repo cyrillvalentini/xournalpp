@@ -1,5 +1,8 @@
 #include "SidebarPreviewPageEntry.h"
 
+#include "control/Control.h"
+#include "control/jobs/XournalScheduler.h"
+
 #include "control/Control.h"                                // for Control
 #include "control/ScrollHandler.h"                          // for ScrollHan...
 #include "control/settings/Settings.h"                      // for Settings
@@ -45,6 +48,10 @@ SidebarPreviewPageEntry::SidebarPreviewPageEntry(SidebarPreviewPages* sidebar, c
 }
 
 SidebarPreviewPageEntry::~SidebarPreviewPageEntry() {
+    // Remove the preview jobs (waiting for a running one) while this object is still complete: the base class
+    // destructor would be too late, a running job could then call a virtual function of a half-destroyed object
+    this->sidebar->getControl()->getScheduler()->removeSidebar(this);
+
     GtkWidget* w = this->getWidget();
     gtk_fixed_remove(GTK_FIXED(gtk_widget_get_parent(w)), w);
 }
